@@ -1,7 +1,19 @@
-const express = require('express')
-const app = express()
+var express = require('express');
+var app = express();
 
-require('./server/express')(app)
-require('./server/router')(app)
+var port = process.env.PORT || 3000;
+var mongoose = require('mongoose');
+var User = require('./server/models/user');
+var Role = require('./server/models/role');
+var bodyParser = require('body-parser');
 
-app.listen(8080, () => { console.log('Server running on port 8080')});
+// mongoose instance connection url connection
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/youmeetme');
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+require('./server/route')(app);
+app.listen(port, () => console.log("Server started port:"+port))
