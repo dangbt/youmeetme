@@ -1,5 +1,8 @@
 var express = require('express');
 var app = express();
+var path = require('path');
+var staticPath =  './public';
+var publicPath = './assets';
 
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
@@ -16,4 +19,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 require('./server/route')(app);
+
+app.get(/^\/[a-z]*$/, (req, res) => {
+    res.sendFile(path.join(__dirname, staticPath, '/index.html'))
+});
+app.use('/', express.static(path.join(__dirname, publicPath)));
+
 app.listen(port, () => console.log("Server started port:"+port))
