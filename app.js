@@ -38,8 +38,13 @@ app.use(express.static(__dirname + '/public'))
 app.get(/^\/[a-z]*$/, (req, res) => {
     res.sendFile(path.join(__dirname, staticPath, '/index.html'))
 });
+<<<<<<< HEAD
 
 // host assets save image....
 app.use('/assets', express.static(path.join(__dirname, publicPath)));
+=======
+// host assets save image....
+app.use('/', express.static(path.join(__dirname, publicPath)));
+>>>>>>> build client success !!!
 
 app.listen(port, () => console.log("Server started port:"+port))

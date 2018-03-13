@@ -37,7 +37,11 @@ module.exports = {
   plugins: [
     HtmlWebpackPluginConfig
 
+<<<<<<< HEAD
   ],
    watch: true
+=======
+  ]
+>>>>>>> build client success !!!
 
 }

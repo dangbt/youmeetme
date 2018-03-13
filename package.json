@@ -5,8 +5,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack  --watch",
+<<<<<<< HEAD
     "build": "webpack ",
     "start": "node app.js "
+=======
+    "build": "webpack",
+    "start": "node app.js |  webpack-dev-server"
+>>>>>>> build client success !!!
   },
   "dependencies": {
     "axios": "^0.18.0",

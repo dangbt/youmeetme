@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import {_helper} from '../Function/API.js';
 import Login from '../Login/Login.jsx';
@@ -32,6 +33,13 @@ export default class App extends Component {
         <button onClick={this.handlingClick.bind(this)} >Click me</button>        
       </div>
 
+=======
+export default class App extends Component {
+
+  render(){
+    return (
+      <div> App componentaaaa</div>
+>>>>>>> build client success !!!
     )
   }
 }
