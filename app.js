@@ -23,6 +23,7 @@ require('./server/route')(app);
 app.get(/^\/[a-z]*$/, (req, res) => {
     res.sendFile(path.join(__dirname, staticPath, '/index.html'))
 });
+// host assets save image....
 app.use('/', express.static(path.join(__dirname, publicPath)));
 
 app.listen(port, () => console.log("Server started port:"+port))
