@@ -38,10 +38,15 @@ module.exports = {
     HtmlWebpackPluginConfig
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   ],
    watch: true
 =======
   ]
 >>>>>>> build client success !!!
+=======
+  ],
+   watch: true
+>>>>>>>  deploy mern to heroku
 
 }

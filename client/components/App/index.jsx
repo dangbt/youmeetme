@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import {_helper} from '../Function/API.js';
 import Login from '../Login/Login.jsx';
@@ -34,12 +35,29 @@ export default class App extends Component {
       </div>
 
 =======
+=======
+import { Link } from 'react-router-dom';
+
+>>>>>>>  deploy mern to heroku
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
 
   render(){
     return (
+<<<<<<< HEAD
       <div> App componentaaaa</div>
 >>>>>>> build client success !!!
+=======
+      <div>
+        <h1> App component</h1>
+        <button >Click me</button>
+        <Link to='/home'>home</Link>
+      </div>
+
+>>>>>>>  deploy mern to heroku
     )
   }
 }
