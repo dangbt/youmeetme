@@ -37,6 +37,7 @@ module.exports = {
   plugins: [
     HtmlWebpackPluginConfig
 
-  ]
+  ],
+   watch: true
 
 }
