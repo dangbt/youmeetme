@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var staticPath =  './public';
-var publicPath = './assets';
+var staticPath =  'public';
+var publicPath = 'assets';
 
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
@@ -20,10 +20,14 @@ app.use(bodyParser.json());
 
 require('./server/route')(app);
 
+// serve static assets normally
+app.use(express.static(__dirname + '/public'))
+
 app.get(/^\/[a-z]*$/, (req, res) => {
     res.sendFile(path.join(__dirname, staticPath, '/index.html'))
 });
+
 // host assets save image....
-app.use('/', express.static(path.join(__dirname, publicPath)));
+app.use('/assets', express.static(path.join(__dirname, publicPath)));
 
 app.listen(port, () => console.log("Server started port:"+port))

@@ -5,8 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack  --watch",
-    "build": "webpack",
-    "start": "node app.js |  webpack-dev-server"
+    "build": "webpack ",
+    "start": "node app.js "
   },
   "dependencies": {
     "babel-loader": "^7.1.4",
@@ -20,6 +20,7 @@
     "mongoose": "^5.0.9",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "webpack": "^4.1.1",
     "webpack-dev-server": "^3.1.1"
