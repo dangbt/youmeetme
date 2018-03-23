@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 exports.getAll = (req, res) => {
-  User.find({}).populate('role').exec((err, users) => {
+  User.find({}).populate('Hobby').exec((err, users) => {
     if(err)
       res.send(err);
       res.json(users);
