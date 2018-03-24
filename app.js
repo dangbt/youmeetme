@@ -4,10 +4,14 @@ var path = require('path');
 var staticPath =  'public';
 var publicPath = 'assets';
 <<<<<<< HEAD
+<<<<<<< HEAD
 var cors = require('cors');
 =======
 
 >>>>>>>  deploy mern to heroku
+=======
+var cors = require('cors');
+>>>>>>> solver conflit
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var User = require('./server/models/user');

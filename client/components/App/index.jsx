@@ -23,6 +23,7 @@ export default class App extends Component {
       .catch((error) => {
         console.log(error);
       })
+<<<<<<< HEAD
   }
 
 
@@ -42,6 +43,8 @@ import { Link } from 'react-router-dom';
 export default class App extends Component {
   constructor(props) {
     super(props);
+=======
+>>>>>>> solver conflit
   }
 
 
@@ -53,8 +56,8 @@ export default class App extends Component {
 =======
       <div>
         <h1> App component</h1>
-        <button >Click me</button>
-        <Link to='/home'>home</Link>
+        <Login/>
+        <button onClick={this.handlingClick.bind(this)} >Click me</button>        
       </div>
 
 >>>>>>>  deploy mern to heroku

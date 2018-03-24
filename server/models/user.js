@@ -27,7 +27,7 @@ var userSchema = Schema({
     { type: Schema.Types.ObjectId, ref: 'User' }
   ],
   listChat: [
-        { type: Schema.Types.ObjectId, 
+        { type: Schema.Types.ObjectId,
           ref: 'ChatRoom' ,
           friendName: String,
           friendImage: String
