@@ -73,7 +73,7 @@ module.exports = (app) => {
   app.route('likedUsers/:id').get(likedUserController.getOne);
   app.route('likedUsers/:id').put(likedUserController.updateLikedUser);
   app.route('/likedUsers').delete(likedUserController.deleteLikedUser);
-  
+
   /*
    * LIST CHAT ROUTE
    */
