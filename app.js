@@ -3,7 +3,7 @@ var app = express();
 var path = require('path');
 var staticPath =  'public';
 var publicPath = 'assets';
-
+var cors = require('cors');
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var User = require('./server/models/user');
@@ -26,7 +26,10 @@ mongoose.connect('mongodb://localhost/youmeetme');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cors({
+    origin: true,
+    credentials: true
+}))
 require('./server/route')(app);
 
 // serve static assets normally
