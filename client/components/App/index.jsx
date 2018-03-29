@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import {_helper} from '../Function/API.js';
 import Login from '../Login/Login.jsx';
+import { Button } from 'reactstrap';
 
 export default class App extends Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export default class App extends Component {
       <div>
         <h1> App component</h1>
         <Login/>
-        <button onClick={this.handlingClick.bind(this)} >Click me</button>        
+        <Button color="primary" onClick={this.handlingClick.bind(this)} >Click me</Button>        
       </div>
 
 =======

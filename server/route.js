@@ -3,7 +3,6 @@ var userController = require('./controllers/userController');
 var roleController = require('./controllers/roleController');
 
 module.exports = (app) => {
-<<<<<<< HEAD
   var userController = require('./controllers/userController');
   var addressController = require('./controllers/addressController');
   var advertiseController = require('./controllers/advertiseController');
@@ -18,7 +17,7 @@ module.exports = (app) => {
   /*
    * USER ROUTE
    */
-  app.route('/users')
+  app.route('api/users')
     .get(userController.getAll)
     .post(userController.createUser);
   app.route('/users/:id').get(userController.getOne);
@@ -112,6 +111,7 @@ module.exports = (app) => {
     .post(roleController.createRole);
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 
@@ -139,3 +139,5 @@ module.exports = (app) => {
 };
 >>>>>>> code client
 >>>>>>> solver conflit
+=======
+>>>>>>> build client: create components

@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import ListItem from './ListItem/ListItem.jsx'
 import Navigationbar from './Navigationbar/Navigationbar.jsx'
+import './Home.scss'
 
 export default class Home extends Component {
 
   render(){
     return (
-      <div>
-        <div> Home componentsss</div>
+      <div className='container'>
         <Sidebar/>
-        <Navigationbar/>
+        <div className='content'>
+        <Navigationbar/>   
         <ListItem/>
+        </div>
       </div>
     )
   }
