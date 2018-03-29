@@ -9,100 +9,95 @@ module.exports = (app) => {
   var messageController = require('./controllers/messageController');
   var notificationController = require('./controllers/notificationController');
   var roleController = require('./controllers/roleController');
-
+  var express = require('express');
+  var router = express.Router();
   /*
    * USER ROUTE
    */
-  app.route('/users')
-    .get(userController.getAll)
-    .post(userController.createUser);
-  app.route('/users/:id').get(userController.getOne);
-  app.route('/users/:id').put(userController.updateUser);
-  app.route('/users').delete(userController.deleteUser);
+  router.get('/users', userController.getAll)
+  .post(userController.createUser);
+  router.get('/users/:id', userController.getOne);
+  router.put('/users/:id', userController.updateUser);
+  router.delete('/users', userController.deleteUser);
 
   /*
    * ADVERTISE ROUTE
    */
-  app.route('/advertises')
-    .get(advertiseController.getAll)
-    .post(advertiseController.createAdvertise);
-  app.route('/advertises/:id').get(advertiseController.getOne);
-  app.route('/advertises/:id').put(advertiseController.updateAdvertise);
-  app.route('/advertises').delete(advertiseController.deleteAdvertise);
+  router.get('/advertises', advertiseController.getAll)
+    .post('/advertises', advertiseController.createAdvertise);
+  router.get('/advertises/:id', advertiseController.getOne);
+  router.put('/advertises/:id', advertiseController.updateAdvertise);
+  router.delete('/advertises', advertiseController.deleteAdvertise);
 
   /*
    * ADDRESS ROUTE
    */
-  app.route('/addresses')
-    .get(addressController.getAll)
-    .post(addressController.createAddress);
-  app.route('/addresses/:id').get(addressController.getOne);
-  app.route('/addresses/:id').put(addressController.updateAddress);
+  router.get('/addresses', addressController.getAll)
+    .post('/addresses', addressController.createAddress);
+  router.get('/addresses/:id', addressController.getOne);
+  router.put('/addresses/:id', addressController.updateAddress);
 
   /*
    * HOBBY ROUTE
    */
-  app.route('/hobbies')
-    .get(hobbyController.getAll)
-    .post(hobbyController.createHobby);
-  app.route('/hobbies/:id').get(hobbyController.getOne);
-  app.route('/hobbies/:id').put(hobbyController.updateHobby);
-  app.route('/hobbies').delete(hobbyController.deleteHobby);
+  router.get('/hobbies', hobbyController.getAll)
+    .post('/hobbies', hobbyController.createHobby);
+  router.get('/hobbies/:id', hobbyController.getOne);
+  router.put('/hobbies/:id', hobbyController.updateHobby);
+  router.delete('/hobbies', hobbyController.deleteHobby);
 
   /*
    * IMAGE ROUTE
    */
-  app.route('/images')
-    .get(imageController.getAll)
-    .post(imageController.createImage);
-  app.route('images/:id').get(imageController.getOne);
-  app.route('images/:id').put(imageController.updateImage);
-  app.route('/images').delete(imageController.deleteImage);
+  router.get('/images', imageController.getAll)
+    .post('/images', imageController.createImage);
+  router.get('images/:id', imageController.getOne);
+  router.put('images/:id', imageController.updateImage);
+  router.delete('/images', imageController.deleteImage);
 
   /*
    * LIKE_USER ROUTE
    */
-  app.route('/likedUsers')
-    .get(likedUserController.getAll)
-    .post(likedUserController.createLikedUser);
-  app.route('likedUsers/:id').get(likedUserController.getOne);
-  app.route('likedUsers/:id').put(likedUserController.updateLikedUser);
-  app.route('/likedUsers').delete(likedUserController.deleteLikedUser);
+  router.get('/likedUsers', likedUserController.getAll)
+    .post('/likedUsers', likedUserController.createLikedUser);
+  router.get('likedUsers/:id', likedUserController.getOne);
+  router.put('likedUsers/:id', likedUserController.updateLikedUser);
+  router.delete('/likedUsers', likedUserController.deleteLikedUser);
   
   /*
    * LIST CHAT ROUTE
    */
-  app.route('/chatRooms')
-    .get(chatRoomController.getAll)
-    .post(chatRoomController.createChatRoom);
-  app.route('chatRooms/:id').get(chatRoomController.getOne);
-  app.route('chatRooms/:id').put(chatRoomController.updateChatRoom);
-  app.route('/chatRooms').delete(chatRoomController.deleteChatRoom);
+  router.get('/chatRooms', chatRoomController.getAll)
+    .post('/chatRooms', chatRoomController.createChatRoom);
+  router.get('chatRooms/:id', chatRoomController.getOne);
+  router.put('chatRooms/:id', chatRoomController.updateChatRoom);
+  router.delete('/chatRooms', chatRoomController.deleteChatRoom);
+  router.put('/addMessage/:id', chatRoomController.addMessage);
 
   /*
    * MESSAGE ROUTE
    */
-  app.route('/messages')
-    .get(messageController.getAll)
-    .post(messageController.createMessage);
-  app.route('messages/:id').get(messageController.getOne);
-  app.route('messages/:id').put(messageController.updateMessage);
-  app.route('/messages').delete(messageController.deleteMessage);
+  router.get('/messages', messageController.getAll)
+    .post('/messages', messageController.createMessage);
+  router.get('messages/:id', messageController.getOne);
+  router.put('messages/:id', messageController.updateMessage);
+  router.delete('/messages', messageController.deleteMessage);
 
   /*
    * NOTIFICATION ROUTE
    */
-  app.route('/notifications')
-    .get(notificationController.getAll)
-    .post(notificationController.createNotification);
-  app.route('notifications/:id').get(notificationController.getOne);
-  app.route('notifications/:id').put(notificationController.updateNotification);
-  app.route('/notifications').delete(notificationController.deleteNotification);
+  router.get('/notifications', notificationController.getAll)
+    .post('/notifications', notificationController.createNotification);
+  router.get('notifications/:id', notificationController.getOne);
+  router.put('notifications/:id', notificationController.updateNotification);
+  router.delete('/notifications', notificationController.deleteNotification);
 
   /*
    * ROLES ROUTE
    */
-  app.route('/roles')
-    .get(roleController.getAll)
-    .post(roleController.createRole);
+  router.get('/roles', roleController.getAll)
+    .post('/roles', roleController.createRole);
+  
+  // prefixed all of routes with /api
+  app.use('/api', router);
 };

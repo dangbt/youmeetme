@@ -4,6 +4,6 @@ var advertiseSchema = Schema({
   title: String,
   content: String,
   image: String,
-  date: Date
+  date: {type:Date, default:Date.now}
 })
 module.exports = mongoose.model('Advertise', advertiseSchema);
