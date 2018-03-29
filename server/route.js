@@ -1,3 +1,7 @@
+var express = require('express');
+var userController = require('./controllers/userController');
+var roleController = require('./controllers/roleController');
+
 module.exports = (app) => {
   var userController = require('./controllers/userController');
   var addressController = require('./controllers/addressController');
