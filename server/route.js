@@ -1,3 +1,7 @@
+var express = require('express');
+var userController = require('./controllers/userController');
+var roleController = require('./controllers/roleController');
+
 module.exports = (app) => {
   var userController = require('./controllers/userController');
   var addressController = require('./controllers/addressController');
@@ -13,7 +17,7 @@ module.exports = (app) => {
   /*
    * USER ROUTE
    */
-  app.route('/users')
+  app.route('api/users')
     .get(userController.getAll)
     .post(userController.createUser);
   app.route('/users/:id').get(userController.getOne);
@@ -68,7 +72,7 @@ module.exports = (app) => {
   app.route('likedUsers/:id').get(likedUserController.getOne);
   app.route('likedUsers/:id').put(likedUserController.updateLikedUser);
   app.route('/likedUsers').delete(likedUserController.deleteLikedUser);
-  
+
   /*
    * LIST CHAT ROUTE
    */

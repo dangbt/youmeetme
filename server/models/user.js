@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var userSchema = Schema({
   fullName: String,
-  sex: String,
+  gerder: String,
   birthday: Date,
   height: String,
   weight: String,
@@ -27,7 +27,7 @@ var userSchema = Schema({
     { type: Schema.Types.ObjectId, ref: 'User' }
   ],
   listChat: [
-        { type: Schema.Types.ObjectId, 
+        { type: Schema.Types.ObjectId,
           ref: 'ChatRoom' ,
           friendName: String,
           friendImage: String
