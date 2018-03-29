@@ -3,19 +3,7 @@ var app = express();
 var path = require('path');
 var staticPath =  'public';
 var publicPath = 'assets';
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 var cors = require('cors');
-=======
-
->>>>>>>  deploy mern to heroku
-=======
-var cors = require('cors');
->>>>>>> solver conflit
-=======
-var cors = require('cors');
->>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
 var User = require('./server/models/user');
@@ -50,25 +38,8 @@ app.use(express.static(__dirname + '/public'))
 app.get(/^\/[a-z]*$/, (req, res) => {
     res.sendFile(path.join(__dirname, staticPath, '/index.html'))
 });
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 // host assets save image....
 app.use('/assets', express.static(path.join(__dirname, publicPath)));
-=======
-// host assets save image....
-app.use('/', express.static(path.join(__dirname, publicPath)));
->>>>>>> build client success !!!
-=======
-
-// host assets save image....
-app.use('/assets', express.static(path.join(__dirname, publicPath)));
->>>>>>>  deploy mern to heroku
-=======
-
-// host assets save image....
-app.use('/assets', express.static(path.join(__dirname, publicPath)));
->>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 
 app.listen(port, () => console.log("Server started port:"+port))

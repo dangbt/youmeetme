@@ -1,16 +1,12 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
 import {Grid, Row, Col, Thumbnail, Button} from 'react-bootstrap';
-=======
->>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 
 export default class Item extends Component {
 
   render(){
     return (
       <div>
-<<<<<<< HEAD
         <Grid>
           <Row>
             <Col xs={6} md={4}>
@@ -45,9 +41,6 @@ export default class Item extends Component {
             </Col>
           </Row>
         </Grid>
-=======
-      <div> Item componentsss</div>
->>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
       </div>
     )
   }
