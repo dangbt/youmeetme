@@ -7,12 +7,15 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     inject: 'body'
 })
 
+<<<<<<< HEAD
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const extractSass = new ExtractTextPlugin({
   filename: "[name].css",
   disable: process.env.NODE_ENV === "development"
 })
 
+=======
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 
 module.exports = {
   entry:'./client/index.jsx',
@@ -37,6 +40,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: "babel-loader"
+<<<<<<< HEAD
       },
       {
         test: /.scss$/,
@@ -74,5 +78,15 @@ module.exports = {
   ],
    watch: true
 >>>>>>>  deploy mern to heroku
+=======
+      }
+    ]
+  },
+  plugins: [
+    HtmlWebpackPluginConfig
+
+  ],
+   watch: true
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 
 }

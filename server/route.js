@@ -3,6 +3,7 @@ var userController = require('./controllers/userController');
 var roleController = require('./controllers/roleController');
 
 module.exports = (app) => {
+<<<<<<< HEAD
   var userController = require('./controllers/userController');
   var addressController = require('./controllers/addressController');
   var advertiseController = require('./controllers/advertiseController');
@@ -72,7 +73,7 @@ module.exports = (app) => {
   app.route('likedUsers/:id').get(likedUserController.getOne);
   app.route('likedUsers/:id').put(likedUserController.updateLikedUser);
   app.route('/likedUsers').delete(likedUserController.deleteLikedUser);
-  
+
   /*
    * LIST CHAT ROUTE
    */
@@ -112,7 +113,10 @@ module.exports = (app) => {
 };
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 =======
 
   var router = express.Router()
@@ -138,6 +142,9 @@ module.exports = (app) => {
   app.use('/api', router)
 };
 >>>>>>> code client
+<<<<<<< HEAD
 >>>>>>> solver conflit
 =======
 >>>>>>> build client: create components
+=======
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710

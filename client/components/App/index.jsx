@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 import {_helper} from '../Function/API.js';
 import Login from '../Login/Login.jsx';
 import { Button } from 'reactstrap';
+=======
+import { Link } from 'react-router-dom';
+import {_helper} from '../Function/API.js';
+import Login from '../Login/Login.jsx';
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
 
 export default class App extends Component {
   constructor(props) {
@@ -25,6 +31,9 @@ export default class App extends Component {
         console.log(error);
       })
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
   }
 
 
@@ -33,6 +42,7 @@ export default class App extends Component {
       <div>
         <h1> App component</h1>
         <Login/>
+<<<<<<< HEAD
         <Button color="primary" onClick={this.handlingClick.bind(this)} >Click me</Button>        
       </div>
 
@@ -62,6 +72,11 @@ export default class App extends Component {
       </div>
 
 >>>>>>>  deploy mern to heroku
+=======
+        <button onClick={this.handlingClick.bind(this)} >Click me</button>        
+      </div>
+
+>>>>>>> 08df4ebcee1cdab0bc93c56ca32909d083fd7710
     )
   }
 }
