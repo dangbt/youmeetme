@@ -6,7 +6,7 @@ var hobbySchema = Schema({
     whoLikeThis: [
         {
             userID: { type: Schema.Types.ObjectId, ref: 'User' },
-            sex: String
+            gender: String
         }
     ]
 })

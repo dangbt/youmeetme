@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ChatRoom = mongoose.model('ChatRoom');
+var Message = mongoose.model('Message');
 
 exports.getAll = (req, res) => {
   ChatRoom.find({}).populate('Message').exec((err, chatRooms) => {
@@ -40,4 +41,23 @@ exports.deleteChatRoom = (req, res) => {
       res.send(err);
     res.status(200).send("Delete successful !!!").end();
   })
+}
+exports.addMessage = (req, res) =>{
+  var message = new Message({
+    userID: req.body.userID,
+    fullName: req.body.fullName,
+    image: req.body.image,
+    content: req.body.content
+  });
+  message.save(function(err, message) {
+    if (err) return res.send(err);
+    ChatRoom.findById(req.params.id, function(err, chatRoom) {
+      if (err) return res.send(err);
+      chatRoom.messages.push(message);
+      chatRoom.save(function(err) {
+        if (err) return res.send(err);
+        res.json({ status : 'done' });
+      });
+    });
+  });
 }
