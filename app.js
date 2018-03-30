@@ -42,4 +42,4 @@ app.get(/^\/[a-z]*$/, (req, res) => {
 // host assets save image....
 app.use('/assets', express.static(path.join(__dirname, publicPath)));
 
-app.listen(port, () => console.log("Server started port:"+port))
+app.listen(port, () => console.log("Magic happens on port: "+port))

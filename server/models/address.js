@@ -6,7 +6,7 @@ var addressSchema = Schema({
     whoInHere: [
         {
             userID: { type: Schema.Types.ObjectId, ref: 'User' },
-            sex: String
+            gender: String
         }
     ]
 })
