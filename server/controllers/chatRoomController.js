@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ChatRoom = mongoose.model('ChatRoom');
+var Message = mongoose.model('Message');
 
 exports.getAll = (req, res) => {
   ChatRoom.find({}).populate('Message').exec((err, chatRooms) => {
