@@ -29,8 +29,7 @@ export default class App extends Component {
     return (
       <div>
         <h1> App component</h1>
-        <Login/>
-        <Button color="primary" onClick={this.handlingClick.bind(this)} >Click me</Button>        
+        <Link to='/login'>Log in</Link>       
       </div>
       )
     }

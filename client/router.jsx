@@ -7,6 +7,7 @@ import Chat from './components/Chat/Chat.jsx';
 import Profile from './components/Profile/Profile.jsx';
 import Login from './components/Login/Login.jsx';
 import NewFriend from './components/Home/NewFriend/NewFriend.jsx';
+import SignUp from './components/SignUp/SignUp.jsx';
 
 const routes = (
   <Switch>
@@ -17,6 +18,7 @@ const routes = (
     <Route exact  path='/profile' component={Profile}/>
     <Route exact  path='/chat' component={Chat}/>
     <Route exact  path='/newfriend' component={NewFriend}/>
+    <Route exact  path='/create-account' component={SignUp}/>
   </Switch>
 )
 export default routes
