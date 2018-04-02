@@ -9,11 +9,11 @@ export default class Home extends Component {
 
   render(){
     return (
-      <div className='container'>
+      <div className='home-page'>
         <Sidebar/>
         <div className='content'>
-        <Navigationbar/>   
-        <ListItem/>
+          <Navigationbar/>   
+          <ListItem/>
         </div>
       </div>
     )

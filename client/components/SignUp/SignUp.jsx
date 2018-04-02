@@ -12,7 +12,7 @@ export default class SignUp extends Component {
 
   handlingSubmit() {
     _helper.fetchAPI(
-      '/users/login',
+      '/users/signup',
       {
         username,
         age

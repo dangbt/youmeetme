@@ -15,6 +15,7 @@ const extractSass = new ExtractTextPlugin({
 
 
 module.exports = {
+ 
   entry:'./client/index.jsx',
   output: {
     path: path.resolve(__dirname,'public'),
@@ -51,17 +52,18 @@ module.exports = {
     },
     ]
   },
+  performance: {
+    hints:  false
+  },
   devServer: {
     historyApiFallback: true
 },
   plugins: [
     HtmlWebpackPluginConfig,
     extractSass,
-    new webpack.DefinePlugin({
-      'process.env': {
-          'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      }
-  }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+    })
   ],
    watch: true
 

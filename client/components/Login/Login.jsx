@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router';
 import {Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +38,7 @@ export default class Login extends Component {
           onChange={(password) => {this.setState({password})}}/>
           <input type='submit' />
         </form>
+        <Link to='/create-account'>Sign Up</Link>
       </div>
     )
   }
