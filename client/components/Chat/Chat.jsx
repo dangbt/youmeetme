@@ -7,7 +7,6 @@ export default class Chat extends Component {
   render(){
     return (
       <div>
-      <div> Chat componentsss</div>
       <Sidebar/>
       </div>
     )

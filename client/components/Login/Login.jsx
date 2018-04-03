@@ -1,43 +1,47 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router';
-import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username : '',
       password: '',
-      checkAuth: false
+      authenticate: false
     }
   }
-
-  handlingSubmit(e) {
-    e.preventDefault();
-    this.setState({checkAuth: !this.state.checkAuth})
-    console.log('Log in success !!!');
+  login= () => {
+    alert('Log in success !!')
+    this.setState({authenticate: true})
   }
-  handlingChange(e) {
-    console.log(e.target.value);
-    this.setState({username: e.target.value});
-
-  }
-
   render(){
-    if(this.state.checkAuth) {
+    if(this.state.authenticate) {
       return <Redirect to='/home'></Redirect>
     }
     return (
       <div>
         <div> <h1>Login </h1></div>
-        <form onSubmit={this.handlingSubmit.bind(this)}>
-          <input type='text' placeholder='Enter username'
-          onChange={this.handlingChange.bind(this)}/>
-
-          <input type='password' placeholder='Enter password'
-          onChange={(password) => {this.setState({password})}}/>
-          <input type='submit' />
-        </form>
+        <Form onSubmit={this.login}>
+                <FormGroup row>
+                  <Label for="exampleEmail" sm={2}>UserName</Label>
+                  <Col sm={10}>
+                    <Input type="text" name="username"  placeholder="username placeholder" required />
+                  </Col>
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="examplePassword" sm={2}>Password</Label>
+                  <Col sm={10}>
+                    <Input type="password" name="password" placeholder="password placeholder" required/>
+                  </Col>
+                </FormGroup>
+                <FormGroup check row>
+                  <Col sm={{ size: 10, offset: 2 }}>
+                    <Button>Submit</Button>
+                  </Col>
+                </FormGroup>
+        </Form>
         <Link to='/create-account'>Sign Up</Link>
       </div>
     )

@@ -7,7 +7,6 @@ export default class ListItem extends Component {
   render(){
     return (
       <div>
-        <div> ListItem componentsss</div>
         <Item/>
       </div>
     )
