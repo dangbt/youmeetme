@@ -18,17 +18,17 @@ module.exports = (app) => {
   /*
    * USER ROUTE
    */
-  router.get('/users', userController.getAll)
-  .post(userController.createUser);
+  router.get('/users', userController.getAll);
+  router.post('/users',userController.createUser);
   router.get('/users/:id', userController.getOne);
   router.put('/users/:id', userController.updateUser);
   router.delete('/users', userController.deleteUser);
-
+  router.post('/users/login',userController.loginUser)
   /*
    * ADVERTISE ROUTE
    */
   router.get('/advertises', advertiseController.getAll)
-    .post('/advertises', advertiseController.createAdvertise);
+  router.post('/advertises', advertiseController.createAdvertise);
   router.get('/advertises/:id', advertiseController.getOne);
   router.put('/advertises/:id', advertiseController.updateAdvertise);
   router.delete('/advertises', advertiseController.deleteAdvertise);
@@ -40,6 +40,7 @@ module.exports = (app) => {
     .post('/addresses', addressController.createAddress);
   router.get('/addresses/:id', addressController.getOne);
   router.put('/addresses/:id', addressController.updateAddress);
+
 
   /*
    * HOBBY ROUTE
