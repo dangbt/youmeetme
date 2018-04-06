@@ -35,7 +35,7 @@ require('./server/route')(app);
 // serve static assets normally
 app.use(express.static(__dirname + '/public'))
 
-app.get(/^\/[a-z]*$/, (req, res) => {
+app.get(/^((?!\/api)(\/[a-z\-]*)*)*$/, (req, res) => {
     res.sendFile(path.join(__dirname, staticPath, '/index.html'))
 });
 

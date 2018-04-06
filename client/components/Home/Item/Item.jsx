@@ -1,106 +1,89 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
-import {Grid, Row, Col, Thumbnail, Button} from 'react-bootstrap';
-
+import { Card, Button, CardImg, CardTitle, CardText, CardDeck,
+  CardSubtitle, CardBody } from 'reactstrap';
 export default class Item extends Component {
 
   render(){
+    const xs = 6, md = 4, lg = 3;
     return (
       <div>
-        <Grid>
-          <Row>
-            <Col xs={4}  md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-            <Col xs={4} md={3}>
-              <Thumbnail src="/assets/download.jpg" alt="242x200">
-                <h3>Thumbnail label</h3>
-                <p>Description</p>
-                <p>
-                  <Button bsStyle="primary">Button</Button>
-                  <Button bsStyle="default">Button</Button>
-                </p>
-              </Thumbnail>
-            </Col>
-          </Row>
-        </Grid>
+        <CardDeck>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=256" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=256" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97256&w=256&h=256" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=256  " alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+          </CardDeck>
+          <CardDeck>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+              <Card>
+                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
+                <CardBody>
+                  <CardTitle>Card title</CardTitle>
+                  <CardSubtitle>Card subtitle</CardSubtitle>
+                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
+                  <Button>Button</Button>
+                </CardBody>
+              </Card>
+          </CardDeck>
       </div>
     )
   }
