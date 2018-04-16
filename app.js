@@ -23,14 +23,23 @@ var bodyParser = require('body-parser');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/youmeetme');
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
     origin: true,
     credentials: true
 }))
-require('./server/route')(app);
+// route
+require('./server/routes/addressRoute')(app);
+require('./server/routes/advertiseRoute')(app);
+require('./server/routes/hobbyRoute')(app);
+require('./server/routes/imageRoute')(app);
+require('./server/routes/likeUserRoute')(app);
+require('./server/routes/chatRoomRoute')(app);
+require('./server/routes/messageRoute')(app);
+require('./server/routes/notificationRoute')(app);
+require('./server/routes/roleRoute')(app);
+require('./server/routes/userRoute')(app);
 
 // serve static assets normally
 app.use(express.static(__dirname + '/public'))

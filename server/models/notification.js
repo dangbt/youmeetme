@@ -4,7 +4,8 @@ var notificationSchema = Schema({
     title: String,
     content: String,
     userID: String,
-    date: {type:Date, default:Date.now}
-})
+},
+    {timestamps: true}
+);
 
 module.exports = mongoose.model('Notification', notificationSchema);

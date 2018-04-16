@@ -3,12 +3,7 @@ var Schema = mongoose.Schema;
 
 var addressSchema = Schema({
     content: String,
-    whoInHere: [
-        {
-            userID: { type: Schema.Types.ObjectId, ref: 'User' },
-            gender: String
-        }
-    ]
-})
+    whoInHere: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+});
 
 module.exports = mongoose.model('Address', addressSchema);
