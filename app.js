@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const staticPath =  'public';
+const staticPath = 'public';
 const publicPath = 'assets';
 const cors = require('cors');
 const port = process.env.PORT || 3000;
@@ -41,6 +41,8 @@ require('./server/routes/messageRoute')(app);
 require('./server/routes/notificationRoute')(app);
 require('./server/routes/roleRoute')(app);
 require('./server/routes/userRoute')(app);
+require('./server/routes/indexRoute')(app);
+
 app.use(session({
     secret: 'youmeetme',
     resave: false,
@@ -54,7 +56,7 @@ app.use(session({
         ttl: 15 * 60,
     })
 }))
-require('./server/route')(app);
+
 
 // serve static assets normally
 app.use(express.static(__dirname + '/public'))
@@ -66,4 +68,4 @@ app.get(/^((?!\/apii)(\/[a-z\-]*)*)*$/, (req, res) => {
 // host assets save image....
 app.use('/assets', express.static(path.join(__dirname, publicPath)));
 
-app.listen(port, () => console.log("Magic happens on port: "+port))
+app.listen(port, () => console.log("Magic happens on port: " + port))

@@ -15,11 +15,11 @@ export default class Login extends Component {
       message: ''
     }
   }
-  login(e) {
+  login= (e)=> {
     e.preventDefault();
     const { username, password } = this.state;
     _helper.fetchAPI(
-      '/users/login',
+      '/login',
       {
         username,
         password
@@ -75,7 +75,7 @@ export default class Login extends Component {
     return (
       <div>
         <div> <h1>Login </h1></div>
-        <Form onSubmit={this.login.bind(this)}>
+        <Form onSubmit={(e)=> this.login(e)}>
                 <FormGroup row>
                   <Label for="exampleEmail" sm={2}>UserName</Label>
                   <Col sm={10}>

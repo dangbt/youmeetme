@@ -29,6 +29,7 @@ var userSchema = Schema({
 		phone: { type: String, trim: true },
 		web_page: { type: String }
 	},
+	username: { type: String, trim: true },
 	password: { type: String, trim: true },
 	hobbies: [
 		{ type: Schema.Types.ObjectId, ref: 'Hobby' }

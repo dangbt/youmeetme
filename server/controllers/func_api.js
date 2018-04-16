@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-
-exports.login= (req, res) => {
+module.exports = {
+	login: (req, res) => {
 		try {
 			var {
 				username,
@@ -16,7 +16,6 @@ exports.login= (req, res) => {
 					if (!data) {
 						res.status(404).end('User not found');
 					} else {
-						//tới đây rồi
 						if (data.password === password) {
 							req.session.regenerate(function () {
 								req.session.user = {
@@ -37,4 +36,19 @@ exports.login= (req, res) => {
 			//return bCrypt.compareSync(password, user.password);
 			return user.password === password;
 		}
-	}
+	},
+
+	checkAuthenticate: function (req, res) {
+		try {
+			if (req.session.user) {
+				res.status(200).end('Logged in');
+			}
+			else {
+				res.status(401).end('Not logged in');
+			}
+		} catch (err) {
+			res.status(500).end(err);
+		}
+	},
+
+}
