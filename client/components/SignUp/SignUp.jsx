@@ -9,30 +9,31 @@ export default class SignUp extends Component {
     this.state = {
       username : '',
       password: '',
+      fullName: '',
+      hobies:[],
       authenticate: false
     }
   }
-
-  handlingSubmit() {
+  signup = (e) => {
+    e.preventDefault();
+  const {username, password, fullName} = this.state;
     _helper.fetchAPI(
       '/users/signup',
       {
         username,
-        age
+        password,
+        fullName,
+
       } )
       .then((response) => {
         this.setState({user: response});
         console.log(this.state.user);
+        this.setState({authenticate: true})
       })
       .catch((error) => {
         console.log(error);
       })
-  }
-  signup = (e) => {
-    e.preventDefault();
-    //validate ở đây
-    alert("sign up success")
-    this.setState({authenticate: true})
+
 
   }
 
@@ -48,31 +49,43 @@ export default class SignUp extends Component {
                 <FormGroup row>
                   <Label for="exampleEmail" sm={2}>UserName</Label>
                   <Col sm={10}>
-                    <Input type="text" name="username"  placeholder="username placeholder" required />
+                    <Input type="text" name="username"  placeholder="username placeholder" required 
+                    onChange={(e) => {
+                      this.setState({username: e.target.value})
+                    }}
+                    />
                   </Col>
                 </FormGroup>
                 <FormGroup row>
                   <Label for="examplePassword" sm={2}>Password</Label>
                   <Col sm={10}>
-                    <Input type="password" name="password" placeholder="password placeholder" required/>
+                    <Input type="password" name="password" placeholder="password placeholder" required 
+                      onChange={(e) => {
+                        this.setState({password: e.target.value})
+                      }}
+                    />
                   </Col>
                 </FormGroup>
                 <FormGroup row>
                   <Label for="examplePassword" sm={2}>FullName</Label>
                   <Col sm={10}>
-                    <Input type="text" name="fullname"  placeholder="fullname placeholder" required/>
+                    <Input type="text" name="fullname"  placeholder="fullname placeholder" required 
+                      onChange={(e) => {
+                        this.setState({fullName: e.target.value})
+                      }}
+                    />
                   </Col>
                 </FormGroup>  
                 <FormGroup row>
                   <Label for="examplePassword" sm={2}>Email</Label>
                   <Col sm={10}>
-                    <Input type="email" name="email"  placeholder="email placeholder" required/>
+                    <Input type="email" name="email"  placeholder="email placeholder" />
                   </Col>
                 </FormGroup>  
                 <FormGroup row>
                   <Label for="examplePassword" sm={2}>Address</Label>
                   <Col sm={10}>
-                    <Input type="text" name="address"  placeholder="address placeholder" required/>
+                    <Input type="text" name="address"  placeholder="address placeholder" />
                   </Col>
                 </FormGroup>     
                 <FormGroup check row>
