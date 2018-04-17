@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './Sidebar.scss'
+import './Sidebar.scss';
+import { _helper } from '../Function/API';
 import {
   Collapse,
   Navbar,
@@ -14,6 +15,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+
   
   Navbar.propTypes = {
     light: PropTypes.bool,
@@ -52,6 +54,13 @@ export default class Sidebar extends Component {
     this.setState({ hasScrolled });
   }
   
+  logout = () => {
+    _helper.fetchAPI(
+        "/logout",
+        {}
+    )
+}
+  
 
   componentDidMount() {
     // Listen on scrolling event, call our function.
@@ -66,7 +75,7 @@ export default class Sidebar extends Component {
     return (
       <div>
         <Navbar color="black"  expand="md"   className={this.state.hasScrolled ? 'onscroll' : null} >
-          <NavbarBrand ><Link to='/home'>Home</Link></NavbarBrand>
+          <div ><Link to='/home'>Home</Link></div>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -74,7 +83,7 @@ export default class Sidebar extends Component {
                 <Link to="/chat">Chat</Link>
               </NavItem>
               <NavItem>
-                <Link to="https://github.com/reactstrap/reactstrap">GitHub</Link>
+                <Link to="/profile">Profile</Link>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
@@ -88,8 +97,8 @@ export default class Sidebar extends Component {
                     Change Password
                   </DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem>
-                  <NavLink href="/login">Log Out</NavLink>
+                  <DropdownItem >
+                    <Link to='/login' onClick={this.logout} >Log out</Link>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
