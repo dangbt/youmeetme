@@ -18,7 +18,7 @@ export default class SignUp extends Component {
     e.preventDefault();
   const {username, password, fullName} = this.state;
     _helper.fetchAPI(
-      '/users/signup',
+      '/signup',
       {
         username,
         password,

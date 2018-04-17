@@ -12,7 +12,7 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      authenticate: true
+      authenticate: false
     }
   }
 
@@ -21,6 +21,7 @@ export default class Home extends Component {
       this.setState({
         authenticate: authenticate
       })
+
     })
   }
   componentDidMount() {

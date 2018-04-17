@@ -65,7 +65,7 @@ export default class Login extends Component {
     })
   }
   componentDidMount() {
-    this.checkAuth();
+    //this.checkAuth();
   }
   render(){
     const {authenticate} = this.state;

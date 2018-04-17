@@ -56,7 +56,7 @@ export default class Sidebar extends Component {
   
   logout = () => {
     _helper.fetchAPI(
-        "/users/logout",
+        "/logout",
         {}
     )
 }
