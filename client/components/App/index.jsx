@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import {_helper} from '../Function/API.js';
 import Login from '../Login/Login.jsx';
 import { Button } from 'reactstrap';
+import socketIOClient from 'socket.io-client';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: []
+      user: [],
+      endpoint: 'http://localhost:3000'
     }
   }
   handlingClick() {
@@ -24,6 +26,10 @@ export default class App extends Component {
       })
   }
   render(){
+    const socket = socketIOClient(this.state.endpoint);
+    socket.on('hi', (msg) => {
+      console.log(msg);
+    })
     return (
       <div>
         <h1> App component</h1>

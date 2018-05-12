@@ -30,6 +30,19 @@ app.use(cors({
     origin: true,
     credentials: true
 }))
+//session 
+app.use(session({
+    secret: 'youmeetme',
+    resave: false,
+    saveUninitialized: true,
+    httpOnly: true,
+    cookie: {
+        maxAge: 15 * 60 * 1000,
+        url: 'mongodb://localhost/youmeetme',
+        ttl: 15 * 60,
+    }
+}));
+
 // route
 require('./server/routes/addressRoute')(app);
 require('./server/routes/advertiseRoute')(app);
@@ -43,19 +56,26 @@ require('./server/routes/roleRoute')(app);
 require('./server/routes/userRoute')(app);
 require('./server/routes/indexRoute')(app);
 
-app.use(session({
-    secret: 'youmeetme',
-    resave: false,
-    saveUninitialized: false,
-    httpOnly: true,
-    cookie: {
-        maxAge: 15 * 60 * 1000
-    },
-    store: new MongoStore({
-        url: 'mongodb://localhost/youmeetme',
-        ttl: 15 * 60,
+// require('http').globalAgent.maxSockets = Infinity
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+// const redisAdapter = require('socket.io-redis');
+// app.io.adapter(redisAdapter({ host: 'localhost', port: 8080 }));
+var messages = ['a', 'b', 'c'];
+var roomChat = '';
+io.on('connection', (socket) => {
+    console.log('User connected')
+    socket.on('create-room', (room) => {
+        socket.join(room);
+        socket.emit('receivedMessage', socket.adapter.rooms)
     })
-}))
+    socket.on('message', (msg) => {
+        io.in('room').emit('server-send-msg-to-client', msg)
+    })
+    socket.emit('receivedMessage', socket.adapter.rooms)
+    io.on('disconnect', (socket) => {
+    })
+})
 
 
 // serve static assets normally
@@ -68,4 +88,5 @@ app.get(/^((?!\/apii)(\/[a-z\-]*)*)*$/, (req, res) => {
 // host assets save image....
 app.use('/assets', express.static(path.join(__dirname, publicPath)));
 
-app.listen(port, () => console.log("Magic happens on port: " + port))
+http.listen(port, () => console.log("Magic happens on port: " + port))
+

@@ -8,6 +8,7 @@ export default () => {
     )
     .then((response) => {
         if (response) {
+            debugger
             const { data, status } = response;
             if (status == 200) {
                 return true;

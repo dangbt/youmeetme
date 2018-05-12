@@ -28,12 +28,12 @@ export default class Home extends Component {
     this.checkAuth();
   }
   render(){
-    const {authenticate} = this.state;
-    if (!authenticate) {
-      return (
-        <Redirect to={'/login'}></Redirect>
-      )
-    }
+    // const {authenticate} = this.state;
+    // if (!authenticate) {
+    //   return (
+    //     <Redirect to={'/login'}></Redirect>
+    //   )
+    // }
     return (
       <div className='home-page'>
         <Sidebar  />

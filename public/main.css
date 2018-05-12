@@ -1,8 +1,27 @@
-.nav-tab {
-  position: relative;
-  top: 50px; }
 .onscroll {
   position: fixed; }
 
 .navbar-nav {
   align-items: center; }
+.nav-tab {
+  position: relative;
+  top: 50px; }
+.badge {
+  color: #fff;
+  background-color: #6c757d; }
+
+.form-chat {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  height: 400px;
+  max-height: 400px;
+  min-height: 400px; }
+  .form-chat li {
+    border: 0px; }
+  .form-chat form {
+    position: absolute;
+    bottom: 0;
+    width: 97%; }
+
+.list-group-item img {
+  width: 50px;
+  height: 50px; }

@@ -29,8 +29,6 @@ export default class Login extends Component {
           const { data, status } = response;
           if (status == 200) {
             this.checkAuth();
-           
-      
           }
           else {
             if (status == 401) {
@@ -58,7 +56,9 @@ export default class Login extends Component {
     
   }
   checkAuth = () => {
-    checkAuthenticate().then((authenticate) => {
+    debugger
+    checkAuthenticate()
+    .then((authenticate) => {
       this.setState({
         authenticate: authenticate
       })

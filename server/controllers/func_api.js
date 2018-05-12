@@ -25,8 +25,9 @@ module.exports = {
 								req.session.user = {
 									_id: data._id
 								}
-								res.status(200).end('Logged in successfully');
-							  })
+								
+							})
+							res.status(200).end('Logged in successfully');
 							 
 						} else {
 							res.status(401).end('Incorrect password');
