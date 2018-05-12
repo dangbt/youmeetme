@@ -70,6 +70,7 @@ export default class Hobby extends Component {
         const { collapse, modal, } = this.state;
         const { listHobbies, valueSelect } = this.state;
         const { hobbies } = this.props;
+        console.log(hobbies)
         return (
             <div>
                 <label onClick={this.toggleCollapse} style={{ fontSize: '3vw' }} className="h1 text-primary btn" id='userHobby' ><u>*User Hobby</u></label>
@@ -86,7 +87,7 @@ export default class Hobby extends Component {
                                 hobbies === null ? <Label>Your are Caryze</Label> :
                                     hobbies && hobbies.map((item, i) => {
                                         return <Input type="text" placeholder="your hobby" value={(i + 1) + '. ' + item.content}
-                                            key={item._id} disabled />
+                                            key={item} disabled />
 
                                     })
                             }

@@ -8,8 +8,11 @@ import { Container, Row, Col } from 'reactstrap';
 import checkAuthenticate from '../Function/checkAuthenticate';
 import { Redirect } from 'react-router';
 import moment from 'moment';
-
-
+import BlockUi from 'react-block-ui'
+import { Loader, Types } from 'react-loaders';
+import Info from './components/Info.js'
+import Occupation from './components/Occupation.js';
+import Hobby from './components/Hobby.js'
 
 export default class Profile extends Component {
   constructor(props) {
@@ -18,23 +21,14 @@ export default class Profile extends Component {
       modal: false,
       nestedModal: false,
       closeAll: false,
+      blocking: false,
+      info: {},
+      occupation: {},
+      contact: {},
       hobbies: [],
+      avatar: '',
       listhHobbies: [],
       authenticate: true,
-      username: '',
-      password: '',
-      fullName: '',
-      gender: '',
-      birthday: '',
-      height: 0,
-      weight: 0,
-      country: '',
-      knowledge: '',
-      work: '',
-      salary: '',
-      marialStatus: '',
-      introduce: '',
-      avatar: '',
     }
 
     this.toggle = this.toggle.bind(this);
@@ -80,23 +74,17 @@ export default class Profile extends Component {
     this.setState({ hobbies: value })
     console.log(this.state.hobbies);
   }
-  updateUser = () => {
-    const { fullName, gender, birthday, height, weight, country,
-      knowledge, work, salary, marialStatus, introduce, avatar, hobbies } = this.state;
-  }
   updateUser = (user) => {
     const userId = '5ada15893641188b507d3e8c';
     //  const userId = '5ad5714687ec4927f8a0df26';
     _helper.fetchAPI(
-      '/users/update',
-      {
-        fullName, gender, birthday, height, weight, country,
-        knowledge, work, salary, marialStatus, introduce, avatar, hobbies
-      }, [], 'PUT'
+      '/users/' + userId,
+      user , [], 'PUT'
     )
       .then((response) => {
         const { data, status } = response;
         console.log(JSON.stringify(data) + status);
+        this.getUser();
       })
   }
   getHobby = () => {
@@ -108,47 +96,39 @@ export default class Profile extends Component {
 
   }
   getUser = () => {
-    _helper.fetchGET('/users')
+    const userId = '5ada15893641188b507d3e8c';
+    _helper.fetchGET('/users/' + userId)
       .then((response) => {
-        const { fullName, gender, birthday, height, weight, country,
-          knowledge, work, salary, marialStatus, introduce, avatar, hobbies } = response.data;
+        const { info, occupation, contact, hobbies, avatar } = response.data;
         if (response.status == 200) {
           this.setState({
-            fullName,
-            gender,
-            birthday: moment(birthday).format('YYYY-MM-DD'),
-            height,
-            weight,
-            country,
-            knowledge,
-            work,
-            salary,
-            marialStatus,
-            introduce,
-            avatar,
-            hobbies
+            info,
+            occupation,
+            contact,
+            hobbies,
+            avatar
           })
-          debugger
         }
       })
 
   }
   componentDidMount() {
-    this.getHobby();
-    this.checkAuth();
+    //this.getHobby();
     this.getUser();
+    // this.checkAuth();
 
   }
 
   render() {
-    const { authenticate } = this.state;
+    const { authenticate, blocking } = this.state;
+    const { info, occupation, hobbies, contact } = this.state;
     const { fullName, gender, birthday, height, weight, country,
       knowledge, work, salary, marialStatus, introduce, avatar } = this.state;
     let xhtml = avatar ? avatar : '../../../assets/default-avatar.png';
-    if (!authenticate) {
-      debugger
-      return <Redirect to='/login'></Redirect>
-    }
+    // if (!authenticate) {
+    //   debugger
+    //   return <Redirect to='/login'></Redirect>
+    // }
     return (
       <div>
         <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>

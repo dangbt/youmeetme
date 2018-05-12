@@ -59,8 +59,8 @@ export default class Occupation extends Component {
         this.props.updateUser(user)
         this.toggleModal();
     }
-    componentWillReceiveProps() {
-        const {occupation,contact} = this.props;
+    componentWillReceiveProps(nextProps) {
+        const {occupation,contact} = nextProps;
         this.setState({
            work: occupation.work,
            salary: occupation.salary,

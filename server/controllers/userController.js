@@ -24,7 +24,7 @@ var users = {
 	getOne: (req, res) => {
 		User.findOne({
 			_id: req.params.id
-		}, (err, user) => {
+		}).populate({path: 'hobbies', select: 'content'}).exec( (err, user) => {
 			if (err)
 				res.send(err);
 			res.json(user);

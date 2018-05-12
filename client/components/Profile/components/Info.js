@@ -77,13 +77,12 @@ export default class Info extends Component {
             },
             avatar: this.state.avatar
         }
-        debugger
         this.props.updateUser(user);
         this.toggleModal();
     }
 
-    componentWillReceiveProps() {
-        const {info,avatar} = this.props;
+    componentWillReceiveProps(nextProps) {
+        const {info,avatar} = nextProps;
         this.setState({
             fullName: info.fullName,
             gender:info.gender,
@@ -95,16 +94,16 @@ export default class Info extends Component {
             country: info.country,
             avatar: avatar
         })   
-        
     }
 
 
     render() {
         const { info } = this.props;
+        
         const selectCountry = ['Cà Mau', 'TP.HCM', 'Hà Nội', 'Quãng Ngãi'];
         const { collapse, modal } = this.state;
         const { fullName, gender, birthday, height, weight, marialStatus, introduce, knowledge, address, country, avatar } = this.state;
-        // const { fullName, gender, birthday, height, weight, marialStatus, introduce, knowledge, address, country } = this.props.info;
+        console.log(fullName)
         let xhtml = avatar ? avatar : '../../../../assets/default-avatar.png';
         return (
             <div>
