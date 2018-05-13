@@ -23,11 +23,12 @@ module.exports = {
 							req.session.regenerate(function() {
 								// will have a new session here
 								req.session.user = {
-									_id: data._id
+									_id: data._id,
+									username: data.username
 								}
 								
+								res.status(200).end('Logged in successfully');
 							})
-							res.status(200).end('Logged in successfully');
 							 
 						} else {
 							res.status(401).end('Incorrect password');
@@ -62,7 +63,8 @@ module.exports = {
 	checkAuthenticate: function (req, res) {
 		try {
 			if (req.session.user) {
-				res.status(200).end('Logged in');
+				res.json(req.session.user);
+				
 			}
 			else {
 				res.status(401).end('Not logged in');

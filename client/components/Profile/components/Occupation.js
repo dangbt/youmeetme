@@ -14,7 +14,7 @@ import {
     Row,
     InputGroupAddon,
     InputGroup,
-    UncontrolledTooltip ,
+    UncontrolledTooltip,
 } from 'reactstrap';
 import { _helper } from '../../Function/API';
 export default class Occupation extends Component {
@@ -23,10 +23,8 @@ export default class Occupation extends Component {
         this.state = {
             collapse: false,
             modal: false,
-            occupation: {},
             work: 'your work',
             salary: 0,
-            contact: {},
             email: '',
             phone: '',
             web_page: '',
@@ -60,25 +58,34 @@ export default class Occupation extends Component {
         this.toggleModal();
     }
     componentWillReceiveProps(nextProps) {
-        const {occupation,contact} = nextProps;
-        this.setState({
-           work: occupation.work,
-           salary: occupation.salary,
-           email: contact.email,
-           phone: contact.phone,
-           web_page: contact.web_page
-        })   
-        
+        const { occupation, contact } = nextProps;
+        debugger
+        if (occupation) {
+            this.setState({
+                work: occupation.work,
+                salary: occupation.salary,
+            })
+        }
+        if (contact) {
+            this.setState({
+                email: contact.email,
+                phone: contact.phone,
+                web_page: contact.web_page
+            })
+        }
+
+
+
     }
 
     render() {
-        const {occupation,contact} = this.props;
+        const { occupation, contact } = this.props;
         const { collapse, modal, } = this.state;
         const { work, salary, email, phone, web_page } = this.state;
         return (
             <div>
-                <label onClick={this.toggleCollapse} style={{fontSize: '3vw'}} className="h1 text-primary btn" id='userOccupation'><u>*User Occupation</u></label>
-                <UncontrolledTooltip  placement="top" target="userOccupation">
+                <label onClick={this.toggleCollapse} style={{ fontSize: '3vw' }} className="h1 text-primary btn" id='userOccupation'><u>*User Occupation</u></label>
+                <UncontrolledTooltip placement="top" target="userOccupation">
                     Click to show
                 </UncontrolledTooltip >
                 <img src='' alt='Edit userOccupation' onClick={this.toggleModal} />
@@ -119,7 +126,7 @@ export default class Occupation extends Component {
                             <Col xs="6">
                                 <FormGroup>
                                     <Label >Work: </Label>
-                                    <Input type="text" placeholder="your fullname" value={work}
+                                    <Input type="text" placeholder="your fullname" value={'work'}
                                         onChange={(e) => {
                                             this.setState({ work: e.target.value })
                                         }}
@@ -142,25 +149,25 @@ export default class Occupation extends Component {
                                 <FormGroup>
                                     <Label >Email</Label>
                                     <Input type="email" placeholder='Enter your email' value={email}
-                                     onChange={(e) => {
-                                        this.setState({ email: e.target.value })
-                                    }}
+                                        onChange={(e) => {
+                                            this.setState({ email: e.target.value })
+                                        }}
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label >Phone</Label>
                                     <Input type="text" placeholder='Enter your phone' value={phone}
-                                       onChange={(e) => {
-                                        this.setState({ phone: e.target.value })
-                                    }}
+                                        onChange={(e) => {
+                                            this.setState({ phone: e.target.value })
+                                        }}
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     <Label >Web_Page</Label>
                                     <Input type="text" placeholder='Enter your web_page' value={web_page}
-                                       onChange={(e) => {
-                                        this.setState({ web_page: e.target.value })
-                                    }}
+                                        onChange={(e) => {
+                                            this.setState({ web_page: e.target.value })
+                                        }}
                                     />
                                 </FormGroup>
                             </Col>

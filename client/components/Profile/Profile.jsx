@@ -18,17 +18,19 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      authenticate: true,
       modal: false,
       nestedModal: false,
       closeAll: false,
       blocking: false,
+      user: {},
       info: {},
       occupation: {},
       contact: {},
       hobbies: [],
       avatar: '',
       listhHobbies: [],
-      authenticate: true,
+    
     }
 
     this.toggle = this.toggle.bind(this);
@@ -56,9 +58,10 @@ export default class Profile extends Component {
     });
   }
   checkAuth = () => {
-    checkAuthenticate().then((authenticate) => {
+    checkAuthenticate().then((response) => {
       this.setState({
-        authenticate: authenticate
+        authenticate: response.authentication,
+        user: response.data
       })
     })
 
@@ -72,7 +75,6 @@ export default class Profile extends Component {
       }
     }
     this.setState({ hobbies: value })
-    console.log(this.state.hobbies);
   }
   updateUser = (user) => {
     const userId = '5ada15893641188b507d3e8c';
@@ -96,8 +98,8 @@ export default class Profile extends Component {
 
   }
   getUser = () => {
-    const userId = '5ada15893641188b507d3e8c';
-    _helper.fetchGET('/users/' + userId)
+    const { user } = this.state;
+    _helper.fetchGET('/users/'+ user._id )
       .then((response) => {
         const { info, occupation, contact, hobbies, avatar } = response.data;
         if (response.status == 200) {
@@ -108,31 +110,30 @@ export default class Profile extends Component {
             hobbies,
             avatar
           })
+          
         }
       })
 
   }
+  
   componentDidMount() {
     //this.getHobby();
     this.getUser();
-    // this.checkAuth();
-
+    this.checkAuth();
   }
 
   render() {
-    const { authenticate, blocking } = this.state;
-    const { info, occupation, hobbies, contact } = this.state;
-    const { fullName, gender, birthday, height, weight, country,
-      knowledge, work, salary, marialStatus, introduce, avatar } = this.state;
+    const { authenticate, blocking, user } = this.state;
+    const { info, occupation, hobbies, contact, avatar } = this.state;
+   
     let xhtml = avatar ? avatar : '../../../assets/default-avatar.png';
-    // if (!authenticate) {
-    //   debugger
-    //   return <Redirect to='/login'></Redirect>
-    // }
+    if (!authenticate) {
+      return <Redirect to='/login'></Redirect>
+    }
     return (
       <div>
         <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>
-          <Sidebar />
+          <Sidebar  user={user} />
           <Slide />
           <Row>
             <Col xs="4">
@@ -140,9 +141,9 @@ export default class Profile extends Component {
               <Button color="danger" onClick={this.toggle}>Edit Profile</Button>
             </Col>
             <Col xs="9">
-              <Info info={info} avatar={avatar} updateUser={this.updateUser} />
+              {/* <Info info={info} avatar={avatar} updateUser={this.updateUser} /> */}
               <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
-              <Hobby hobbies={hobbies} updateUser={this.updateUser} />
+              {/* <Hobby hobbies={hobbies} updateUser={this.updateUser} /> */}
             </Col>
           </Row>
         </BlockUi>

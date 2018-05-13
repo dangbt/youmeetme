@@ -17,14 +17,17 @@ export default class SignUp extends Component {
   signup = (e) => {
     e.preventDefault();
   const {username, password, fullName} = this.state;
+  const user = {
+    info : {
+      fullName: fullName
+    },
+    username: username,
+    password: password
+  }
     _helper.fetchAPI(
       '/signup',
-      {
-        username,
-        password,
-        fullName,
-
-      } )
+      user,
+    [], 'POST' )
       .then((response) => {
         this.setState({user: response});
         console.log(this.state.user);

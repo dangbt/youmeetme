@@ -83,6 +83,7 @@ export default class Info extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {info,avatar} = nextProps;
+        debugger
         this.setState({
             fullName: info.fullName,
             gender:info.gender,

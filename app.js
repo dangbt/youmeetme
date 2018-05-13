@@ -37,7 +37,7 @@ app.use(session({
     saveUninitialized: true,
     httpOnly: true,
     cookie: {
-        maxAge: 15 * 60 * 1000,
+        maxAge: 15 * 60 * 100000000,
         url: 'mongodb://localhost/youmeetme',
         ttl: 15 * 60,
     }

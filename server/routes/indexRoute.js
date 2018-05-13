@@ -8,7 +8,7 @@ module.exports = (app) => {
     router.post('/login', func_api.login);
     router.post('/logout', func_api.logout);
     router.post('/signup', userController.createUser);
-    router.get('/users/checkAuthenticate', func_api.checkAuthenticate);
+    router.get('/session', func_api.checkAuthenticate);
     
     app.use('/api', router);
 }

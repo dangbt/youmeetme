@@ -9,7 +9,8 @@ import { ListGroup } from 'react-bootstrap';
 import FormChat from './components/FormChat'
 import socketIOClient from 'socket.io-client';
 import ItemFormChat from './components/ItemFormChat'
-import socket from './socket'
+import socket from './socket';
+import { _helper } from '../Function/API'
 
 export default class Chat extends Component {
   constructor(props) {
@@ -19,53 +20,93 @@ export default class Chat extends Component {
       openFormchat: false,
       client: socket(),
       roomName: '',
+      listFriend: [],
+      user: {}
     }
   }
 
   checkAuth = () => {
-    checkAuthenticate().then((authenticate) => {
+    checkAuthenticate().then((response) => {
       this.setState({
-        authenticate: authenticate
+        authenticate: response.authentication,
+        user: response.data
       })
     })
   }
-  toggleFormChat = (roomName) => {
-    return this.state.client.join(roomName);
+  toggleFormChat = (friend) => {
+    this.joinRoom(friend)
+    return this.state.client.join(this.state.roomName);
+
+  }
+  joinRoom = (friend) => {
+    _helper.fetchAPI(
+      '/chatRooms',
+      {
+        recipientID: friend
+            }, [], 'POST'
+    )
+      .then((response) => {
+        const { data, status } = response;
+        if( status == 200 ) {
+          this.setState({roomName: data.data._id})
+        }
+      })
+  }
+  getListChat = () => {
+    _helper.fetchGET(
+      '/roomofuser',[]
+    )
+    .then((response) => {
+      console.log(response)
+    })
+  }
+  getUser = () => {
+    _helper.fetchGET(
+      '/users', []
+    )
+      .then((response) => {
+        const { data, status } = response;
+        if (status == 200) {
+          this.setState({ listFriend: data })
+        }
+      })
 
   }
   componentDidMount() {
-    //this.checkAuth();
+    this.checkAuth();
+    this.getUser();
+    this.getListChat();
   }
   render() {
 
-    const { authenticate, openFormchat, client } = this.state;
-    const listUser = [
-      { name: 'a', age: 9 },
-      { name: 'b', age: 9 },
-      { name: 'c', age: 9 },
-    ]
+    const { authenticate, openFormchat, client, listFriend,user } = this.state;
+      if (!authenticate) {
+      return (
+        <Redirect to={'/login'}></Redirect>
+      )
+    }
     client.receivedMessage();
     client.receivedMessageFromServer();
     return (
-      
+
 
       <div>
-        <Sidebar />
+        <Sidebar user={user} />
         <Slide />
-        <input onChange={(e) => this.setState({roomName: e.target.value})} />
-        <button onClick={() => {this.toggleFormChat(this.state.roomName)}}>Click</button>
+        <input onChange={(e) => this.setState({ roomName: e.target.value })} />
+        <button onClick={() => { this.toggleFormChat(this.state.roomName) }}>Click</button>
         <Row>
           <Col xs={3} >
             <ListGroup>
-              {listUser && listUser.map((user, i) => {
-                return <ItemChat key={i} toggleFormChat={this.toggleFormChat}  user={user} />
+              {listFriend && listFriend.map((friend, i) => {
+                return <ItemChat key={i} toggleFormChat={this.toggleFormChat} friend={friend} />
               })}
 
             </ListGroup>
           </Col>
           <Col xs={9} >
-          <ItemFormChat/>
-            <FormChat  />
+            <ItemFormChat />
+            <FormChat />
           </Col>
         </Row>
         <footer style={{ height: '100px' }}></footer>

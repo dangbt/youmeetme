@@ -28,6 +28,7 @@ export default class Login extends Component {
         if (response) {
           const { data, status } = response;
           if (status == 200) {
+            console.log(data)
             this.checkAuth();
           }
           else {
@@ -56,7 +57,6 @@ export default class Login extends Component {
     
   }
   checkAuth = () => {
-    debugger
     checkAuthenticate()
     .then((authenticate) => {
       this.setState({
@@ -64,8 +64,8 @@ export default class Login extends Component {
       })
     })
   }
-  componentDidMount() {
-    //this.checkAuth();
+  componentWillMount() {
+    this.checkAuth();
   }
   render(){
     const {authenticate} = this.state;

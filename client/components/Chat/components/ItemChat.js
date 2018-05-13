@@ -7,10 +7,10 @@ export default class ItemChat extends Component {
     
     render() {
    
-        const { user, toggleFormChat} = this.props;
+        const { friend, toggleFormChat} = this.props;
         return (
             <div>
-                <ListGroupItem onClick={()=> toggleFormChat(user.name)} className="justify-content-between"><img src='' alt='avatar' /> {user.name}<Badge >14</Badge></ListGroupItem>
+                <ListGroupItem onClick={()=> toggleFormChat(friend._id)} className="justify-content-between"><img src='' alt='avatar' /> {friend._id}<Badge >14</Badge></ListGroupItem>
                 
             </div>
         )
