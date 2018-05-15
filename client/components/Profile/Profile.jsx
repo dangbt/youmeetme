@@ -1,46 +1,42 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import Slide from '../SlideAdvertisement/Slide.jsx';
 import { _helper } from '../Function/API.js';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter,Label, FormGroup, Input } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, FormGroup, Input } from 'reactstrap';
 import { Container, Row, Col } from 'reactstrap';
 import checkAuthenticate from '../Function/checkAuthenticate';
 import { Redirect } from 'react-router';
 import moment from 'moment';
-
-
+import BlockUi from 'react-block-ui'
+import { Loader, Types } from 'react-loaders';
+import Info from './components/Info.js'
+import Occupation from './components/Occupation.js';
+import Hobby from './components/Hobby.js'
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      authenticate: true,
       modal: false,
       nestedModal: false,
       closeAll: false,
-      hobbies:[],
-      listhHobbies: [],
-      authenticate: true,
-      username: '',
-      password: '',
-      fullName: '',
-      gender: '',
-      birthday: '',
-      height: 0,
-      weight: 0,
-      country: '',
-      knowledge: '',
-      work: '',
-      salary: '',
-      marialStatus: '',
-      introduce: '',
+      blocking: false,
+      user: {},
+      info: {},
+      occupation: {},
+      contact: {},
+      hobbies: [],
       avatar: '',
-    }
+      listhHobbies: [],
     
+    }
+
     this.toggle = this.toggle.bind(this);
     this.toggleNested = this.toggleNested.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
-    
+
   }
   toggle() {
     this.setState({
@@ -62,12 +58,13 @@ export default class Profile extends Component {
     });
   }
   checkAuth = () => {
-    checkAuthenticate().then((authenticate) => {
+    checkAuthenticate().then((response) => {
       this.setState({
-        authenticate: authenticate
+        authenticate: response.authentication,
+        user: response.data
       })
     })
-   
+
   }
   handleChange = (e) => {
     var options = e.target.options;
@@ -77,287 +74,82 @@ export default class Profile extends Component {
         value.push(options[i].value);
       }
     }
-    this.setState({hobbies: value})
-    console.log(this.state.hobbies);
+    this.setState({ hobbies: value })
   }
-  updateUser = () => {
-    const { fullName,gender,birthday,height,weight,country,
-    knowledge,work,salary,marialStatus,introduce,avatar, hobbies} = this.state;
+  updateUser = (user) => {
+    const userId = '5ada15893641188b507d3e8c';
+    //  const userId = '5ad5714687ec4927f8a0df26';
     _helper.fetchAPI(
-      '/users/update',
-      {fullName,gender,birthday,height,weight,country,
-        knowledge,work,salary,marialStatus,introduce,avatar,hobbies
-      },[],'PUT'
+      '/users/' + userId,
+      user , [], 'PUT'
     )
-    .then((response) => {
-      const {data, status} = response;
-      console.log(JSON.stringify(data) + status);
-    })
+      .then((response) => {
+        const { data, status } = response;
+        console.log(JSON.stringify(data) + status);
+        this.getUser();
+      })
   }
   getHobby = () => {
     _helper.fetchGET('/hobbies')
-    .then((response) => {
-      const { data , status} = response;
-      this.setState({listhHobbies: data})
-    })
-
-  } 
-  getUser = () => {
-    _helper.fetchGET('/users')
-    .then((response) => {
-      const {fullName, gender, birthday, height, weight,country,
-        knowledge, work, salary, marialStatus, introduce, avatar, hobbies } = response.data;
-      if(response.status == 200) {
-        this.setState({
-          fullName,
-          gender,
-          birthday: moment(birthday).format('YYYY-MM-DD'),
-          height,
-          weight,
-          country,
-          knowledge,
-          work,
-          salary,
-          marialStatus,
-          introduce,
-          avatar,
-          hobbies
-        })
-        debugger
-      }
-    })
-
-  } 
-  componentDidMount() {
-    this.getHobby();
-    this.checkAuth();
-    this.getUser();
+      .then((response) => {
+        const { data, status } = response;
+        this.setState({ listhHobbies: data })
+      })
 
   }
+  getUser = () => {
+    const { user } = this.state;
+    _helper.fetchGET('/users/'+ user._id )
+      .then((response) => {
+        const { info, occupation, contact, hobbies, avatar } = response.data;
+        if (response.status == 200) {
+          this.setState({
+            info,
+            occupation,
+            contact,
+            hobbies,
+            avatar
+          })
+          
+        }
+      })
 
-  render(){
-    const {authenticate} = this.state;
-    const {fullName, gender, birthday, height, weight,country,
-      knowledge, work, salary, marialStatus, introduce, avatar} = this.state;
+  }
+  
+  componentDidMount() {
+    //this.getHobby();
+    this.getUser();
+    this.checkAuth();
+  }
 
+  render() {
+    const { authenticate, blocking, user } = this.state;
+    const { info, occupation, hobbies, contact, avatar } = this.state;
+   
     let xhtml = avatar ? avatar : '../../../assets/default-avatar.png';
-    if(!authenticate) {
-      debugger
+    if (!authenticate) {
       return <Redirect to='/login'></Redirect>
     }
     return (
       <div>
-        <Sidebar />
-        <Slide />
-        <Row>
-          <Col xs="4">
-            <img src={xhtml} alt='avatar' />
-            <Button color="danger" onClick={this.toggle}>Edit Profile</Button>
-            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-              <ModalHeader toggle={this.toggle}>{fullName}</ModalHeader>
-              <ModalBody>
-                <img src={xhtml} alt='avatar' />
-                <FormGroup>
-                  <Input type="file" />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Full Name</Label>
-                  <Input type="text" placeholder="your fullname" value={fullName}
-                    onChange={(e) => {
-                      this.setState({ fullName: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Gender</Label>
-                  <Input type="text" placeholder="your gender" value={gender}
-                    onChange={(e) => {
-                      this.setState({ gender: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >DOB</Label>
-                  <Input type="date" placeholder="your gender" value={moment(birthday).format('YYYY-MM-DD')}
-                    onChange={(e) => {
-                      this.setState({ birthday: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Height</Label>
-                  <Input type="number" placeholder="your height" value={height}
-                    onChange={(e) => {
-                      this.setState({ height: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Weight</Label>
-                  <Input type="number" placeholder="your weight" value={weight}
-                    onChange={(e) => {
-                      this.setState({ weight: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Country</Label>
-                  <Input type="text" placeholder="your country" value={country}
-                    onChange={(e) => {
-                      this.setState({ country: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Knowledge</Label>
-                  <Input type="text" placeholder="your Knowledge" value={knowledge}
-                    onChange={(e) => {
-                      this.setState({ knowledge: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Work</Label>
-                  <Input type="text" placeholder="your work" value={work}
-                    onChange={(e) => {
-                      this.setState({ work: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Salary</Label>
-                  <Input type="number" placeholder="your salary" value={salary}
-                    onChange={(e) => {
-                      this.setState({ salary: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Marial Status</Label>
-                  <Input type="text" placeholder="your marial status" value={marialStatus}
-                    onChange={(e) => {
-                      this.setState({ marialStatus: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Introduce</Label>
-                  <Input type="text" placeholder="your introduce" value={introduce}
-                    onChange={(e) => {
-                      this.setState({ introduce: e.target.value })
-                    }} />
-                </FormGroup>
-                <FormGroup>
-                  <Label >Select your hobby</Label>
-                  <Input type="select" multiple onChange={(e) => this.handleChange(e)} >
-                    {this.state.listhHobbies.map((item) =>
-                      <option key={item._id} value={item._id} >{item.content}</option>
-                    )
-                    }
-                  </Input>
-                </FormGroup>
-                <Button color="success"
-                  //onClick={this.updateUser}
-                  onClick={this.toggleNested}
-                >Show Nested Model</Button>
-                <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                  <ModalHeader>Nested Modal title</ModalHeader>
-                  <ModalBody>Stuff and things</ModalBody>
-                  <ModalFooter>
-                    <Button color="primary" onClick={this.toggleNested}>Done</Button>{' '}
-                    <Button color="secondary" onClick={this.toggleAll}>All Done</Button>
-                  </ModalFooter>
-                </Modal>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={this.updateUser} >Save</Button>{' '}
-                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-              </ModalFooter>
-            </Modal>
-          </Col>
-          <Col xs="8">
-            <FormGroup>
-              <Label >Full Name: </Label>
-              <Input type="text" placeholder="your fullname" value={fullName}
-                onChange={(e) => {
-                  this.setState({ fullName: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Gender</Label>
-              <Input type="text" placeholder="your gender" value={gender}
-                onChange={(e) => {
-                  this.setState({ gender: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >DOB</Label>
-              <Input type="date" placeholder="your gender" value={moment(birthday).format('YYYY-MM-DD')}
-                onChange={(e) => {
-                  this.setState({ birthday: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Height</Label>
-              <Input type="number" placeholder="your height" value={height}
-                onChange={(e) => {
-                  this.setState({ height: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Weight</Label>
-              <Input type="number" placeholder="your weight" value={weight}
-                onChange={(e) => {
-                  this.setState({ weight: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Country</Label>
-              <Input type="text" placeholder="your country" value={country}
-                onChange={(e) => {
-                  this.setState({ country: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Knowledge</Label>
-              <Input type="text" placeholder="your Knowledge" value={knowledge}
-                onChange={(e) => {
-                  this.setState({ knowledge: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Work</Label>
-              <Input type="text" placeholder="your work" value={work}
-                onChange={(e) => {
-                  this.setState({ work: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Salary</Label>
-              <Input type="number" placeholder="your salary" value={salary}
-                onChange={(e) => {
-                  this.setState({ salary: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Marial Status</Label>
-              <Input type="text" placeholder="your marial status" value={marialStatus}
-                onChange={(e) => {
-                  this.setState({ marialStatus: e.target.value })
-                }}
-                disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label >Introduce</Label>
-              <Input type="text" placeholder="your introduce" value={introduce}
-                onChange={(e) => {
-                  this.setState({ introduce: e.target.value })
-                }} disabled />
-            </FormGroup>
-            <FormGroup>
-              <Label > your hobby</Label>
-              <Input type="select" multiple disabled>
-                {this.state.hobbies.map((item, a) =>
-                  <option key={item._id}>{a + 1}.{item._id}</option>
-                )
-                }
-              </Input>
-            </FormGroup>
-          </Col>
-        </Row>
+        <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>
+          <Sidebar  user={user} />
+          <Slide />
+          <Row>
+            <Col xs="4">
+              <img src={xhtml} alt='avatar' />
+              <Button color="danger" onClick={this.toggle}>Edit Profile</Button>
+            </Col>
+            <Col xs="9">
+              {/* <Info info={info} avatar={avatar} updateUser={this.updateUser} /> */}
+              <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
+              {/* <Hobby hobbies={hobbies} updateUser={this.updateUser} /> */}
+            </Col>
+          </Row>
+        </BlockUi>
       </div>
-      
+
     )
-   
   }
 }
+

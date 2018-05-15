@@ -29,17 +29,26 @@ var likedUsers = {
 	},
 
 	createLikedUser: (req, res) => {
-		var newLikedUser = new LikedUser(req.body);
-		newLikedUser.save((err, data) => {
-			if(err)
-				res.json({ result: 0, msg: `Error while creating request!`, data: {} });
-			else{
-				User.findOneAndUpdate({_id: req.body.likedBy}, {$push: {"likedUsers": req.body.userID}}, (err1, data1)=>{
-					if (err1 || !data1)
-						res.json({ result: 0, msg: `Error while adding request!`, data: {} });
-					else
-						res.json({ result: 1, msg: "Add request successful!", data: data || {} });
-				});	
+		User.findOne({ $and:[{'_id': req.body.likedBy}, {'friends': req.body.userID}]},
+        (err, friend)=>{
+            if(friend)
+                res.json({ result: 0, msg: "You are already friend with this person!", data: friend || {} });
+            else
+            {
+                var newLikedUser = new LikedUser(req.body);
+                newLikedUser.save((err, data) => {
+                    if(err)
+                        res.json({ result: 0, msg: `Error while creating request!`, data: {} });
+                    else{
+                        User.findOneAndUpdate({_id: req.body.likedBy}, {$push: {"likedUsers": req.body.userID}}, (err1, data1)=>{
+                            if (err1 || !data1)
+                                res.json({ result: 0, msg: `Error while adding request!`, data: {} });
+                            else
+                                res.json({ result: 1, msg: "Add request successful!", data: data || {} });
+                        });    
+                    }
+                });
+
 			}
 		});
 	},

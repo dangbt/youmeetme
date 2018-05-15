@@ -48,11 +48,13 @@ var ChatRoom = mongoose.model('ChatRoom');
 		// if the room existed and sender in that room
 		ChatRoom.find({
             $and: [
-                { '_id': req.body.roomID }, { $in:{ 'participants': req.body.senderID } }
+				{ '_id': req.body.roomID }, { 'participants': req.body.senderID}
+
             ]
         }, (err, data) => {
 			if(err || !data)
-				res.json({ result: 0, msg: "Can't find room or you don't have permission!", data: {} });
+			res.json({ result: 0, msg: "Can't find room or you don't have permission!", data: err });
+			
 			else{
 				// adding message with roomID
 				var newMessage = new Message(req.body);

@@ -1,90 +1,40 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, CardImg, CardTitle, CardText, CardDeck,
-  CardSubtitle, CardBody } from 'reactstrap';
+import {
+  Card, Button, CardImg, CardTitle, CardText, CardDeck,
+  CardSubtitle, CardBody
+} from 'reactstrap';
+import styled from 'styled-components'
+const CardWrapper = styled(Card) `
+  border: none !important;
+  width:280px;
+  height:350px;
+  margin: 0 20px;
+`;
+const CardImgWrapper = styled(CardImg)`
+  height: 250px ;
+`;
+
 export default class Item extends Component {
 
-  render(){
-    const xs = 6, md = 4, lg = 3;
+  render() {
+    const { user, addFriend } = this.props;
+    var imgSrc = user.avatar ? user.avatar : "../../../../assets/default-avatar.png";
+
     return (
       <div>
-        <CardDeck>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=256" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=256" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97256&w=256&h=256" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=256  " alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-          </CardDeck>
-          <CardDeck>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-              <Card>
-                <CardImg top width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180" alt="Card image cap" />
-                <CardBody>
-                  <CardTitle>Card title</CardTitle>
-                  <CardSubtitle>Card subtitle</CardSubtitle>
-                  <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</CardText>
-                  <Button>Button</Button>
-                </CardBody>
-              </Card>
-          </CardDeck>
+        <CardWrapper>
+          <CardImgWrapper src={imgSrc} alt="Card image cap" />
+          <CardBody>
+            <CardTitle>{user.info.fullName}</CardTitle>
+            <CardSubtitle>{user.info.fullName}</CardSubtitle>
+            <CardText>Thích màu hông ghét sự dối trá</CardText>
+            <Button>Like</Button>
+            <Button onClick={()=> addFriend(user._id)} >Add Friend</Button>
+          </CardBody>
+        </CardWrapper>
       </div>
+
     )
   }
 }

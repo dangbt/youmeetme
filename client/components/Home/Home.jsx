@@ -12,15 +12,18 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      authenticate: false
+      authenticate: true,
+      user: {},
     }
   }
 
   checkAuth = () => {
-    checkAuthenticate().then((authenticate) => {
+    checkAuthenticate().then((response) => {
       this.setState({
-        authenticate: authenticate
+        authenticate: response.authentication,
+        user: response.data
       })
+      
 
     })
   }
@@ -28,7 +31,7 @@ export default class Home extends Component {
     this.checkAuth();
   }
   render(){
-    const {authenticate} = this.state;
+    const { authenticate , user} = this.state;
     if (!authenticate) {
       return (
         <Redirect to={'/login'}></Redirect>
@@ -36,9 +39,10 @@ export default class Home extends Component {
     }
     return (
       <div className='home-page'>
-        <Sidebar  />
+        <Sidebar  user={user} />
         <Slide />
         <TabHome />
+        <footer style={{ height: '100px' }}></footer>
       </div>  
     )
   }

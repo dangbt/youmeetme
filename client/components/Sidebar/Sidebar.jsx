@@ -72,6 +72,7 @@ export default class Sidebar extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
   render(){
+    const { user } = this.props;
     return (
       <div>
         <Navbar color="black"  expand="md"   className={this.state.hasScrolled ? 'onscroll' : null} >
@@ -87,7 +88,7 @@ export default class Sidebar extends Component {
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Username
+                  {user.username }
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
