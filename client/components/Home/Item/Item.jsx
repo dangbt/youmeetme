@@ -18,17 +18,19 @@ const CardImgWrapper = styled(CardImg)`
 export default class Item extends Component {
 
   render() {
-    const { user } = this.props;
+    const { user, addFriend } = this.props;
     var imgSrc = user.avatar ? user.avatar : "../../../../assets/default-avatar.png";
+
     return (
       <div>
         <CardWrapper>
           <CardImgWrapper src={imgSrc} alt="Card image cap" />
           <CardBody>
-            <CardTitle>{user._id}</CardTitle>
-            <CardSubtitle>Card subtitle</CardSubtitle>
-            <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
-            <Button>Button</Button>
+            <CardTitle>{user.info.fullName}</CardTitle>
+            <CardSubtitle>{user.info.fullName}</CardSubtitle>
+            <CardText>Thích màu hông ghét sự dối trá</CardText>
+            <Button>Like</Button>
+            <Button onClick={()=> addFriend(user._id)} >Add Friend</Button>
           </CardBody>
         </CardWrapper>
       </div>

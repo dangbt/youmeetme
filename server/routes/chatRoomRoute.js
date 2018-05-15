@@ -8,7 +8,8 @@ module.exports = (app) => {
     */
     router.get('/chatRooms', chatRoomController.getAll)
     router.get('/roomofuser', chatRoomController.getAllOfOne)
-    .post('/chatRooms', chatRoomController.createChatRoom);
+    router.post('/chatRooms', chatRoomController.createChatRoom);     //body: senderID, recipientID
+    router.post('/chatRooms/byUser', chatRoomController.getRoomByUser);     //body: _id
     router.get('chatRooms/:id', chatRoomController.getOne);
     router.put('chatRooms/:id', chatRoomController.updateChatRoom);
     router.delete('/chatRooms', chatRoomController.deleteChatRoom);

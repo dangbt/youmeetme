@@ -4,22 +4,26 @@ var Message = mongoose.model('Message');
 
 var chatRooms = {
 	getAll: (req, res) => {
-		ChatRoom.find({}).populate('Message').exec((err, chatRooms) => {
+		ChatRoom.find({}).exec((err, chatRooms) => {
 			if (err)
 				res.send(err);
 			res.json(chatRooms);
 		})
 	},
 
-	getOne: (req, res) => {
-		ChatRoom.findOne({ id: req.params.id }, (err, chatRoom) => {
+	getRoomByUser: (req, res) => {
+		ChatRoom.find({ 'participants': req.body._id }, (err, chatRoom) => {
+
 			if (err)
-				res.send(err);
-			res.json(chatRoom);
+				res.json({ result: 0, msg: "Server Error", data: { err } });
+			else {
+				res.json({ result: 1, msg: "", data: chatRoom || {} });
+			}
+
 		})
 	},
 	getAllOfOne: (req, res) => {
-		ChatRoom.find({ $in: [{ 'participants': req.session.user._id }] }, ( err, rooms) => {
+		ChatRoom.find({ $in: [{ 'participants': req.session.user._id }] }, (err, rooms) => {
 			if (err)
 				res.send(err);
 			res.json(rooms)
@@ -36,19 +40,21 @@ var chatRooms = {
 	},
 
 	createChatRoom: (req, res) => {
-		ChatRoom.find({ $in: [{ 'participants': req.session.user._id }, { 'participants': req.body.recipientID }] },
+		ChatRoom.find({ $and: [{ 'participants': req.body.senderID }, { 'participants': req.body.recipientID }] },
+
 			(err, data) => {
 				if (data)
 					res.json({ result: 0, msg: "Room existed", data: data || {} });
-				else
+				else {
 					var body = [];
-				body = [req.session.user._id, req.body.recipientID];
-				ChatRoom.create({ participants: body }, (err, room) => {
-					if (err || !room)
-						res.json({ result: 0, msg: "Error while create Room!", data: {} });
-					else
-						res.json({ result: 1, msg: "Add Room successful!", data: room || {} });
-				});
+					body = [req.session.user._id, req.body.recipientID];
+					ChatRoom.create({ participants: body }, (err, room) => {
+						if (err || !room)
+							res.json({ result: 0, msg: "Error while create Room!", data: {} });
+						else
+							res.json({ result: 1, msg: "Add Room successful!", data: room || {} });
+					});
+				}
 			});
 	},
 	//findByIdAndRemove luôn dùng _id

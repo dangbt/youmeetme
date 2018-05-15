@@ -34,10 +34,10 @@ app.use(cors({
 app.use(session({
     secret: 'youmeetme',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     httpOnly: true,
     cookie: {
-        maxAge: 15 * 60 * 100000000,
+        maxAge: 15 * 60 * 1000,
         url: 'mongodb://localhost/youmeetme',
         ttl: 15 * 60,
     }

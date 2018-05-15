@@ -35,7 +35,19 @@ export default class ListItem extends Component {
       })
 
   }
-  componentWillMount() {
+  addFriend = (userID) => {
+    _helper.fetchAPI(
+      '/users/addFriend', {userID :userID  },[], 'POST'
+    )
+    .then((response) => {
+      const { status, data } = response;
+      debugger
+      if( status == 200 ) {
+        console.log( data );
+      } 
+    })
+  }
+  componentDidMount() {
     this.getUser();
   }
   render() {
@@ -46,7 +58,7 @@ export default class ListItem extends Component {
       <DidWrapper>
         <GroupWrapper>
         { listUser && listUser.map((user, i) => {
-          return <Item user={user} key={user._id} />
+          return <Item addFriend={this.addFriend} user={user} key={user._id} />
         })}
         </GroupWrapper>
       </DidWrapper>

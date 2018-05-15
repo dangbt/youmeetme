@@ -84,13 +84,13 @@ var users = {
 	},
 
 	addFriend: (req, res) =>{
-		if(!req.body._id || !req.body.userID)
+		if(!req.session.user._id || !req.body.userID)
 			return res.json({result: 0, msg: `Param not correct!`, data: {}});
-		User.findOneAndUpdate({_id: req.body._id}, {$push: {"friends": req.body.userID}}, (err, data) =>{
+		User.findOneAndUpdate({_id: req.session.user._id}, {$push: {"friends": req.body.userID}}, (err, data) =>{
 			if(err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
 			else{
-				User.findOneAndUpdate({_id: req.body.userID}, {$push: {"friends": req.body._id}}, (err1, data1)=>{
+				User.findOneAndUpdate({_id: req.body.userID}, {$push: {"friends": req.session.user._id	}}, (err1, data1)=>{
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while adding friend!`, data: {} });
 					else
