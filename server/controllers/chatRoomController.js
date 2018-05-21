@@ -4,7 +4,7 @@ var Message = mongoose.model('Message');
 
 var chatRooms = {
 	getAll: (req, res) => {
-		ChatRoom.find({}).exec((err, chatRooms) => {
+		ChatRoom.find({}).populate({path: 'participants', select: 'info avatar'}).exec((err, chatRooms) => {
 			if (err)
 				res.send(err);
 			res.json(chatRooms);
@@ -12,7 +12,7 @@ var chatRooms = {
 	},
 
 	getRoomByUser: (req, res) => {
-		ChatRoom.find({ 'participants': req.body._id }, (err, chatRoom) => {
+		ChatRoom.find({ 'participants': req.session.user._id }).populate({path: 'participants', select: 'info avatar'}).exec ((err, chatRoom) => {
 
 			if (err)
 				res.json({ result: 0, msg: "Server Error", data: { err } });
@@ -40,22 +40,26 @@ var chatRooms = {
 	},
 
 	createChatRoom: (req, res) => {
-		ChatRoom.find({ $and: [{ 'participants': req.body.senderID }, { 'participants': req.body.recipientID }] },
-
-			(err, data) => {
-				if (data)
-					res.json({ result: 0, msg: "Room existed", data: data || {} });
+		let body = [];
+		if (req.body.recipientID === req.session.user._id)
+			body.push(req.session.user._id);
+		else
+			body = [req.session.user._id, req.body.recipientID];
+		ChatRoom.find({ $and: [{ participants: { $all: body } }, { participants: { "$size": body.length } }] }, (err, room) => {
+		
+			if (room.length > 0) {
+				res.json({ result: 0, msg: "Room existed", data: room[0] });
+				}
 				else {
-					var body = [];
-					body = [req.session.user._id, req.body.recipientID];
-					ChatRoom.create({ participants: body }, (err, room) => {
-						if (err || !room)
+					ChatRoom.create({ participants: body }, (err1, room) => {
+						if (err1 || !room)
 							res.json({ result: 0, msg: "Error while create Room!", data: {} });
 						else
 							res.json({ result: 1, msg: "Add Room successful!", data: room || {} });
 					});
 				}
 			});
+
 	},
 	//findByIdAndRemove luôn dùng _id
 	deleteChatRoom: (req, res) => {

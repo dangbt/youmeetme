@@ -11,7 +11,7 @@ module.exports = (app) => {
     router.get('messages/:id', messageController.getOne);
     router.put('messages/:id', messageController.updateMessage);
     router.delete('/messages', messageController.deleteMessage);
-    router.get('/messages/byRoom/:id', messageController.getMessageByRoom);
+    router.post('/messages/byRoom', messageController.getMessageByRoom);
     
     // prefixed all of routes with /api
     app.use('/api', router);

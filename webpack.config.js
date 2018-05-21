@@ -63,7 +63,11 @@ module.exports = {
           }
         ]
       },
-      { test: /\.svg$/, loader: 'svg-inline' },
+     
+      {
+        test: /\.(ttf|eot|svg|woff(2)?)(\S+)?$/,
+        loader: 'file-loader?publicPath=/&name=fonts/[name].[ext]'
+    },
     ]
   },
   performance: {

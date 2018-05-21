@@ -12,7 +12,9 @@ import {
     Collapse,
     Col,
     Row,
-    UncontrolledTooltip
+    UncontrolledTooltip,
+    InputGroup,
+    InputGroupAddon
 } from 'reactstrap';
 import { _helper } from '../../Function/API';
 
@@ -80,31 +82,132 @@ export default class Info extends Component {
         this.props.updateUser(user);
         this.toggleModal();
     }
+    renderInput = (label, props) => {
+        if (!props) {
+            return (<FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value='No data' disabled />
+                </InputGroup>
+            </FormGroup>)
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value={props} disabled />
+                </InputGroup>
+            </FormGroup>
+        )
+    }
+    renderInputNumber = (label, props) => {
+        if (!props) {
+            return (<FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value='No data' disabled />
+                </InputGroup>
+            </FormGroup>)
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input placeholder="Amount" type="number" step="1" value={props}
+                        disabled />
+                    <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
+                </InputGroup>
+            </FormGroup>
+        )
+    }
+    renderInputBOD = (label, props) => {
+        if (!props) {
+            return (<FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value='No data' disabled />
+                </InputGroup>
+            </FormGroup>)
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='date' value={moment(props).format('YYYY-MM-DD')} disabled />
+                </InputGroup>
+            </FormGroup>
+        )
+    }
+
+    renderInputChange = (label, type, props, onChange) => {
+        if (type == 'date') {
+            return (
+                <FormGroup>
+                    <Label >{label}</Label>
+                    <InputGroup>
+                        <Input type='date' value={moment(props).format('YYYY-MM-DD')} onChange={(e) => onChange(e)} />
+                    </InputGroup>
+                </FormGroup>)
+        }
+        if (type == 'number') {
+            return (
+                <FormGroup>
+                    <Label >{label}</Label>
+                    <InputGroup>
+                        <Input placeholder="number" type="number" step="1" value={props} onChange={(e) => onChange(e)}
+                        />
+                        <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
+                    </InputGroup>
+                </FormGroup>
+            )
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value={props} onChange={(e) => onChange(e)} />
+                </InputGroup>
+            </FormGroup>
+        )
+
+    }
+    renderInputChangeSelect = (label, data, props, onChange ) => {
+        return (
+            <FormGroup>
+                <Label>{label}</Label>
+                <Input type="select" value={props} onChange={(e) => onChange(e)} >
+                    {data.map((item, i) => {
+                        return <option key={i}>{item}</option>
+                    })}
+                </Input>
+            </FormGroup>
+        )
+    }
+
 
     componentWillReceiveProps(nextProps) {
-        const {info,avatar} = nextProps;
-        debugger
+        const { info, avatar } = nextProps;
         this.setState({
             fullName: info.fullName,
-            gender:info.gender,
+            gender: info.gender,
             birthday: info.birthday,
             height: info.height,
             weight: info.weight,
-            marialStatus:info.marialStatus,
+            marialStatus: info.marialStatus,
             knowledge: info.knowledge,
             country: info.country,
             avatar: avatar
-        })   
+        })
     }
 
 
     render() {
         const { info } = this.props;
-        
+
         const selectCountry = ['Cà Mau', 'TP.HCM', 'Hà Nội', 'Quãng Ngãi'];
+        const genderList = ['Male', 'Female']
         const { collapse, modal } = this.state;
         const { fullName, gender, birthday, height, weight, marialStatus, introduce, knowledge, address, country, avatar } = this.state;
-        console.log(fullName)
         let xhtml = avatar ? avatar : '../../../../assets/default-avatar.png';
         return (
             <div>
@@ -113,53 +216,19 @@ export default class Info extends Component {
                     Click to show
                 </UncontrolledTooltip >
                 <img src='' alt='Edit userInfo' onClick={this.toggleModal} />
-
                 <Collapse isOpen={collapse}>
                     <Row>
-                        <Col sx={6}>
-                            <FormGroup>
-                                <Label >Full Name: </Label>
-                                <Input type="text" placeholder="your fullname" value={info.fullName ? info.fullName : ''}
-                                    disabled />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label >Gender</Label>
-                                <Input type="text" placeholder="your gender" value={info.gender}
-                                    disabled />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label >DOB</Label>
-                                <Input type="date" placeholder="your gender" value={moment(info.birthday).format('YYYY-MM-DD')}
-                                    disabled />
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label >Country</Label>
-                                <Input type="text" placeholder="your country" value={info.country}
-                                    disabled />
-                            </FormGroup>
+                        <Col xs={6} >
+                            {info.fullName ? this.renderInput('FULL NAME', info.fullName) : this.renderInput('FULL NAME')}
+                            {info.gender ? this.renderInput('GENDER', info.gender) : this.renderInput('GENDER')}
+                            {info.birthday ? this.renderInputBOD('BOD', info.birthday) : this.renderInput('BOD')}
+                            {info.country ? this.renderInput('COUNTRY', info.country) : this.renderInput('COUNTRY')}
                         </Col>
-                        <Col sx={6} >
-                            <FormGroup>
-                                <Label >Height</Label>
-                                <Input type="text" placeholder="your height" value={info.height}
-                                    disabled />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label >Weight</Label>
-                                <Input type="text" placeholder="your weight" value={info.weight + 'KG'}
-                                    disabled />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label >Knowledge</Label>
-                                <Input type="text" placeholder="your Knowledge" value={info.knowledge}
-                                    disabled />
-                            </FormGroup>
-                            <FormGroup>
-                                <Label >Marial Status</Label>
-                                <Input type="text" placeholder="your marial status" value={info.marialStatus}
-                                    disabled />
-                            </FormGroup>
+                        <Col xs={6}>
+                            {info.height ? this.renderInputNumber('HEIGHT', info.height) : this.renderInputNumber('HEIGHT')}
+                            {info.weight ? this.renderInputNumber('WEIGHT', info.weight) : this.renderInputNumber('WEIGHT')}
+                            {info.knowledge ? this.renderInput('KNOWLEDGE', info.knowledge) : this.renderInput('KNOWLEDGE')}
+                            {info.marialStatus ? this.renderInput('MARIALSTATUS', info.marialStatus) : this.renderInput('MARIALSTATUS')}
                         </Col>
                     </Row>
                 </Collapse>
@@ -170,89 +239,18 @@ export default class Info extends Component {
                             <Col xs="6">
                                 <img src={xhtml} alt='avatar' className='img-thumbnail' />
                                 <input type='file' onChange={(e) => this.handleChangeImage(e)} />
-                                <FormGroup>
-                                    <Label >Full Name: </Label>
-                                    <Input type="text" placeholder="your fullname" value={fullName}
-                                        onChange={(e) => {
-                                            this.setState({ fullName: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <Label >Gender</Label>
-                                    <Input type="text" placeholder="your gender" value={gender}
-                                        onChange={(e) => {
-                                            this.setState({ gender: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label >DOB</Label>
-                                    <Input type="date" placeholder="your gender" value={moment(birthday).format('YYYY-MM-DD')}
-                                        onChange={(e) => {
-                                            this.setState({ birthday: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-
-
+                                {this.renderInputChange('FULLNAME', '', fullName, (e) => this.setState({ fullName: e.target.value }))}
+                                   {this.renderInputChangeSelect('GENDER',genderList, gender, (e) => this.setState({ gender: e.target.value }) )}
+                                {this.renderInputChange('BOD', 'date', birthday, (e) => this.setState({ birthday: e.target.value }))}
                             </Col>
                             <Col xs='6'>
-                                <FormGroup>
-                                    <Label >Height</Label>
-                                    <Input type="text" placeholder="your height" value={height}
-                                        onChange={(e) => {
-                                            this.setState({ height: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label >Weight: (Kg)</Label>
-                                    <Input type="number" placeholder="your weight" value={weight}
-                                        onChange={(e) => {
-                                            this.setState({ weight: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label>Country</Label>
-                                    <Input type="select" value={country} onChange={(e) => this.handleChangeSelect(e)} >
-                                        {selectCountry.map((country, i) => {
-                                            return <option key={i}>{country}</option>
-                                        })}
-                                    </Input>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label >Knowledge</Label>
-                                    <Input type="text" placeholder="your Knowledge" value={knowledge}
-                                        onChange={(e) => {
-                                            this.setState({ knowledge: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label >Marial Status</Label>
-                                    <Input type="text" placeholder="your marial status" value={marialStatus}
-                                        onChange={(e) => {
-                                            this.setState({ marialStatus: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
+                                {this.renderInputChange('HEIGHT', 'number', height, (e) => this.setState({ height: e.target.value }))}
+                                {this.renderInputChange('WEIGHT', 'number', weight, (e) => this.setState({ weight: e.target.value }))}
+                                {this.renderInputChangeSelect('COUNTRY',selectCountry, country,  (e) => this.setState({ gender: e.target.value }))}
+                                {this.renderInputChange('KNOWLEDGE', '', knowledge, (e) => this.setState({ knowledge: e.target.value }))}
+                                {this.renderInputChange('MARIALSTATUS', '', marialStatus, (e) => this.setState({ marialStatus: e.target.value }))}
                             </Col>
                         </Row>
-                        <Button color="success"
-                            //onClick={this.updateUser}
-                            onClick={this.toggleNested}
-                        >Show Nested Model</Button>
-                        <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                            <ModalHeader>Nested Modal title</ModalHeader>
-                            <ModalBody>Stuff and things</ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={this.toggleNested}>Done</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleAll}>All Done</Button>
-                            </ModalFooter>
-                        </Modal>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.updateUser} >Save</Button>{' '}

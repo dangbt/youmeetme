@@ -24,7 +24,9 @@ module.exports = {
 								// will have a new session here
 								req.session.user = {
 									_id: data._id,
-									username: data.username
+									username: data.username,
+									fullName: data.info.fullName,
+									avatar: data.avatar
 								}
 								
 								res.status(200).end('Logged in successfully');
