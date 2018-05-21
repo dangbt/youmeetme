@@ -23,7 +23,7 @@ export default class Occupation extends Component {
         this.state = {
             collapse: false,
             modal: false,
-            work: 'your work',
+            work: '',
             salary: 0,
             email: '',
             phone: '',
@@ -73,8 +73,53 @@ export default class Occupation extends Component {
                 web_page: contact.web_page
             })
         }
+    }
+    renderInput = (label, type, props) => {
+        if (!props) {
+            return (<FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value='No data' disabled />
+                </InputGroup>
+            </FormGroup>)
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                {type ?
+                    <InputGroup>
+                        <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                        <Input placeholder="Amount" type="number" step="1" value={props}
+                            disabled />
+                        <InputGroupAddon addonType="append">.00</InputGroupAddon>
+                    </InputGroup>
+                    :
+                    <InputGroup>
+                        <Input type='text' value={props} disabled />
+                    </InputGroup>
+                }
 
-
+            </FormGroup>
+        )
+    }
+    renderInputChange = (label, type, props, onChange) => {
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                {type ?
+                    <InputGroup>
+                        <InputGroupAddon addonType="prepend">$</InputGroupAddon>
+                        <Input placeholder="Amount" type="number" step="1" value={props}
+                            onChange={(e) => onChange(e)} />
+                        <InputGroupAddon addonType="append">.00</InputGroupAddon>
+                    </InputGroup>
+                    :
+                    <InputGroup>
+                        <Input type='text' value={props} onChange={(e) => onChange(e)} />
+                    </InputGroup>
+                }
+            </FormGroup>
+        )
 
     }
 
@@ -90,100 +135,32 @@ export default class Occupation extends Component {
                 </UncontrolledTooltip >
                 <img src='' alt='Edit userOccupation' onClick={this.toggleModal} />
                 <Collapse isOpen={collapse}>
-                    <FormGroup>
-                        <Label >Work </Label>
-                        <Input type="text" placeholder='Enter your work' value={occupation.work}
-                            disabled />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label >Salary</Label>
-                        <InputGroup>
-                            <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-                            <Input placeholder="Amount" type="number" step="1" value={occupation.salary} disabled />
-                            <InputGroupAddon addonType="append">.00</InputGroupAddon>
-                        </InputGroup>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label >Email</Label>
-                        <Input type="text" placeholder='Enter your email' value={contact.email}
-                            disabled />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label >Phone</Label>
-                        <Input type="text" placeholder='Enter your phone' value={contact.phone}
-                            disabled />
-                    </FormGroup>
-                    <FormGroup>
-                        <Label >Web_Page</Label>
-                        <Input type="text" placeholder='Enter your web_page' value={contact.web_page}
-                            disabled />
-                    </FormGroup>
+                    {occupation ? <div>
+                        {occupation.work ? this.renderInput('WORK', '', occupation.work) : this.renderInput('WORK', '')}
+                        {occupation.salary ? this.renderInput('SALARY', 'number', occupation.salary) : this.renderInput('SALARY', '')}
+                        {contact.email ? this.renderInput('EMAIL', '', contact.email) : this.renderInput('EMAIL', '')}
+                        {contact.phone ? this.renderInput('PHONE', '', contact.phone) : this.renderInput('PHONE', '')}
+                        {contact.web_page ? this.renderInput('WEB_PAGE', '', contact.web_page) : this.renderInput('WEB_PAGE', '')}
+
+                    </div>
+                        :
+                        <div>No data</div>
+                    }
+
                 </Collapse>
+
                 <Modal isOpen={modal} toggle={this.toggleModal} className={this.props.className}>
                     <ModalHeader toggle={this.toggleModal} >User Occupation</ModalHeader>
                     <ModalBody>
                         <Row>
-                            <Col xs="6">
-                                <FormGroup>
-                                    <Label >Work: </Label>
-                                    <Input type="text" placeholder="your fullname" value={'work'}
-                                        onChange={(e) => {
-                                            this.setState({ work: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <Label >Salary:</Label>
-                                    <InputGroup>
-                                        <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-                                        <Input placeholder="Amount" type="number" step="1" value={salary}
-                                            onChange={(e) => {
-                                                this.setState({ salary: e.target.value })
-                                            }} />
-                                        <InputGroupAddon addonType="append">.00</InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                            </Col>
-                            <Col sx={6} >
-                                <FormGroup>
-                                    <Label >Email</Label>
-                                    <Input type="email" placeholder='Enter your email' value={email}
-                                        onChange={(e) => {
-                                            this.setState({ email: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label >Phone</Label>
-                                    <Input type="text" placeholder='Enter your phone' value={phone}
-                                        onChange={(e) => {
-                                            this.setState({ phone: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <Label >Web_Page</Label>
-                                    <Input type="text" placeholder='Enter your web_page' value={web_page}
-                                        onChange={(e) => {
-                                            this.setState({ web_page: e.target.value })
-                                        }}
-                                    />
-                                </FormGroup>
+                            <Col >
+                                {this.renderInputChange('WORK', '', work, (e) => this.setState({ work: e.target.value }))}
+                                {this.renderInputChange('SALARY', 'number', salary, (e) => this.setState({ salary: e.target.value }))}
+                                {this.renderInputChange('EMAIL', '', email, (e) => this.setState({ email: e.target.value }))}
+                                {this.renderInputChange('PHONE', '', phone, (e) => this.setState({ phone: e.target.value }))}
+                                {this.renderInputChange('WEB_PAGE', '', web_page, (e) => this.setState({ web_page: e.target.value }))}
                             </Col>
                         </Row>
-                        <Button color="success"
-                            //onClick={this.updateUser}
-                            onClick={this.toggleNested}
-                        >Show Nested Model</Button>
-                        <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                            <ModalHeader>Nested Modal title</ModalHeader>
-                            <ModalBody>Stuff and things</ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={this.toggleNested}>Done</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleAll}>All Done</Button>
-                            </ModalFooter>
-                        </Modal>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.updateUser} >Save</Button>{' '}

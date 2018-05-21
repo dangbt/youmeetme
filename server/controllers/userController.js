@@ -2,10 +2,11 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Hobby = mongoose.model('Hobby');
 var Address = mongoose.model('Address');
+var LikedUser = mongoose.model('LikedUser');
 
 var users = {
 	getAll: (req, res) => {
-		User.find({}).populate({path: 'hobbies', select: 'content'}).exec((err, users) => {
+		User.find({}).populate({ path: 'hobbies', select: 'content' }).exec((err, users) => {
 			if (err)
 				res.send(err);
 			res.json(users);
@@ -24,7 +25,7 @@ var users = {
 	getOne: (req, res) => {
 		User.findOne({
 			_id: req.session.user._id
-		}).populate({path: 'hobbies', select: 'content'}).exec( (err, user) => {
+		}).populate({ path: 'hobbies', select: 'content' }).exec((err, user) => {
 			if (err)
 				res.send(err);
 			res.json(user);
@@ -50,11 +51,11 @@ var users = {
 	},
 
 	addHobby: (req, res) => {
-		User.findOneAndUpdate({_id: req.body._id}, { $push: { "hobbies": req.body.hobby }}, (err, data) => {
+		User.findOneAndUpdate({ _id: req.body._id }, { $push: { "hobbies": req.body.hobby } }, (err, data) => {
 			if (err) {
 				res.json({ result: 0, msg: `Server error`, data: {} });
-			} else{
-				Hobby.findOneAndUpdate({_id: req.body.hobby}, {$push: {"whoLikeThis": {"userID": req.body._id}}}, (err1, data1) =>{
+			} else {
+				Hobby.findOneAndUpdate({ _id: req.body.hobby }, { $push: { "whoLikeThis": { "userID": req.body._id } } }, (err1, data1) => {
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while add hobby!`, data: {} });
 					else
@@ -63,17 +64,17 @@ var users = {
 			}
 		});
 	},
-	
-	removeHobby: (req, res) =>{
+
+	removeHobby: (req, res) => {
 		if (!req.body._id || !req.body.hobby)
 			return res.json({ result: 0, msg: `Param not correct!`, data: {} });
-		User.findOneAndUpdate({_id: req.body._id}, { $pull: { "hobbies": req.body.hobby}}, (err, data) => {
+		User.findOneAndUpdate({ _id: req.body._id }, { $pull: { "hobbies": req.body.hobby } }, (err, data) => {
 			if (err)
 				return res.json({ result: 0, msg: `Server error`, data: {} });
 			if (!data) {
 				res.json({ result: 0, msg: `Can't remove this hobby!`, data: {} });
-			} else{
-				Hobby.findByIdAndUpdate({_id: req.body.hobby}, { $pull: { "whoLikeThis": {"userID": req.body._id}}}, (err1, data1) =>{
+			} else {
+				Hobby.findByIdAndUpdate({ _id: req.body.hobby }, { $pull: { "whoLikeThis": { "userID": req.body._id } } }, (err1, data1) => {
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while remove hobby!`, data: {} });
 					else
@@ -83,33 +84,43 @@ var users = {
 		});
 	},
 
-	addFriend: (req, res) =>{
-		if(!req.session.user._id || !req.body.userID)
-			return res.json({result: 0, msg: `Param not correct!`, data: {}});
-		User.findOneAndUpdate({_id: req.session.user._id}, {$push: {"friends": req.body.userID}}, (err, data) =>{
-			if(err)
+	addFriend: (req, res) => {
+		if (!req.session.user._id || !req.body.userID)
+			return res.json({ result: 0, msg: `Param not correct!`, data: {} });
+		User.findOneAndUpdate({ _id: req.session.user._id }, { $push: { "friends": req.body.userID } }, (err, data) => {
+			if (err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
-			else{
-				User.findOneAndUpdate({_id: req.body.userID}, {$push: {"friends": req.session.user._id	}}, (err1, data1)=>{
+			else {
+				User.findOneAndUpdate({ _id: req.body.userID }, { $push: { "friends": req.session.user._id } }, (err1, data1) => {
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while adding friend!`, data: {} });
-					else
-						res.json({ result: 1, msg: "Add friend successful!", data: data || {} });
+					else {
+						LikedUser.find({ $and: [{ 'likedBy':req.session.user._id }, { 'userID':  req.body.userID}] })
+							.remove(err2 => {
+								if (err2) {
+									res.json({ result: 0, msg: `Server error`, data: {} });
+								}
+								else {
+									res.json({ result: 1, msg: "Add friend successful!", data: data || {} });
+								}
+							});	
+					}
+
 				});
 			}
 		});
 	},
 
-	removeFriend: (req, res) =>{
-		if(!req.body._id || !req.body.userID)
-			return res.json({result: 0, msg: `Param not correct!`, data: {}});
-		User.findOneAndUpdate({_id: req.body._id}, {$pull: {"friends": req.body.userID}}, (err, data) =>{
-			if(err)
+	removeFriend: (req, res) => {
+		if (!req.body._id || !req.body.userID)
+			return res.json({ result: 0, msg: `Param not correct!`, data: {} });
+		User.findOneAndUpdate({ _id: req.body._id }, { $pull: { "friends": req.body.userID } }, (err, data) => {
+			if (err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
-			if (!data) 
+			if (!data)
 				res.json({ result: 0, msg: `Can't remove this friend!`, data: {} });
-			else{
-				User.findOneAndUpdate({_id: req.body.userID}, {$pull: {"friends": req.body._id}}, (err1, data1)=>{
+			else {
+				User.findOneAndUpdate({ _id: req.body.userID }, { $pull: { "friends": req.body._id } }, (err1, data1) => {
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while removing friend!`, data: {} });
 					else
@@ -119,27 +130,27 @@ var users = {
 		});
 	},
 
-	blockUser: (req, res) =>{
-		if(!req.body._id || !req.body.userID)
-			return res.json({result: 0, msg: `Param not correct!`, data: {}});
-		User.findOneAndUpdate({_id: req.body._id}, {$push: {"listBlock": req.body.userID}}, (err, data) =>{
-			if(err)
+	blockUser: (req, res) => {
+		if (!req.body._id || !req.body.userID)
+			return res.json({ result: 0, msg: `Param not correct!`, data: {} });
+		User.findOneAndUpdate({ _id: req.body._id }, { $push: { "listBlock": req.body.userID } }, (err, data) => {
+			if (err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
-			else{
+			else {
 				res.json({ result: 1, msg: "Block user successful!", data: data || {} });
 			}
 		});
 	},
 
-	removeBlock: (req, res) =>{
-		if(!req.body._id || !req.body.userID)
-			return res.json({result: 0, msg: `Param not correct!`, data: {}});
-		User.findOneAndUpdate({_id: req.body._id}, {$pull: {"listBlock": req.body.userID}}, (err, data) =>{
-			if(err)
+	removeBlock: (req, res) => {
+		if (!req.body._id || !req.body.userID)
+			return res.json({ result: 0, msg: `Param not correct!`, data: {} });
+		User.findOneAndUpdate({ _id: req.body._id }, { $pull: { "listBlock": req.body.userID } }, (err, data) => {
+			if (err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
-			if (!data) 
+			if (!data)
 				res.json({ result: 0, msg: `Can't remove blocked user!`, data: {} });
-			else{
+			else {
 				res.json({ result: 1, msg: "Remove blocked user successful!", data: {} });
 			}
 		});
@@ -147,11 +158,11 @@ var users = {
 
 	//TODO: khi user change address chưa xử lí xóa người dùng bên Address
 	changeAddress: (req, res) => {
-		User.findOneAndUpdate({_id: req.body.userID}, {"info.address": req.body.addressID }, (err, data) => {
+		User.findOneAndUpdate({ _id: req.body.userID }, { "info.address": req.body.addressID }, (err, data) => {
 			if (err) {
 				res.json({ result: 0, msg: `Server error`, data: {} });
-			} else{
-				Address.findOneAndUpdate({_id: req.body.addressID}, {$push: {"whoInHere": req.body.userID}}, (err1, data1) =>{
+			} else {
+				Address.findOneAndUpdate({ _id: req.body.addressID }, { $push: { "whoInHere": req.body.userID } }, (err1, data1) => {
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while add User to Address!`, data: {} });
 					else

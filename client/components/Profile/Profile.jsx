@@ -76,12 +76,11 @@ export default class Profile extends Component {
     }
     this.setState({ hobbies: value })
   }
-  updateUser = (user) => {
-    const userId = '5ada15893641188b507d3e8c';
-    //  const userId = '5ad5714687ec4927f8a0df26';
+  updateUser = (userUpdate) => {
+    const { user } = this.state;
     _helper.fetchAPI(
-      '/users/' + userId,
-      user , [], 'PUT'
+      '/users/' +  user._id ,
+      userUpdate , [], 'PUT'
     )
       .then((response) => {
         const { data, status } = response;
@@ -137,16 +136,16 @@ export default class Profile extends Component {
           <Slide />
           <Row>
             <Col xs="4">
-              <img src={xhtml} alt='avatar' />
-              <Button color="danger" onClick={this.toggle}>Edit Profile</Button>
+              <img src={xhtml} alt='avatar' className='img-thumbnail  w-100' />
             </Col>
-            <Col xs="9">
-              {/* <Info info={info} avatar={avatar} updateUser={this.updateUser} /> */}
+            <Col xs="8">
+              <Info info={info} avatar={avatar} updateUser={this.updateUser} />
               <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
-              {/* <Hobby hobbies={hobbies} updateUser={this.updateUser} /> */}
+              <Hobby hobbies={hobbies} updateUser={this.updateUser} />
             </Col>
           </Row>
         </BlockUi>
+        <footer style={{ height: '100px' }}></footer>
       </div>
 
     )

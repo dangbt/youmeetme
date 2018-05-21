@@ -2,7 +2,9 @@ import React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import ListItem from '../ListItem/ListItem.jsx';
+import ListItem from './components/ListItem.jsx';
+import Search from './components/Search/index.jsx'
+import WhoLikeMe from './components/WhoLikeMe.jsx'
 
 Nav.propTypes = {
     tabs: PropTypes.bool,
@@ -126,39 +128,11 @@ export default class TabHome extends React.Component {
           </TabPane>
           <TabPane tabId="3">
             <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
+              <WhoLikeMe/>
             </Row>
           </TabPane>
           <TabPane tabId="4">
-            <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-            </Row>
+            <Search/>
           </TabPane>
         </TabContent>
       </div>

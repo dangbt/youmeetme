@@ -88,7 +88,7 @@ export default class Sidebar extends Component {
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  {user.username }
+                  {user.fullName }
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>

@@ -10,6 +10,8 @@ module.exports = (app) => {
     router.get('/likedUsers', likedUserController.getAll)
     router.post('/likedUsers', likedUserController.createLikedUser); // body: userID, likedBy, message
     router.get('likedUsers/:id', likedUserController.getOne);
+    router.get('/usersLikeMe', likedUserController.getUserLikeMe); // body: _id
+    router.post('/users/likedUser', likedUserController.getLikedUser); // body: _id
     router.put('likedUsers/:id', likedUserController.updateLikedUser);
     router.delete('/likedUsers', likedUserController.deleteLikedUser);
     

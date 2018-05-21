@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar.jsx';
-import ListItem from './ListItem/ListItem.jsx';
-import TabHome from './TabHome/TabHome.jsx'
+import TabHome from './TabHome.jsx'
 import Slide from '../SlideAdvertisement/Slide.jsx'
 import './Home.scss'
-import checkAuthenticate from '../Function/checkAuthenticate'
+import checkAuthenticate from '../Function/checkAuthenticate';
+
 
 
 export default class Home extends Component {
@@ -41,7 +41,7 @@ export default class Home extends Component {
       <div className='home-page'>
         <Sidebar  user={user} />
         <Slide />
-        <TabHome />
+        <TabHome user={user} />
         <footer style={{ height: '100px' }}></footer>
       </div>  
     )

@@ -37,24 +37,13 @@ var userSchema = Schema({
 	images: [
 		{ type: Schema.Types.ObjectId, ref: 'Image' }
 	],
-	notifications: [
-		{ type: Schema.Types.ObjectId, ref: 'Notification' }
-	],
 	friends: [
 		{ type: Schema.Types.ObjectId, ref: 'User' }
-	],
-	listChat: [
-		{ roomID: {type: Schema.Types.ObjectId, ref: 'ChatRoom'},
-			friendName: String,
-			friendImage: String
-		}
 	],
 	listBlock: [
 		{ type: Schema.Types.ObjectId, ref: 'User' }
 	],
-	likedUsers: [
-		{ type: Schema.Types.ObjectId, ref: 'User' }
-	]
+	
 },
 	{ timestamps: true} // Saves createdAt and updatedAt as dates. createdAt will be our timestamp.
 );

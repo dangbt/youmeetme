@@ -66,13 +66,19 @@ var roomChat = '';
 io.on('connection', (socket) => {
     console.log('User connected')
     socket.on('create-room', (room) => {
+        // var rooms = io.sockets.adapter.sids[socket.id]; 
+        // for(var rm in rooms) { socket.leave(rm); }
+        socket.roomName = room;
+        roomChat = room;
         socket.join(room);
-        socket.emit('receivedMessage', socket.adapter.rooms)
+        socket.emit('receivedMessage', { roomName : socket.roomName})
     })
     socket.on('message', (msg) => {
-        io.in('room').emit('server-send-msg-to-client', msg)
+        io.in(roomChat).emit('server-send-msg-to-client', msg)
     })
-    socket.emit('receivedMessage', socket.adapter.rooms)
+    socket.on('leave-room', () => {
+        socket.leave(roomChat)
+    })
     io.on('disconnect', (socket) => {
     })
 })

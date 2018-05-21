@@ -70,7 +70,6 @@ export default class Hobby extends Component {
         const { collapse, modal, } = this.state;
         const { listHobbies, valueSelect } = this.state;
         const { hobbies } = this.props;
-        console.log(hobbies)
         return (
             <div>
                 <label onClick={this.toggleCollapse} style={{ fontSize: '3vw' }} className="h1 text-primary btn" id='userHobby' ><u>*User Hobby</u></label>
@@ -84,7 +83,7 @@ export default class Hobby extends Component {
                         <Col sx={6}>
                             <Label >Your hobbies: </Label>
                             {
-                                hobbies === null ? <Label>Your are Caryze</Label> :
+                                hobbies === null ? <Input type='text' value='No data' disabled /> :
                                     hobbies && hobbies.map((item, i) => {
                                         return <Input type="text" placeholder="your hobby" value={(i + 1) + '. ' + item.content}
                                             key={item} disabled />
@@ -118,19 +117,6 @@ export default class Hobby extends Component {
                                 }
                             </Input>
                         </FormGroup>
-
-                        <Button color="success"
-                            //onClick={this.updateUser}
-                            onClick={this.toggleNested}
-                        >Show Nested Model</Button>
-                        <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                            <ModalHeader>Nested Modal title</ModalHeader>
-                            <ModalBody>Stuff and things</ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={this.toggleNested}>Done</Button>{' '}
-                                <Button color="secondary" onClick={this.toggleAll}>All Done</Button>
-                            </ModalFooter>
-                        </Modal>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.updateUser} >Save</Button>{' '}
