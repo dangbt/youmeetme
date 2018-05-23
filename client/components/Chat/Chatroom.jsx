@@ -102,7 +102,7 @@ export default class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-   // this.props.registerHandler(this.onMessageReceived)
+    this.props.registerHandler(this.onMessageReceived)
    this.scrollChatToBottom()
 
     _helper.fetchAPI('/messages/byRoom',
@@ -133,21 +133,25 @@ export default class Chatroom extends React.Component {
   }
 
   onSendMessage() {
-    const { input } = this.state;
-    if (!input)
+    if (!this.state.input)
       return
-      
-      
-      debugger
-    return this.state.client.message(input, this.props.roomName)
+
+    this.props.onSendMessage(this.state.input, (err) => {
+      if (err)
+        return console.error(err)
+
+      return this.setState({ input: '' })
+    })
   }
+
+ 
   onLeave =  () => {
-    return this.state.client.leave()
+    return this.state.client.leave( this.props.chatroom._id)
   }
 
   onMessageReceived(entry) {
     console.log('onMessageReceived:', entry)
-    this.updateChatHistory(entry)
+   // this.updateChatHistory(entry)
   }
 
   updateChatHistory(entry) {
@@ -159,8 +163,11 @@ export default class Chatroom extends React.Component {
   }
 
   render() {
-    const { listMessage } = this.state;
-    console.log(this.state.listMessage)
+    const { listMessage, client } = this.state;
+    
+    console.log('nhan-tn :  ' + client.receivedMessage());
+    console.log('message :  ' + client.receivedMessageFromServer(this.props.chatroom._id));
+    
     return (
       <div style={{ height: '100%', background: 'black', opacity: 0.7 }}>
         <ChatWindow>
@@ -179,7 +186,7 @@ export default class Chatroom extends React.Component {
                   {'close'}
                 </FontIcon>
               }
-              onClick={this.onLeave}
+              onClick={this.onLeave()}
             />
             </Link>
           </Header>

@@ -64,20 +64,16 @@ var io = require('socket.io')(http);
 var messages = ['a', 'b', 'c'];
 var roomChat = '';
 io.on('connection', (socket) => {
-    console.log('User connected')
+
     socket.on('create-room', (room) => {
-        // var rooms = io.sockets.adapter.sids[socket.id]; 
-        // for(var rm in rooms) { socket.leave(rm); }
-        socket.roomName = room;
-        roomChat = room;
         socket.join(room);
-        socket.emit('receivedMessage', { roomName : socket.roomName})
     })
-    socket.on('message', (msg) => {
-        io.in(roomChat).emit('server-send-msg-to-client', msg)
+    socket.on('message', ({ roomID, message } = {}, callback) => {
+         io.in(roomID).emit('message', message)
+         callback();
     })
-    socket.on('leave-room', () => {
-        socket.leave(roomChat)
+    socket.on('leave-room', (roomID) => {
+        socket.leave(roomID)
     })
     io.on('disconnect', (socket) => {
     })

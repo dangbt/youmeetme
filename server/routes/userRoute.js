@@ -13,6 +13,7 @@ module.exports = (app) => {
     router.delete('/users', userController.deleteUser);
     router.post('/users/addHobby',userController.addHobby);
     router.post('/users/removeHobby',userController.removeHobby);
+    router.get('/users/getFriends',userController.getFriends); // body: _id, userID 
     router.post('/users/addFriend',userController.addFriend); // body: _id, userID 
     router.post('/users/removeFriend',userController.removeFriend); // body: _id, userID
     router.post('/users/blockUser',userController.blockUser); // body: _id, userID

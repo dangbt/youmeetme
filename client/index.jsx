@@ -5,6 +5,8 @@ import routes from './router.jsx';
 import App from './components/App/index.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-notifications/lib/notifications.css';
+import './index.scss';
+
 ReactDOM.render((
   <BrowserRouter>
     {routes}

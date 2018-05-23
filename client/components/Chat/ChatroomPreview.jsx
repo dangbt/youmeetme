@@ -13,7 +13,7 @@ const getCardTitleStyle = () => ({
   alignItems: 'center'
 })
 
-export default ({ chatroom, onEnter }) => (
+export default ({ chatroom, onEnter, user }) => (
   <Link to={`${chatroom._id}`}>
     <Paper
       style={{ maxWidth: 300, marginBottom: 40 }}
@@ -24,7 +24,7 @@ export default ({ chatroom, onEnter }) => (
           <CardMedia
             overlay={
               <CardTitle
-                title={chatroom.participants[0].info.fullName}
+                title={chatroom.participants[0]._id != user._id ? chatroom.participants[0].info.fullName :  chatroom.participants[1].info.fullName }
                 style={getCardTitleStyle()}
               />
             }

@@ -31,6 +31,7 @@ var users = {
 			res.json(user);
 		})
 	},
+
 	updateUser: (req, res) => {
 		var newUser = req.body;
 		User.findOneAndUpdate({
@@ -83,6 +84,15 @@ var users = {
 			}
 		});
 	},
+	getFriends: (req, res) => {
+		User.find({ _id: req.session.user._id }).populate({ path: 'friends', select: 'info.fullName avatar' }).exec((err, users) => {
+			if (err)
+				res.json({ result: 0, msg: `Server error`, data: {} });
+			else
+				res.json({ result: 1, msg: "", data: users || {} });
+		})
+	},
+
 
 	addFriend: (req, res) => {
 		if (!req.session.user._id || !req.body.userID)
@@ -95,7 +105,7 @@ var users = {
 					if (err1 || !data1)
 						res.json({ result: 0, msg: `Error while adding friend!`, data: {} });
 					else {
-						LikedUser.find({ $and: [{ 'likedBy':req.session.user._id }, { 'userID':  req.body.userID}] })
+						LikedUser.find({ $and: [{ 'likedBy': req.session.user._id }, { 'userID': req.body.userID }] })
 							.remove(err2 => {
 								if (err2) {
 									res.json({ result: 0, msg: `Server error`, data: {} });
@@ -103,7 +113,7 @@ var users = {
 								else {
 									res.json({ result: 1, msg: "Add friend successful!", data: data || {} });
 								}
-							});	
+							});
 					}
 
 				});

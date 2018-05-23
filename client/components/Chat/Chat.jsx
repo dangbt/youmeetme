@@ -27,7 +27,7 @@ export default class Chat extends Component {
       openFormchat: false,
       client: socket(),
       roomName: null,
-      listFriend: [],
+      listFriends: [],
       user: {},
       chatRooms: []
     }
@@ -47,37 +47,51 @@ export default class Chat extends Component {
       const { data, status } = response;
       if( status == 200) {
         this.setState({ chatRooms: data.data})
+        console.log(data.data)
       }
     })
   }
 
-  joinRoom = (friend) => {
+  joinRoom = (friend_id) => {
     _helper.fetchAPI(
       '/chatRooms',
       {
-        recipientID: friend
+        recipientID: friend_id
       }, [], 'POST'
     )
       .then((response) => {
         const { data, status } = response;
         if (status == 200) {
-          this.setState({ roomName: data.data._id })
+          console.log(data)
+          //this.setState({ roomName: data.data._id })
         }
       })
   }
 
-  toggleFormChat = (friend) => {
+  toggleFormChat = (roomID) => {
     //this.joinRoom(friend)
-    return this.state.client.join(this.state.roomName);
+    return this.state.client.join(roomID);
 
   }
-  getListChat = () => {
+  // getListChat = () => {
+  //   _helper.fetchGET(
+  //     '/roomofuser', []
+  //   )
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  // }
+  getFriends = () => {
     _helper.fetchGET(
-      '/roomofuser', []
+      '/users/getFriends', []
     )
       .then((response) => {
-        console.log(response)
+        const { data, status } = response;
+        if (status == 200) {
+        
+        }
       })
+
   }
   getUser = () => {
     _helper.fetchGET(
@@ -86,7 +100,7 @@ export default class Chat extends Component {
       .then((response) => {
         const { data, status } = response;
         if (status == 200) {
-          this.setState({ listFriend: data })
+          this.setState({ listFriends: data })
         }
       })
 
@@ -108,14 +122,14 @@ export default class Chat extends Component {
       //   () => history.push('/')
       // )
       // }
-      // onSendMessage={
-      //   (message, cb) => this.state.client.message(
-      //     chatroom.name,
-      //     message,
-      //     cb
-      //   )
-      // }
-      // registerHandler={this.state.client.registerHandler}
+      onSendMessage={
+        (message, cb) => this.state.client.message(
+          chatroom._id,
+          message,
+          cb
+        )
+      }
+      registerHandler={this.state.client.registerHandler}
       // unregisterHandler={this.state.client.unregisterHandler}
       />
     )
@@ -125,12 +139,12 @@ export default class Chat extends Component {
     this.checkAuth();
     this.getUser();
     this.getChatRooms();
+    this.getFriends();
     // this.joinRoom(this.state.user._id)
     //this.getListChat();
   }
   render() {
-    console.log(this.state.chatRooms)
-    const { authenticate, openFormchat, client, listFriend, user } = this.state;
+    const { authenticate, openFormchat, client, listFriends, user } = this.state;
     if (!authenticate) {
       return (
         <Redirect to={'/login'}></Redirect>
@@ -155,10 +169,12 @@ export default class Chat extends Component {
                   render={
                     (props) =>
                       <Home
+                        user={user}
                         chatRooms = {this.state.chatRooms}
-                        listFriend={listFriend}
+                        listFriends={listFriends}
+                        joinRoom={(friend_id) => this.joinRoom(friend_id)}
                         onEnterChatroom={
-                          chatroomName => this.toggleFormChat(chatroomName)
+                          roomID => this.toggleFormChat(roomID)
                         }
                       />
                   }

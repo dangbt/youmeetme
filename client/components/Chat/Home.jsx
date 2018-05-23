@@ -4,17 +4,25 @@ import ChatroomPreview from './ChatroomPreview.jsx'
 
 export default ({
   chatRooms,
-  onEnterChatroom
+  onEnterChatroom,
+  listFriends,
+  joinRoom,
+  user
 }) => (
   <div>
     {
-      chatRooms.map(chatroom => (
+     chatRooms && chatRooms.map(chatroom => (
         <ChatroomPreview
           key={chatroom._id}
+          user={user}
           chatroom={chatroom}
           onEnter={() => onEnterChatroom(chatroom._id)}
         />
       ))
     }
+    {
+     listFriends && listFriends.map( friend => <h1 key={friend._id} onClick={() => joinRoom(friend._id)} >{friend._id}</h1>)
+    }
+   
   </div>
 )

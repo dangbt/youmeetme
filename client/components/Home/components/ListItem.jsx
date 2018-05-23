@@ -46,6 +46,9 @@ export default class ListItem extends Component {
       })
 
   }
+  setTimeOutNotification = () => {
+    setTimeout( ()=> this.setState({show: false}), 1000)
+  }
   likeUser = (userID) => {
     _helper.fetchAPI(
       '/likedUsers', { userID: userID }, [], 'POST'
@@ -59,6 +62,7 @@ export default class ListItem extends Component {
         if( status != 200) {
           this.setState({ type: 'warning'})
         }
+        this.setTimeOutNotification();
       })
   }
   checkAuth = () => {
@@ -71,7 +75,7 @@ export default class ListItem extends Component {
     })
   }
   searchUpdated = (term) =>  {
-    this.setState({ searchTerm: term })
+    this.setState({ searchTerm: term, show: false })
 }
   componentDidMount() {
     this.getUser();

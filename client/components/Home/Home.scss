@@ -2,3 +2,32 @@
     position: relative;
     top: 50px;
 }
+.search-input {
+    width: 100%;
+    margin:  20px 0;
+    input {
+        margin: auto;
+        width: 400px;
+        display: flex;
+        font-size: 16px;
+        border-radius: 5px;
+        &:focus {
+            border: solid 2px greenyellow;
+            border-radius: 5px;
+            outline: none;
+        }
+    }
+}
+
+.nav-item {
+    .nav-link {
+        cursor: pointer;
+        font-size: 20px;
+    }
+    
+    .active {
+        font-weight: bold;
+        color: red !important; 
+    }
+
+}

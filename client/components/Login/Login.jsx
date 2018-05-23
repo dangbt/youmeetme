@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import {_helper} from '../Function/API.js';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import checkAuthenticate from '../Function/checkAuthenticate.js';
+import Notification from '../Notification/index.jsx';
+import './Login.scss'
 
 export default class Login extends Component {
   constructor(props) {
@@ -12,9 +14,16 @@ export default class Login extends Component {
       username : '',
       password: '',
       authenticate: false,
-      message: ''
+      message: '',
+      show: false,
+      type: 'info'
+      
     }
   }
+  setTimeOutNotification = () => {
+    setTimeout( ()=> this.setState({show: false}), 500)
+  }
+
   login= (e)=> {
     e.preventDefault();
     const { username, password } = this.state;
@@ -33,7 +42,8 @@ export default class Login extends Component {
           }
           else {
             if (status == 401) {
-              this.setState({message: data})
+              this.setState({show: true, message: data, type: 'warning'})
+             
               // this.setState({
               //   showMessage: true,
               //   messagePassword: data,
@@ -41,7 +51,7 @@ export default class Login extends Component {
               // })
             }
             else {
-              this.setState({message: data})
+              this.setState({show: true, message: data, type: 'error'})
               // this.setState({
               //   showMessage: true,
               //   messagePassword: '',
@@ -49,6 +59,7 @@ export default class Login extends Component {
               // })
             }
           }
+          this.setTimeOutNotification();          
         }
       })
       .catch((error) => {
@@ -64,16 +75,16 @@ export default class Login extends Component {
       })
     })
   }
-  componentWillMount() {
+  componentDidMount() {
     this.checkAuth();
   }
   render(){
-    const {authenticate} = this.state;
+    const {authenticate, show, message, type} = this.state;
     if(authenticate) {
       return <Redirect to='/home'></Redirect>
     }
     return (
-      <div>
+      <div className='login-page' >
         <div> <h1>Login </h1></div>
         <Form onSubmit={(e)=> this.login(e)}>
                 <FormGroup row>
@@ -81,7 +92,7 @@ export default class Login extends Component {
                   <Col sm={10}>
                     <Input type="text"  placeholder="username placeholder" required 
                       onChange={(e) => {
-                        this.setState({username: e.target.value})
+                        this.setState({username: e.target.value, show: false})
                       }}
                     />
                   </Col>
@@ -91,7 +102,7 @@ export default class Login extends Component {
                   <Col sm={10}>
                     <Input type="password" placeholder="password placeholder" required 
                       onChange={(e) => {
-                        this.setState({password: e.target.value})
+                        this.setState({password: e.target.value, show: false})
                       }}
                     />
                   </Col>
@@ -103,6 +114,7 @@ export default class Login extends Component {
                 </FormGroup>
         </Form>
         <Link to='/create-account'>Sign Up</Link>
+        <Notification show={show} message={message} type={type} time={2000} />
       </div>
     )
   }
