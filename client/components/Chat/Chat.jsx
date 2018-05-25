@@ -114,7 +114,7 @@ export default class Chat extends Component {
       chatroom={chatroom}
       // chatroom={chatroom}
       // chatHistory={chatHistory}
-      // user={this.state.user}
+       user={this.state.user}
       // onLeave={
       //   () => alert('a')
       // this.onLeaveChatroom(
@@ -130,7 +130,7 @@ export default class Chat extends Component {
         )
       }
       registerHandler={this.state.client.registerHandler}
-      // unregisterHandler={this.state.client.unregisterHandler}
+      unregisterHandler={this.state.client.unregisterHandler}
       />
     )
   }

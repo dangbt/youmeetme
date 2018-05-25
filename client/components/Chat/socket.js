@@ -7,9 +7,11 @@ export default function () {
   function registerHandler(onMessageReceived) {
     socket.on('message', onMessageReceived)
   }
+  function unregisterHandler() {
+    socket.off('message')
+  }
     
     function join(roomID) {
-        debugger
         socket.emit('create-room', roomID)
     }
     // nhận các socketID
@@ -26,6 +28,7 @@ export default function () {
         })
     } 
     function message(roomID, msg, cb) {
+        _helper.fetchAPI( '/messages', { roomID: roomName, content: msg}, [], 'POST')
         socket.emit('message', { roomID: roomID, message: msg }, cb)
       }
     // function message( msg, roomName) {
@@ -44,6 +47,7 @@ export default function () {
         message,
         receivedMessage,
         receivedMessageFromServer,
-        registerHandler
+        registerHandler,
+        unregisterHandler
     }
 }  

@@ -88,7 +88,7 @@ export default class Chatroom extends React.Component {
     //const { chatHistory } = props
 
     this.state = {
-      chatHistory : '',
+      chatHistory: '',
       input: '',
       client: socket(),
       listMessage: []
@@ -103,19 +103,19 @@ export default class Chatroom extends React.Component {
 
   componentDidMount() {
     this.props.registerHandler(this.onMessageReceived)
-   this.scrollChatToBottom()
+    this.scrollChatToBottom()
 
     _helper.fetchAPI('/messages/byRoom',
-     {roomID:  this.props.chatroom._id}, [], 'POST'
+      { roomID: this.props.chatroom._id }, [], 'POST'
     )
-    .then((response) => {
-      const { data, status } = response;
-      if( status == 200 && data.result == 1 ) {
-          this.setState({ listMessage : data.data})
-       
-      }
-      
-    })
+      .then((response) => {
+        const { data, status } = response;
+        if (status == 200 && data.result == 1) {
+          this.setState({ listMessage: data.data })
+
+        }
+
+      })
   }
 
   componentDidUpdate() {
@@ -123,7 +123,7 @@ export default class Chatroom extends React.Component {
   }
 
   componentWillUnmount() {
-    //this.props.unregisterHandler()
+    this.props.unregisterHandler()
   }
 
   onInput(e) {
@@ -144,14 +144,25 @@ export default class Chatroom extends React.Component {
     })
   }
 
- 
-  onLeave =  () => {
-    return this.state.client.leave( this.props.chatroom._id)
+
+  onLeave = () => {
+    return this.state.client.leave(this.props.chatroom._id)
   }
 
   onMessageReceived(entry) {
-    console.log('onMessageReceived:', entry)
-   // this.updateChatHistory(entry)
+    const newMesssage = [{
+      content: entry,
+      senderID: {
+        avatar: this.props.user.avatar,
+        info: {
+          fullName: this.props.user.fullName
+        }
+      }
+    }
+    ]
+    var newListMessage = this.state.listMessage;
+    newListMessage = newMesssage.concat(newListMessage)
+    this.setState({ listMessage: newListMessage })
   }
 
   updateChatHistory(entry) {
@@ -164,30 +175,30 @@ export default class Chatroom extends React.Component {
 
   render() {
     const { listMessage, client } = this.state;
-    
+    console.log(listMessage)
     console.log('nhan-tn :  ' + client.receivedMessage());
     console.log('message :  ' + client.receivedMessageFromServer(this.props.chatroom._id));
-    
+
     return (
-      <div style={{ height: '100%', background: 'black', opacity: 0.7 }}>
+      <div style={{ height: 500 , background: 'black', opacity: 0.7 }}>
         <ChatWindow>
           <Header>
             <Title>
               {/* { this.props.chatroom.name } */}
             </Title>
             <Link to='chat'>
-            <RaisedButton
-              primary
-              icon={
-                <FontIcon
-                  style={{ fontSize: 24 }}
-                  className="muidocs-icon-action-home"
-                >
-                  {'close'}
-                </FontIcon>
-              }
-              onClick={this.onLeave()}
-            />
+              <RaisedButton
+                primary
+                icon={
+                  <FontIcon
+                    style={{ fontSize: 24 }}
+                    className="muidocs-icon-action-home"
+                  >
+                    {'close'}
+                  </FontIcon>
+                }
+                onClick={this.onLeave()}
+              />
             </Link>
           </Header>
           <ChatroomImage
@@ -198,7 +209,7 @@ export default class Chatroom extends React.Component {
             <Scrollable innerRef={(panel) => { this.panel = panel }}>
               <List>
                 {
-                  listMessage &&  listMessage.reduceRight((arr, last) => arr.concat(last), []).map(
+                  listMessage && listMessage.reduceRight((arr, last) => arr.concat(last), []).map(
                     ({ senderID, content, event }, i) => [
                       <NoDots>
                         <ListItem
@@ -209,7 +220,7 @@ export default class Chatroom extends React.Component {
                           secondaryText={
                             content &&
                             <OutputText>
-                              { content }
+                              {content}
                             </OutputText>
                           }
                         />
