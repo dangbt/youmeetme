@@ -5,7 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import Slide from '../SlideAdvertisement/Slide.jsx';
 import checkAuthenticate from '../Function/checkAuthenticate'
-import { Row, Col } from 'reactstrap';
+
 import ItemChat from './components/ItemChat';
 import { ListGroup } from 'react-bootstrap';
 import FormChat from './components/FormChat'
@@ -13,11 +13,14 @@ import socketIOClient from 'socket.io-client';
 import ItemFormChat from './components/ItemFormChat'
 import socket from './socket';
 import { _helper } from '../Function/API'
+import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import classnames from 'classnames';
 
 import MainLayout from './MainLayout.jsx';
 import Loader from './Loader.jsx';
 import Home from './Home.jsx';
 import Chatroom from './Chatroom.jsx';
+import ChatroomPreview from './ChatroomPreview.jsx'
 
 export default class Chat extends Component {
   constructor(props) {
@@ -29,10 +32,19 @@ export default class Chat extends Component {
       roomName: null,
       listFriends: [],
       user: {},
-      chatRooms: []
+      chatRooms: [],
+      activeTab: '1'
     }
+    this.toggle = this.toggle.bind(this);
   }
 
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  }
   checkAuth = () => {
     checkAuthenticate().then((response) => {
       this.setState({
@@ -42,14 +54,14 @@ export default class Chat extends Component {
     })
   }
   getChatRooms = () => {
-    _helper.fetchGET( '/chatRooms/byUser', [])
-    .then((response) => {
-      const { data, status } = response;
-      if( status == 200) {
-        this.setState({ chatRooms: data.data})
-        console.log(data.data)
-      }
-    })
+    _helper.fetchGET('/chatRooms/byUser', [])
+      .then((response) => {
+        const { data, status } = response;
+        if (status == 200) {
+          this.setState({ chatRooms: data.data })
+          console.log(data.data)
+        }
+      })
   }
 
   joinRoom = (friend_id) => {
@@ -88,7 +100,8 @@ export default class Chat extends Component {
       .then((response) => {
         const { data, status } = response;
         if (status == 200) {
-        
+          console.log(data)
+
         }
       })
 
@@ -111,26 +124,26 @@ export default class Chat extends Component {
 
     return (
       <Chatroom
-      chatroom={chatroom}
-      // chatroom={chatroom}
-      // chatHistory={chatHistory}
-       user={this.state.user}
-      // onLeave={
-      //   () => alert('a')
-      // this.onLeaveChatroom(
-      //   chatroom.name,
-      //   () => history.push('/')
-      // )
-      // }
-      onSendMessage={
-        (message, cb) => this.state.client.message(
-          chatroom._id,
-          message,
-          cb
-        )
-      }
-      registerHandler={this.state.client.registerHandler}
-      unregisterHandler={this.state.client.unregisterHandler}
+        chatroom={chatroom}
+        // chatroom={chatroom}
+        // chatHistory={chatHistory}
+        user={this.state.user}
+        // onLeave={
+        //   () => alert('a')
+        // this.onLeaveChatroom(
+        //   chatroom.name,
+        //   () => history.push('/')
+        // )
+        // }
+        onSendMessage={
+          (message, cb) => this.state.client.message(
+            chatroom._id,
+            message,
+            cb
+          )
+        }
+        registerHandler={this.state.client.registerHandler}
+        unregisterHandler={this.state.client.unregisterHandler}
       />
     )
   }
@@ -154,11 +167,33 @@ export default class Chat extends Component {
 
 
       <div>
-        <Sidebar user={user} />
+        <Sidebar user={user} >
         <Slide />
-
-        <BrowserRouter>
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === '1' })}
+              onClick={() => { this.toggle('1'); }}
+            >
+              Chat Room
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === '2' })}
+              onClick={() => { this.toggle('2'); }}
+            >
+              Friends
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <Row>
+              <Col sm="12">
+              <BrowserRouter>
           <MuiThemeProvider>
+           
             <MainLayout
               user={user}
             >
@@ -170,7 +205,7 @@ export default class Chat extends Component {
                     (props) =>
                       <Home
                         user={user}
-                        chatRooms = {this.state.chatRooms}
+                        chatRooms={this.state.chatRooms}
                         listFriends={listFriends}
                         joinRoom={(friend_id) => this.joinRoom(friend_id)}
                         onEnterChatroom={
@@ -180,30 +215,45 @@ export default class Chat extends Component {
                   }
 
                 />
-                 {
-                      this.state.chatRooms.map(chatroom => (
-                        <Route
-                          key={chatroom._id}
-                          exact
-                          path={`/${chatroom._id}`}
-                          render={
-                            props => this.renderChatroomOrRedirect(chatroom, props)
-                          }
-                        />
-                      ))
-                    }
-                {/* <Route
-                  exact
-                  path={`/chatroom`}
-                  render={
-                    props => this.renderChatroomOrRedirect(props)
-                  }
-                /> */}
-
+                {
+                  this.state.chatRooms.map(chatroom => (
+                    <Route
+                      key={chatroom._id}
+                      exact
+                      path={`/${chatroom._id}`}
+                      render={
+                        props => this.renderChatroomOrRedirect(chatroom, props)
+                      }
+                    />
+                  ))
+                }
               </Switch>
             </MainLayout>
           </MuiThemeProvider>
         </BrowserRouter>
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="2">
+            <Row>
+              <Col sm="6">
+                <Card body>
+                  <CardTitle>Special Title Treatment</CardTitle>
+                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                  <Button>Go somewhere</Button>
+                </Card>
+              </Col>
+              <Col sm="6">
+                <Card body>
+                  <CardTitle>Special Title Treatment</CardTitle>
+                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
+                  <Button>Go somewhere</Button>
+                </Card>
+              </Col>
+            </Row>
+          </TabPane>
+        </TabContent>
+       </Sidebar>
       </div>
     )
   }

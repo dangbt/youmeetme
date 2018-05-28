@@ -5,7 +5,16 @@ import classnames from 'classnames';
 import ListItem from './components/ListItem.jsx';
 import Search from './components/Search/index.jsx'
 import WhoLikeMe from './components/WhoLikeMe.jsx'
-
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
+const styles = theme => ({
+  margin: {
+    margin: theme.spacing.unit * 2,
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`,
+  },
+});
 Nav.propTypes = {
     tabs: PropTypes.bool,
     pills: PropTypes.bool,
@@ -18,7 +27,7 @@ Nav.propTypes = {
     tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string])
     // pass in custom element to use
   }
-export default class TabHome extends React.Component {
+class TabHome extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,6 +45,7 @@ export default class TabHome extends React.Component {
     }
   }
   render() {
+    const { classes } = this.props;
     return (
       <div className="nav-tab">
         <Nav tabs justified>
@@ -52,7 +62,8 @@ export default class TabHome extends React.Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => { this.toggle('2'); }}
             >
-              New Image
+             
+              <Badge className={classes.margin} badgeContent={4} color="primary"> New Image</Badge>  
             </NavLink>
           </NavItem>
           <NavItem>
@@ -60,7 +71,7 @@ export default class TabHome extends React.Component {
               className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => { this.toggle('3'); }}
             >
-             Who like me
+             <Badge className={classes.margin} badgeContent={4} color="primary">Who like me</Badge>  
             </NavLink>
           </NavItem>
           <NavItem>
@@ -139,3 +150,4 @@ export default class TabHome extends React.Component {
     );
   }
 }
+export default withStyles(styles)(TabHome);

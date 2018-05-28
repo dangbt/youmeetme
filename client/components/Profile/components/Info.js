@@ -16,7 +16,13 @@ import {
     InputGroup,
     InputGroupAddon
 } from 'reactstrap';
+import styled from 'styled-components'
+import {  BorderColor} from '@material-ui/icons'
 import { _helper } from '../../Function/API';
+
+const Editor = styled(BorderColor)`
+    cursor: pointer
+`
 
 
 export default class Info extends Component {
@@ -215,7 +221,7 @@ export default class Info extends Component {
                 <UncontrolledTooltip placement="top" target="userInfo">
                     Click to show
                 </UncontrolledTooltip >
-                <img src='' alt='Edit userInfo' onClick={this.toggleModal} />
+                <Editor alt='Edit userInfo' onClick={this.toggleModal}  />
                 <Collapse isOpen={collapse}>
                     <Row>
                         <Col xs={6} >

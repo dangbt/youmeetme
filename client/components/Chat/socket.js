@@ -28,7 +28,7 @@ export default function () {
         })
     } 
     function message(roomID, msg, cb) {
-        _helper.fetchAPI( '/messages', { roomID: roomName, content: msg}, [], 'POST')
+        _helper.fetchAPI( '/messages', { roomID: roomID, content: msg}, [], 'POST')
         socket.emit('message', { roomID: roomID, message: msg }, cb)
       }
     // function message( msg, roomName) {

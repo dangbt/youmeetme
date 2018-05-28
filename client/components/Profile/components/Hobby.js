@@ -14,6 +14,7 @@ import {
     Row,
     UncontrolledTooltip
 } from 'reactstrap';
+import {  BorderColor} from '@material-ui/icons'
 import { _helper } from '../../Function/API';
 
 
@@ -76,8 +77,7 @@ export default class Hobby extends Component {
                 <UncontrolledTooltip placement="top" target="userHobby">
                     Click to show
                 </UncontrolledTooltip >
-                <img src='' alt='Edit userHobby' onClick={this.toggleModal} />
-
+                <BorderColor alt='Edit userHobby' onClick={this.toggleModal}  />
                 <Collapse isOpen={collapse}>
                     <Row>
                         <Col sx={6}>

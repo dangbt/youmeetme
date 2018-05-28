@@ -6,6 +6,7 @@ import FontIcon from 'material-ui/FontIcon';
 
 import FullScreen from './FullScreen.jsx';
 import Overlay from './Overlay.jsx';
+import { Row, Col } from 'reactstrap';
 
 const ContentWrapper = styled.div`
   position: relative;
@@ -68,15 +69,15 @@ const UserName = styled.p`
 
 function renderAvatar(user) {
   const props = user
-    ? { src: user.avatar ? user.avatar : '../../../assets/default-avatar.png'  }
+    ? { src: user.avatar ? user.avatar : '../../../assets/default-avatar.png' }
     : {
       icon:
-      <FontIcon
-        style={{ fontSize: 96 }}
-        className="material-icons"
-      >
-        {'perm_identity'}
-      </FontIcon>
+        <FontIcon
+          style={{ fontSize: 96 }}
+          className="material-icons"
+        >
+          {'perm_identity'}
+        </FontIcon>
     }
 
   return <Avatar size={160} {...props} />
@@ -91,24 +92,26 @@ export default ({ children, user }) => (
     <ContentWrapper>
       <Center>
         <Content>
-          <Relative>
-            <Sticky>
-              <AvatarWrapper>
-                <Link to="/chat">
-                  { renderAvatar(user) }
-                </Link>
-                <UserName> { fullName(user) } </UserName>
-              </AvatarWrapper>
-            </Sticky>
-          </Relative>
-          { children }
+          <Row>
+            <Col xs="4" ><Relative>
+              <Sticky>
+                <AvatarWrapper>
+                  <Link to="/chat">
+                    {renderAvatar(user)}
+                  </Link>
+                  <UserName> {fullName(user)} </UserName>
+                </AvatarWrapper>
+              </Sticky>
+            </Relative></Col>
+            <Col xs='8' >{children}</Col>
+          </Row>
         </Content>
       </Center>
     </ContentWrapper>
     <FullScreen>
-      <BackgroundImage 
-      // src="background.jpg"
-       alt='backround main' />
+      <BackgroundImage
+        // src="background.jpg"
+        alt='backround main' />
       <Overlay
         opacity={0.4}
         background="#212121"

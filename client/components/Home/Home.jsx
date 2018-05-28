@@ -39,9 +39,10 @@ export default class Home extends Component {
     }
     return (
       <div className='home-page'>
-        <Sidebar  user={user} />
+        <Sidebar  user={user} >
         <Slide />
         <TabHome user={user} />
+        </Sidebar>
         <footer style={{ height: '100px' }}></footer>
       </div>  
     )

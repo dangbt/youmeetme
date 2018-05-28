@@ -13,6 +13,8 @@ import { Loader, Types } from 'react-loaders';
 import Info from './components/Info.js'
 import Occupation from './components/Occupation.js';
 import Hobby from './components/Hobby.js'
+import Notification from '../Notification/index.jsx';
+import { AccessAlarm, ThreeDRotation, Accessibility, Edit } from '@material-ui/icons';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -30,13 +32,18 @@ export default class Profile extends Component {
       hobbies: [],
       avatar: '',
       listhHobbies: [],
-    
+      message: '',
+      show: false,
+      type: 'info'
     }
 
     this.toggle = this.toggle.bind(this);
     this.toggleNested = this.toggleNested.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
 
+  }
+  setTimeOutNotification = () => {
+    setTimeout( ()=> this.setState({show: false}), 1000)
   }
   toggle() {
     this.setState({
@@ -84,9 +91,12 @@ export default class Profile extends Component {
     )
       .then((response) => {
         const { data, status } = response;
-        console.log(JSON.stringify(data) + status);
-        this.getUser();
+        if(status ==200) {
+          this.setState({show: true, message: 'Update success !!', type: 'info'})
+        }
+        this.setTimeOutNotification();        
       })
+      this.getUser();
   }
   getHobby = () => {
     _helper.fetchGET('/hobbies')
@@ -122,7 +132,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    const { authenticate, blocking, user } = this.state;
+    const { authenticate, blocking, user,  show, message, type } = this.state;
     const { info, occupation, hobbies, contact, avatar } = this.state;
    
     let xhtml = avatar ? avatar : '../../../assets/default-avatar.png';
@@ -145,6 +155,7 @@ export default class Profile extends Component {
             </Col>
           </Row>
         </BlockUi>
+        <Notification show={show} message={message} type={type} time={2000} />
         <footer style={{ height: '100px' }}></footer>
       </div>
 

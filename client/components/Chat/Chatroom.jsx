@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Overlay from './Overlay.jsx';
 import socket from './socket'
 import { _helper } from '../Function/API';
+import { Close } from '@material-ui/icons'
 
 const ChatWindow = styled.div`
   position: relative;
@@ -194,7 +195,7 @@ export default class Chatroom extends React.Component {
                     style={{ fontSize: 24 }}
                     className="muidocs-icon-action-home"
                   >
-                    {'close'}
+                    <Close/>
                   </FontIcon>
                 }
                 onClick={this.onLeave()}
