@@ -13,6 +13,9 @@ import { Loader, Types } from 'react-loaders';
 import Info from './components/Info.js'
 import Occupation from './components/Occupation.js';
 import Hobby from './components/Hobby.js'
+import Notification from '../Notification/index.jsx';
+import { AccessAlarm, ThreeDRotation, Accessibility, Edit } from '@material-ui/icons';
+import { FlatButton } from 'material-ui';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -30,13 +33,18 @@ export default class Profile extends Component {
       hobbies: [],
       avatar: '',
       listhHobbies: [],
-    
+      message: '',
+      show: false,
+      type: 'info'
     }
 
     this.toggle = this.toggle.bind(this);
     this.toggleNested = this.toggleNested.bind(this);
     this.toggleAll = this.toggleAll.bind(this);
 
+  }
+  setTimeOutNotification = () => {
+    setTimeout( ()=> this.setState({show: false}), 1000)
   }
   toggle() {
     this.setState({
@@ -78,15 +86,25 @@ export default class Profile extends Component {
   }
   updateUser = (userUpdate) => {
     const { user } = this.state;
+    
     _helper.fetchAPI(
       '/users/' +  user._id ,
       userUpdate , [], 'PUT'
     )
       .then((response) => {
         const { data, status } = response;
-        console.log(JSON.stringify(data) + status);
-        this.getUser();
+        debugger
+        if(status == 200) {
+          this.setState({show: true, message: 'Update success !!', type: 'info'})
+        }
+        if( status == 413) {
+          this.setState({show: true, message: 'Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5M !!', type: 'warrning'})
+        }
+        // this.setTimeOutNotification();        
       })
+    
+      this.setState({show: false})
+      this.getUser();
   }
   getHobby = () => {
     _helper.fetchGET('/hobbies')
@@ -122,7 +140,7 @@ export default class Profile extends Component {
   }
 
   render() {
-    const { authenticate, blocking, user } = this.state;
+    const { authenticate, blocking, user,  show, message, type } = this.state;
     const { info, occupation, hobbies, contact, avatar } = this.state;
    
     let xhtml = avatar ? avatar : '../../../assets/default-avatar.png';
@@ -132,7 +150,7 @@ export default class Profile extends Component {
     return (
       <div>
         <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>
-          <Sidebar  user={user} />
+          <Sidebar  user={user} >
           <Slide />
           <Row>
             <Col xs="4">
@@ -144,7 +162,9 @@ export default class Profile extends Component {
               <Hobby hobbies={hobbies} updateUser={this.updateUser} />
             </Col>
           </Row>
+          </Sidebar>
         </BlockUi>
+        <Notification show={show} message={message} type={type} time={2000} />
         <footer style={{ height: '100px' }}></footer>
       </div>
 

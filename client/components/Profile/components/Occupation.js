@@ -16,6 +16,7 @@ import {
     InputGroup,
     UncontrolledTooltip,
 } from 'reactstrap';
+import {  BorderColor} from '@material-ui/icons'
 import { _helper } from '../../Function/API';
 export default class Occupation extends Component {
     constructor(props) {
@@ -59,7 +60,6 @@ export default class Occupation extends Component {
     }
     componentWillReceiveProps(nextProps) {
         const { occupation, contact } = nextProps;
-        debugger
         if (occupation) {
             this.setState({
                 work: occupation.work,
@@ -133,7 +133,7 @@ export default class Occupation extends Component {
                 <UncontrolledTooltip placement="top" target="userOccupation">
                     Click to show
                 </UncontrolledTooltip >
-                <img src='' alt='Edit userOccupation' onClick={this.toggleModal} />
+                <BorderColor alt='Edit userOccupation' onClick={this.toggleModal}  />                
                 <Collapse isOpen={collapse}>
                     {occupation ? <div>
                         {occupation.work ? this.renderInput('WORK', '', occupation.work) : this.renderInput('WORK', '')}

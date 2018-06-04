@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Overlay from './Overlay.jsx';
 import socket from './socket'
 import { _helper } from '../Function/API';
+import { Close } from '@material-ui/icons'
 
 const ChatWindow = styled.div`
   position: relative;
@@ -18,7 +19,7 @@ const ChatWindow = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-  width: 420px;
+  width: 100%;
   box-sizing: border-box;
 `
 const ChatPanel = styled.div`
@@ -63,11 +64,15 @@ const OutputText = styled.div`
 `
 
 const InputPanel = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 20px;
   align-self: center;
   border-top: 1px solid #fafafa;
+`
+const TextFieldWrapper = styled(TextField)`
+  width: 100% !important;
 `
 
 const ChatroomImage = styled.img`
@@ -88,7 +93,7 @@ export default class Chatroom extends React.Component {
     //const { chatHistory } = props
 
     this.state = {
-      chatHistory : '',
+      chatHistory: '',
       input: '',
       client: socket(),
       listMessage: []
@@ -102,20 +107,20 @@ export default class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-   // this.props.registerHandler(this.onMessageReceived)
-   this.scrollChatToBottom()
+    this.props.registerHandler(this.onMessageReceived)
+    this.scrollChatToBottom()
 
     _helper.fetchAPI('/messages/byRoom',
-     {roomID:  this.props.chatroom._id}, [], 'POST'
+      { roomID: this.props.chatroom._id }, [], 'POST'
     )
-    .then((response) => {
-      const { data, status } = response;
-      if( status == 200 && data.result == 1 ) {
-          this.setState({ listMessage : data.data})
-       
-      }
-      
-    })
+      .then((response) => {
+        const { data, status } = response;
+        if (status == 200 && data.result == 1) {
+          this.setState({ listMessage: data.data })
+
+        }
+
+      })
   }
 
   componentDidUpdate() {
@@ -123,7 +128,7 @@ export default class Chatroom extends React.Component {
   }
 
   componentWillUnmount() {
-    //this.props.unregisterHandler()
+    this.props.unregisterHandler()
   }
 
   onInput(e) {
@@ -133,21 +138,36 @@ export default class Chatroom extends React.Component {
   }
 
   onSendMessage() {
-    const { input } = this.state;
-    if (!input)
+    if (!this.state.input)
       return
-      
-      
-      debugger
-    return this.state.client.message(input, this.props.roomName)
+
+    this.props.onSendMessage(this.state.input, (err) => {
+      if (err)
+        return console.error(err)
+
+      return this.setState({ input: '' })
+    })
   }
-  onLeave =  () => {
-    return this.state.client.leave()
+
+
+  onLeave = () => {
+    return this.state.client.leave(this.props.chatroom._id)
   }
 
   onMessageReceived(entry) {
-    console.log('onMessageReceived:', entry)
-    this.updateChatHistory(entry)
+    const newMesssage = [{
+      content: entry,
+      senderID: {
+        avatar: this.props.user.avatar,
+        info: {
+          fullName: this.props.user.fullName
+        }
+      }
+    }
+    ]
+    var newListMessage = this.state.listMessage;
+    newListMessage = newMesssage.concat(newListMessage)
+    this.setState({ listMessage: newListMessage })
   }
 
   updateChatHistory(entry) {
@@ -159,28 +179,28 @@ export default class Chatroom extends React.Component {
   }
 
   render() {
-    const { listMessage } = this.state;
-    console.log(this.state.listMessage)
+    const { listMessage, client } = this.state;
+    
     return (
-      <div style={{ height: '100%', background: 'black', opacity: 0.7 }}>
+      <div style={{ height: 500 , background: 'black', opacity: 0.7, width: '100%' }}>
         <ChatWindow>
           <Header>
             <Title>
               {/* { this.props.chatroom.name } */}
             </Title>
             <Link to='chat'>
-            <RaisedButton
-              primary
-              icon={
-                <FontIcon
-                  style={{ fontSize: 24 }}
-                  className="muidocs-icon-action-home"
-                >
-                  {'close'}
-                </FontIcon>
-              }
-              onClick={this.onLeave}
-            />
+              <RaisedButton
+                primary
+                icon={
+                  <FontIcon
+                    style={{ fontSize: 24 }}
+                    className="muidocs-icon-action-home"
+                  >
+                    <Close/>
+                  </FontIcon>
+                }
+                onClick={this.onLeave()}
+              />
             </Link>
           </Header>
           <ChatroomImage
@@ -191,31 +211,31 @@ export default class Chatroom extends React.Component {
             <Scrollable innerRef={(panel) => { this.panel = panel }}>
               <List>
                 {
-                  listMessage &&  listMessage.reduceRight((arr, last) => arr.concat(last), []).map(
+                  listMessage && listMessage.reduceRight((arr, last) => arr.concat(last), []).map(
                     ({ senderID, content, event }, i) => [
-                      <NoDots>
+                      <NoDots  >
                         <ListItem
-                          key={i}
+                         key={senderID._id}
                           style={{ color: '#fafafa' }}
                           leftAvatar={<Avatar src={senderID.avatar ? senderID.avatar : '../../../../assets/default-avatar.png'} />}
                           primaryText={`${senderID.info.fullName} ${event || ''}`}
                           secondaryText={
                             content &&
-                            <OutputText>
-                              { content }
+                            <OutputText   >
+                              {content}
                             </OutputText>
                           }
                         />
                       </NoDots>,
-                      <Divider inset />
+                      <Divider inset    />
                     ]
                   )
                 }
               </List>
             </Scrollable>
             <InputPanel>
-              <TextField
-                textareaStyle={{ color: '#fafafa' }}
+              <TextFieldWrapper
+                textareaStyle={{ color: '#fafafa', width: '100%' }}
                 hintStyle={{ color: '#fafafa' }}
                 floatingLabelStyle={{ color: '#fafafa' }}
                 hintText="Enter a message."

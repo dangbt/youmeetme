@@ -5,6 +5,7 @@ import {
   CardSubtitle, CardBody
 } from 'reactstrap';
 import styled from 'styled-components'
+import { ThumbUp } from '@material-ui/icons'
 const CardWrapper = styled(Card) `
   width:250px;
   margin: 0 10px;
@@ -28,7 +29,7 @@ export default class Item extends Component {
             <CardSubtitle>{user.info.fullName}</CardSubtitle>
             <CardText>Thích màu hông ghét sự dối trá</CardText>
             {
-              accept ? ( <Button onClick={() => addFriend(user._id) } >Accept</Button>) : ( <Button onClick={() => likeUser(user._id) } >Like</Button>)
+              accept ? ( <Button onClick={() => addFriend()} >Accept</Button>) : ( <Button outline  color='info' onClick={() => likeUser(user._id) } > <ThumbUp color='primary' /></Button>)
             }
           </CardBody>
         </CardWrapper>
