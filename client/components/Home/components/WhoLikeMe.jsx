@@ -71,7 +71,8 @@ export default class WhoLikeMe extends Component {
   }
   render() {
     const { listUser, searchTerm, _user } = this.state;
-    const filteredUser = listUser.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
+    const  { listLikeMe } = this.props;
+    const filteredUser = listLikeMe ?  listLikeMe.filter(createFilter(searchTerm, KEYS_TO_FILTERS)) : [];
     console.log(filteredUser)
     return (
       <div>
@@ -79,7 +80,7 @@ export default class WhoLikeMe extends Component {
         <DidWrapper>
           <GroupWrapper>
             {filteredUser && filteredUser.map((user, i) => {
-                return <Item addFriend={this.addFriend} user={user.userID} key={user._id} accept={true} />
+                return <Item addFriend={() => this.props.addFriend(user.userID)} user={user.userID} key={user._id} accept={true} />
             })}
           </GroupWrapper>
         </DidWrapper>

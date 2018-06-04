@@ -11,7 +11,6 @@ const ListWrapper = styled(List)`
 export default ({
   chatRooms,
   onEnterChatroom,
-  listFriends,
   joinRoom,
   user
 }) => (
@@ -28,9 +27,6 @@ export default ({
       ))
     }
      </ListWrapper>
-    {
-     listFriends && listFriends.map( friend => <h1 key={friend._id} onClick={() => joinRoom(friend._id)} >{friend._id}</h1>)
-    }
    
   </div>
 )

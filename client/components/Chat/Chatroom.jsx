@@ -19,7 +19,7 @@ const ChatWindow = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-  width: 420px;
+  width: 100%;
   box-sizing: border-box;
 `
 const ChatPanel = styled.div`
@@ -64,11 +64,15 @@ const OutputText = styled.div`
 `
 
 const InputPanel = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 20px;
   align-self: center;
   border-top: 1px solid #fafafa;
+`
+const TextFieldWrapper = styled(TextField)`
+  width: 100% !important;
 `
 
 const ChatroomImage = styled.img`
@@ -176,12 +180,9 @@ export default class Chatroom extends React.Component {
 
   render() {
     const { listMessage, client } = this.state;
-    console.log(listMessage)
-    console.log('nhan-tn :  ' + client.receivedMessage());
-    console.log('message :  ' + client.receivedMessageFromServer(this.props.chatroom._id));
-
+    
     return (
-      <div style={{ height: 500 , background: 'black', opacity: 0.7 }}>
+      <div style={{ height: 500 , background: 'black', opacity: 0.7, width: '100%' }}>
         <ChatWindow>
           <Header>
             <Title>
@@ -212,29 +213,29 @@ export default class Chatroom extends React.Component {
                 {
                   listMessage && listMessage.reduceRight((arr, last) => arr.concat(last), []).map(
                     ({ senderID, content, event }, i) => [
-                      <NoDots>
+                      <NoDots  >
                         <ListItem
-                          key={i}
+                         key={senderID._id}
                           style={{ color: '#fafafa' }}
                           leftAvatar={<Avatar src={senderID.avatar ? senderID.avatar : '../../../../assets/default-avatar.png'} />}
                           primaryText={`${senderID.info.fullName} ${event || ''}`}
                           secondaryText={
                             content &&
-                            <OutputText>
+                            <OutputText   >
                               {content}
                             </OutputText>
                           }
                         />
                       </NoDots>,
-                      <Divider inset />
+                      <Divider inset    />
                     ]
                   )
                 }
               </List>
             </Scrollable>
             <InputPanel>
-              <TextField
-                textareaStyle={{ color: '#fafafa' }}
+              <TextFieldWrapper
+                textareaStyle={{ color: '#fafafa', width: '100%' }}
                 hintStyle={{ color: '#fafafa' }}
                 floatingLabelStyle={{ color: '#fafafa' }}
                 hintText="Enter a message."

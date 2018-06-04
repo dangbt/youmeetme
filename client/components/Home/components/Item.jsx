@@ -29,7 +29,7 @@ export default class Item extends Component {
             <CardSubtitle>{user.info.fullName}</CardSubtitle>
             <CardText>Thích màu hông ghét sự dối trá</CardText>
             {
-              accept ? ( <Button onClick={() => addFriend(user._id) } >Accept</Button>) : ( <Button outline  color='info' onClick={() => likeUser(user._id) } > <ThumbUp color='primary' /></Button>)
+              accept ? ( <Button onClick={() => addFriend()} >Accept</Button>) : ( <Button outline  color='info' onClick={() => likeUser(user._id) } > <ThumbUp color='primary' /></Button>)
             }
           </CardBody>
         </CardWrapper>

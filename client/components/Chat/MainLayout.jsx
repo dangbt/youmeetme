@@ -51,6 +51,9 @@ cursor: pointer;
   img {
     box-shadow: rgba(255, 255, 255, 0.2) 0 0 10px 2px;
   }
+  @media only screen and (max-width: 800px) {
+    display: none;
+  }
 `
 
 const Relative = styled.div`
@@ -92,8 +95,8 @@ export default ({ children, user }) => (
     <ContentWrapper>
       <Center>
         <Content>
-          <Row>
-            <Col xs="4" ><Relative>
+          <Row className='w-100 '>
+            <Col xs='2' ><Relative>
               <Sticky>
                 <AvatarWrapper>
                   <Link to="/chat">
@@ -103,7 +106,7 @@ export default ({ children, user }) => (
                 </AvatarWrapper>
               </Sticky>
             </Relative></Col>
-            <Col xs='8' >{children}</Col>
+            <Col  xs='10' >{children}</Col>
           </Row>
         </Content>
       </Center>

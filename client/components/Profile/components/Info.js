@@ -21,7 +21,7 @@ import {  BorderColor} from '@material-ui/icons'
 import { _helper } from '../../Function/API';
 
 const Editor = styled(BorderColor)`
-    cursor: pointer
+    cursor: pointer;
 `
 
 
@@ -86,7 +86,7 @@ export default class Info extends Component {
             avatar: this.state.avatar
         }
         this.props.updateUser(user);
-        this.toggleModal();
+       
     }
     renderInput = (label, props) => {
         if (!props) {

@@ -6,10 +6,10 @@
         margin: auto;
         width: 400px;
         display: flex;
-        font-size: 16px;
+        font-size: 20px;
         border-radius: 5px;
         &:focus {
-            border: solid 2px greenyellow;
+            border: solid 2px rgb(41, 41, 235);
             border-radius: 5px;
             outline: none;
         }

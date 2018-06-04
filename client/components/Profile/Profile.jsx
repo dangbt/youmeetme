@@ -15,6 +15,7 @@ import Occupation from './components/Occupation.js';
 import Hobby from './components/Hobby.js'
 import Notification from '../Notification/index.jsx';
 import { AccessAlarm, ThreeDRotation, Accessibility, Edit } from '@material-ui/icons';
+import { FlatButton } from 'material-ui';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -85,17 +86,24 @@ export default class Profile extends Component {
   }
   updateUser = (userUpdate) => {
     const { user } = this.state;
+    
     _helper.fetchAPI(
       '/users/' +  user._id ,
       userUpdate , [], 'PUT'
     )
       .then((response) => {
         const { data, status } = response;
-        if(status ==200) {
+        debugger
+        if(status == 200) {
           this.setState({show: true, message: 'Update success !!', type: 'info'})
         }
-        this.setTimeOutNotification();        
+        if( status == 413) {
+          this.setState({show: true, message: 'Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5M !!', type: 'warrning'})
+        }
+        // this.setTimeOutNotification();        
       })
+    
+      this.setState({show: false})
       this.getUser();
   }
   getHobby = () => {
@@ -142,7 +150,7 @@ export default class Profile extends Component {
     return (
       <div>
         <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>
-          <Sidebar  user={user} />
+          <Sidebar  user={user} >
           <Slide />
           <Row>
             <Col xs="4">
@@ -154,6 +162,7 @@ export default class Profile extends Component {
               <Hobby hobbies={hobbies} updateUser={this.updateUser} />
             </Col>
           </Row>
+          </Sidebar>
         </BlockUi>
         <Notification show={show} message={message} type={type} time={2000} />
         <footer style={{ height: '100px' }}></footer>

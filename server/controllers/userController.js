@@ -33,7 +33,13 @@ var users = {
 	},
 
 	updateUser: (req, res) => {
-		var newUser = req.body;
+		try {
+			var newUser = req.body;
+		}
+		catch(err){
+			res.send(err);
+		}
+		
 		User.findOneAndUpdate({
 			_id: req.params.id
 		}, newUser, (err, user) => {
@@ -85,7 +91,7 @@ var users = {
 		});
 	},
 	getFriends: (req, res) => {
-		User.find({ _id: req.session.user._id }).populate({ path: 'friends', select: 'info'}).exec((err, users) => {
+		User.find({ _id: req.session.user._id }).populate({ path: 'friends', select: 'info.fullName avatar'}).exec((err, users) => {
 			if (err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
 			else

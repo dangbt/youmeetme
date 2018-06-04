@@ -1,16 +1,17 @@
 var express = require('express');
 var hobbyController = require('../controllers/hobbyController');
+var func_API = require('../controllers/func_api')
 var router = express.Router();
 
 module.exports = (app) => {
     /*
     * HOBBY ROUTE
     */
-    router.get('/hobbies', hobbyController.getAll)
-    .post('/hobbies', hobbyController.createHobby);
-    router.get('/hobbies/:id', hobbyController.getOne);
-    router.put('/hobbies/:id', hobbyController.updateHobby);
-    router.delete('/hobbies', hobbyController.deleteHobby);
+    router.get('/hobbies',func_API.authenticate, hobbyController.getAll)
+    .post('/hobbies',func_API.authenticate, hobbyController.createHobby);
+    router.get('/hobbies/:id',func_API.authenticate, hobbyController.getOne);
+    router.put('/hobbies/:id',func_API.authenticate, hobbyController.updateHobby);
+    router.delete('/hobbies',func_API.authenticate, hobbyController.deleteHobby);
     
     // prefixed all of routes with /api
     app.use('/api', router);

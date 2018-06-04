@@ -79,7 +79,7 @@ export default class SignUp extends Component {
                     />
                   </Col>
                 </FormGroup>  
-                <FormGroup row>
+                {/* <FormGroup row>
                   <Label for="examplePassword" sm={2}>Email</Label>
                   <Col sm={10}>
                     <Input type="email" name="email"  placeholder="email placeholder" />
@@ -90,12 +90,13 @@ export default class SignUp extends Component {
                   <Col sm={10}>
                     <Input type="text" name="address"  placeholder="address placeholder" />
                   </Col>
-                </FormGroup>     
+                </FormGroup> 
+                */}    
                 <FormGroup check row>
                   <Col sm={{ size: 10, offset: 2 }}>
                     <Button>Submit</Button>
                   </Col>
-                </FormGroup>
+                </FormGroup> 
               </Form>
             </div>
           ) 

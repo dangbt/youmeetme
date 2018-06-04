@@ -60,7 +60,18 @@ module.exports = {
 			res.status(500).end(err);
 		}
 	},
-
+	authenticate: function (req, res, next) {
+		try {
+			if (req.session.user) {
+				next();
+			}
+			else {
+				res.status(401).end('No permission, need login');
+			}
+		} catch (err) {
+			res.status(500).end(err);
+		}
+	},
 
 	checkAuthenticate: function (req, res) {
 		try {

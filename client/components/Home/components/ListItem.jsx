@@ -24,7 +24,6 @@ export default class ListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listUser: [],
       searchTerm: '',
       _user: {},
       show: false,
@@ -32,19 +31,6 @@ export default class ListItem extends Component {
       type: 'info'
      
     }
-  }
-
-  getUser = () => {
-    _helper.fetchGET(
-      '/users', []
-    )
-      .then((response) => {
-        const { data, status } = response;
-        if (status == 200) {
-          this.setState({ listUser: data })
-        }
-      })
-
   }
   setTimeOutNotification = () => {
     setTimeout( ()=> this.setState({show: false}), 1000)
@@ -78,11 +64,11 @@ export default class ListItem extends Component {
     this.setState({ searchTerm: term, show: false })
 }
   componentDidMount() {
-    this.getUser();
     this.checkAuth()
   }
   render() {
-    const { listUser, searchTerm, _user, show, message, type } = this.state;
+    const {  searchTerm, _user, show, message, type } = this.state;
+    const { listUser } = this.props;
     const filteredUser = listUser.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
     return (
       <div>

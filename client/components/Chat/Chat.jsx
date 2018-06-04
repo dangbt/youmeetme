@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
+import Item from '../../container/item'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Sidebar from '../Sidebar/Sidebar.jsx';
@@ -15,7 +16,7 @@ import socket from './socket';
 import { _helper } from '../Function/API'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-
+import './index.scss';
 import MainLayout from './MainLayout.jsx';
 import Loader from './Loader.jsx';
 import Home from './Home.jsx';
@@ -65,6 +66,7 @@ export default class Chat extends Component {
   }
 
   joinRoom = (friend_id) => {
+    const { history } = this.props;
     _helper.fetchAPI(
       '/chatRooms',
       {
@@ -75,6 +77,9 @@ export default class Chat extends Component {
         const { data, status } = response;
         if (status == 200) {
           console.log(data)
+          this.setState({activeTab: '1'})
+          
+
           //this.setState({ roomName: data.data._id })
         }
       })
@@ -94,30 +99,20 @@ export default class Chat extends Component {
   //     })
   // }
   getFriends = () => {
-    _helper.fetchGET(
-      '/users/getFriends', []
+    const { user } = this.state;
+    _helper.fetchAPI(
+      '/users/getFriends', { _id: user._id }
     )
       .then((response) => {
         const { data, status } = response;
         if (status == 200) {
-          console.log(data)
+          this.setState({ listFriends: data.data[0].friends })
 
         }
       })
 
   }
-  getUser = () => {
-    _helper.fetchGET(
-      '/users', []
-    )
-      .then((response) => {
-        const { data, status } = response;
-        if (status == 200) {
-          this.setState({ listFriends: data })
-        }
-      })
-
-  }
+  
   renderChatroomOrRedirect(chatroom) {
 
     //const { chatHistory } = history.location.state
@@ -150,7 +145,6 @@ export default class Chat extends Component {
 
   componentDidMount() {
     this.checkAuth();
-    this.getUser();
     this.getChatRooms();
     this.getFriends();
     // this.joinRoom(this.state.user._id)
@@ -168,92 +162,78 @@ export default class Chat extends Component {
 
       <div>
         <Sidebar user={user} >
-        <Slide />
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
-              onClick={() => { this.toggle('1'); }}
-            >
-              Chat Room
+          <Slide />
+          <Nav tabs>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === '1' })}
+                onClick={() => { this.toggle('1'); }}
+              >
+                Chat Room
             </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => { this.toggle('2'); }}
-            >
-              Friends
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === '2' })}
+                onClick={() => { this.toggle('2'); }}
+              >
+                Friends
             </NavLink>
-          </NavItem>
-        </Nav>
-        <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
-            <Row>
-              <Col sm="12">
-              <BrowserRouter>
-          <MuiThemeProvider>
-           
-            <MainLayout
-              user={user}
-            >
-              <Switch>
-                <Route
-                  exact
-                  path="/chat"
-                  render={
-                    (props) =>
-                      <Home
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={this.state.activeTab}>
+            <TabPane tabId="1">
+         
+                  <BrowserRouter>
+                    <MuiThemeProvider>
+                      <MainLayout
                         user={user}
-                        chatRooms={this.state.chatRooms}
-                        listFriends={listFriends}
-                        joinRoom={(friend_id) => this.joinRoom(friend_id)}
-                        onEnterChatroom={
-                          roomID => this.toggleFormChat(roomID)
-                        }
-                      />
-                  }
+                      >
+                        <Switch>
+                          <Route
+                            exact
+                            path="/chat"
+                            render={
+                              (props) =>
+                                <Home
+                                  user={user}
+                                  chatRooms={this.state.chatRooms}
+                                  joinRoom={(friend_id) => this.joinRoom(friend_id)}
+                                  onEnterChatroom={
+                                    roomID => this.toggleFormChat(roomID)
+                                  }
+                                />
+                            }
 
-                />
-                {
-                  this.state.chatRooms.map(chatroom => (
-                    <Route
-                      key={chatroom._id}
-                      exact
-                      path={`/${chatroom._id}`}
-                      render={
-                        props => this.renderChatroomOrRedirect(chatroom, props)
-                      }
-                    />
-                  ))
-                }
-              </Switch>
-            </MainLayout>
-          </MuiThemeProvider>
-        </BrowserRouter>
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="2">
-            <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-            </Row>
-          </TabPane>
-        </TabContent>
-       </Sidebar>
+                          />
+                          {
+                            this.state.chatRooms.map(chatroom => (
+                              <Route
+                                key={chatroom._id}
+                                exact
+                                path={`/${chatroom._id}`}
+                                render={
+                                  props => this.renderChatroomOrRedirect(chatroom, props)
+                                }
+                              />
+                            ))
+                          }
+                        </Switch>
+                      </MainLayout>
+                    </MuiThemeProvider>
+                  </BrowserRouter>
+         
+            </TabPane>
+            <TabPane tabId="2" className='list-friend' >
+              
+                  { listFriends &&
+                     listFriends.map((friend, i) => (
+                       <Item key={i} friend={friend} joinRoom={(friend_id) => this.joinRoom(friend_id)} />
+                    )
+                     )}
+            </TabPane>
+          </TabContent>
+        </Sidebar>
       </div>
     )
   }

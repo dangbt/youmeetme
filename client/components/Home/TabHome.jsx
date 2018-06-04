@@ -3,10 +3,12 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ListItem from './components/ListItem.jsx';
-import Search from './components/Search/index.jsx'
+import Friends from './components/Friends.jsx'
 import WhoLikeMe from './components/WhoLikeMe.jsx'
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
+import { _helper } from '../Function/API';
+
 const styles = theme => ({
   margin: {
     margin: theme.spacing.unit * 2,
@@ -33,8 +35,60 @@ class TabHome extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      listLikeMe: [],
+      listUser: [],
+      listFriends: [],
     };
+  }
+  getListLikeMe = () => {
+    _helper.fetchGET(
+      '/usersLikeMe', []
+    )
+      .then((response) => {
+        const { status, data } = response;
+        if (status == 200) {
+          this.setState({ listLikeMe: data.data })
+        }
+      })
+  }
+  getUser = () => {
+    _helper.fetchGET(
+      '/users', []
+    )
+      .then((response) => {
+        const { data, status } = response;
+        if (status == 200) {
+          this.setState({ listUser: data })
+        }
+      })
+
+  }
+  getFriends = () => {
+    const { user } = this.props;
+    _helper.fetchAPI(
+      '/users/getFriends', { _id: user._id }
+    )
+      .then((response) => {
+        const { data, status } = response;
+        if (status == 200) {
+          this.setState({ listFriends: data.data[0].friends })
+
+        }
+      })
+
+  }
+  addFriend = (userID) => {
+    _helper.fetchAPI(
+      '/users/addFriend', { userID: userID }, [], 'POST'
+    )
+      .then((response) => {
+        const { status, data } = response;
+        if (status == 200) {
+         this.getListLikeMe();
+         this.getFriends();
+        }
+      })
   }
 
   toggle(tab) {
@@ -44,8 +98,15 @@ class TabHome extends React.Component {
       });
     }
   }
+  componentDidMount = () => {
+    this.getListLikeMe();
+    this.getUser();
+    this.getFriends();
+  }
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
+    const { listLikeMe, listUser, listFriends } = this.state;
+    console.log(listFriends + ' &&&&&&&&&&&' + listUser)
     return (
       <div className="nav-tab">
         <Nav tabs justified>
@@ -71,7 +132,7 @@ class TabHome extends React.Component {
               className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => { this.toggle('3'); }}
             >
-             <Badge className={classes.margin} badgeContent={4} color="primary">Who like me</Badge>  
+             <Badge className={classes.margin} badgeContent={listLikeMe.length} color="primary">Who like me</Badge>  
             </NavLink>
           </NavItem>
           <NavItem>
@@ -79,15 +140,15 @@ class TabHome extends React.Component {
               className={classnames({ active: this.state.activeTab === '4' })}
               onClick={() => { this.toggle('4'); }}
             >
-              Search
+              Friends
             </NavLink>
           </NavItem>
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col sm="12">
-                <ListItem />
+              <Col >
+                <ListItem  listUser={listUser} />
               </Col>
             </Row>
           </TabPane>
@@ -139,11 +200,11 @@ class TabHome extends React.Component {
           </TabPane>
           <TabPane tabId="3">
             <Row>
-              <WhoLikeMe/>
+              <WhoLikeMe listLikeMe= {listLikeMe} addFriend={(userID) => this.addFriend(userID)} />
             </Row>
           </TabPane>
           <TabPane tabId="4">
-            <Search/>
+            <Friends user={user} listFriends={listFriends} />
           </TabPane>
         </TabContent>
       </div>
