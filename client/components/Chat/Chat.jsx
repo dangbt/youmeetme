@@ -60,7 +60,6 @@ export default class Chat extends Component {
         const { data, status } = response;
         if (status == 200) {
           this.setState({ chatRooms: data.data })
-          console.log(data.data)
         }
       })
   }
@@ -76,9 +75,9 @@ export default class Chat extends Component {
       .then((response) => {
         const { data, status } = response;
         if (status == 200) {
-          console.log(data)
-          this.setState({activeTab: '1'})
-          
+          this.getChatRooms();
+           this.setState({activeTab: '1'})
+         
 
           //this.setState({ roomName: data.data._id })
         }

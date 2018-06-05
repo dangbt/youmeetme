@@ -30,7 +30,6 @@ export default class SignUp extends Component {
     [], 'POST' )
       .then((response) => {
         this.setState({user: response});
-        console.log(this.state.user);
         this.setState({authenticate: true})
       })
       .catch((error) => {

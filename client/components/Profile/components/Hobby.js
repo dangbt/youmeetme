@@ -109,7 +109,6 @@ export default class Hobby extends Component {
                                         valueSelect: value
                                     })
                                 }
-                                console.log(valueSelect)
                             }} >
                                 {listHobbies.map((item, i) =>
                                     <option key={item._id} value={item._id} >{i + 1}.{item.content}</option>

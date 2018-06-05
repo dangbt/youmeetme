@@ -5,7 +5,9 @@ import List from '@material-ui/core/List';
 
 const ListWrapper = styled(List)`
   border: 1px solid black;
-  padding: 0px;
+  padding-bottom: 0px !important;
+  border-bottom-style: none;
+
 `
 
 export default ({

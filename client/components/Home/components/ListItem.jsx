@@ -42,7 +42,6 @@ export default class ListItem extends Component {
       .then((response) => {
         const { status, data } = response;
         if (status == 200) {
-          console.log(data);
         }
         this.setState({ show: true, message: data.msg})
         if( status != 200) {
