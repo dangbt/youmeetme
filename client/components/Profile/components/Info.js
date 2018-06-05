@@ -61,15 +61,18 @@ export default class Info extends Component {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-
-        reader.onloadend = () => {
-            this.setState({
-                file: file,
-                avatar: reader.result
-            });
+        if(file.size < 5000000)
+        {
+            reader.onloadend = () => {
+                this.setState({
+                    file: file,
+                    avatar: reader.result
+                });
+            }
+            reader.readAsDataURL(file)
         }
-
-        reader.readAsDataURL(file)
+        else  
+            this.props.showMessage();
     }
     updateUser = () => {
         const user = {

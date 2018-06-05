@@ -97,14 +97,14 @@ export default class Profile extends Component {
         if(status == 200) {
           this.setState({show: true, message: 'Update success !!', type: 'info'})
         }
-        if( status == 413) {
-          this.setState({show: true, message: 'Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5M !!', type: 'warrning'})
-        }
         // this.setTimeOutNotification();        
       })
     
       this.setState({show: false})
       this.getUser();
+  }
+  showMessage = () =>{
+    this.setState({show: true, message: 'Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5M !!', type: 'warning'})
   }
   getHobby = () => {
     _helper.fetchGET('/hobbies')
@@ -157,7 +157,7 @@ export default class Profile extends Component {
               <img src={xhtml} alt='avatar' className='img-thumbnail  w-100' />
             </Col>
             <Col xs="8">
-              <Info info={info} avatar={avatar} updateUser={this.updateUser} />
+              <Info info={info} avatar={avatar} updateUser={this.updateUser} showMessage = {this.showMessage}/>
               <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
               <Hobby hobbies={hobbies} updateUser={this.updateUser} />
             </Col>
