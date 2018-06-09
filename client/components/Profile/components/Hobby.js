@@ -14,8 +14,10 @@ import {
     Row,
     UncontrolledTooltip
 } from 'reactstrap';
-import {  BorderColor} from '@material-ui/icons'
+import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
+import { BtnPlus, InputHobby, FormPlus, BtnAdd, FormHobbies } from './styled'
+import './style.scss'
 
 
 export default class Hobby extends Component {
@@ -26,9 +28,12 @@ export default class Hobby extends Component {
             modal: false,
             hobbies: [],
             listHobbies: [],
+            listHobbiesAdd: [],
+            tempHobby: '',
             content: '',
             valueSelect: [],
-            whoLikeThis: {}
+            whoLikeThis: {},
+            togglePlus: false
 
         }
     }
@@ -57,11 +62,41 @@ export default class Hobby extends Component {
 
     }
     updateUser = () => {
+        const { valueSelect, listHobbiesAdd } = this.state;
+        const newList = valueSelect.concat(listHobbiesAdd)
+        debugger
         const user = {
-            hobbies: this.state.valueSelect
+            hobbies: newList
         }
         this.props.updateUser(user)
         this.toggleModal();
+    }
+    hanlderClickAdd = () => {
+        const { tempHobby } = this.state;
+        const { user } = this.props;
+        
+        _helper.fetchAPI('/hobbies',{ content : tempHobby, whoLikeThis : `${user._id}` },[], 'POST')
+        .then(response => {
+            const { data, status } = response;
+            debugger
+            if( status == 200 ) {
+                const { listHobbiesAdd } = this.state;
+                let newList = listHobbiesAdd;
+                newList.push(data.content);
+                this.setState({ listHobbiesAdd: newList, tempHobby: '', togglePlus: false })
+            }
+
+        })
+        
+       
+        
+    }
+    handleClickBtnPlus = () => {
+        const { listHobbiesAdd } = this.state;
+
+        if (listHobbiesAdd.length < 3) {
+            this.setState({ togglePlus: !this.state.togglePlus })
+        }
     }
     componentDidMount() {
         //this.getUser();
@@ -69,7 +104,7 @@ export default class Hobby extends Component {
     }
     render() {
         const { collapse, modal, } = this.state;
-        const { listHobbies, valueSelect } = this.state;
+        const { listHobbies, valueSelect, togglePlus, tempHobby, listHobbiesAdd } = this.state;
         const { hobbies } = this.props;
         return (
             <div>
@@ -77,7 +112,7 @@ export default class Hobby extends Component {
                 <UncontrolledTooltip placement="top" target="userHobby">
                     Click to show
                 </UncontrolledTooltip >
-                <BorderColor alt='Edit userHobby' onClick={this.toggleModal}  />
+                <BorderColor alt='Edit userHobby' onClick={this.toggleModal} />
                 <Collapse isOpen={collapse}>
                     <Row>
                         <Col sx={6}>
@@ -115,6 +150,19 @@ export default class Hobby extends Component {
                                 )
                                 }
                             </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <FormHobbies>
+                                {listHobbiesAdd && listHobbiesAdd.map((item, i) => (
+                                    <div>{i + 1}.{item}</div>
+                                ))}
+                            </FormHobbies>
+                            <FormPlus className={togglePlus ? 'display' : 'none'} >
+                                <InputHobby value={tempHobby} onChange={(e) => this.setState({ tempHobby: e.target.value })} />
+                                <BtnAdd onClick={this.hanlderClickAdd} >ADD</BtnAdd>
+                            </FormPlus>
+
+                            <BtnPlus onClick={this.handleClickBtnPlus} className={listHobbiesAdd.length > 2 ? 'none': ''} >+</BtnPlus>
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>

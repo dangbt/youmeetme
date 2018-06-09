@@ -10,7 +10,7 @@ var userSchema = Schema({
 		marialStatus: { type: String },
 		introduce: { type: String },
 		knowledge: { type: String },
-		address: { type: Schema.Types.ObjectId, ref: 'Address' },
+		address: {type: String },
 		country: { type: String },
 	},
 	occupation:{
@@ -29,7 +29,15 @@ var userSchema = Schema({
 		phone: { type: String, trim: true },
 		web_page: { type: String }
 	},
-	username: { type: String, trim: true },
+	username: {    
+        type: String,
+        trim: true,
+        lowercase: true,
+        unique: true,
+        min: [6, 'Username must have at least 6 character'],
+        match: [/[a-zA-Z0-9]\w[a-zA-Z0-9][\w]*/, 'Username must have at least 6 character']
+    },
+
 	password: { type: String, trim: true },
 	hobbies: [
 		{ type: Schema.Types.ObjectId, ref: 'Hobby' }

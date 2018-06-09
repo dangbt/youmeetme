@@ -16,7 +16,7 @@ import {
     InputGroup,
     UncontrolledTooltip,
 } from 'reactstrap';
-import {  BorderColor} from '@material-ui/icons'
+import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
 export default class Occupation extends Component {
     constructor(props) {
@@ -108,14 +108,13 @@ export default class Occupation extends Component {
                 <Label >{label}</Label>
                 {type ?
                     <InputGroup>
-                        <InputGroupAddon addonType="prepend">$</InputGroupAddon>
-                        <Input placeholder="Amount" type="number" step="1" value={props}
+                        <Input placeholder={`Enter ${label.toLowerCase()}`} type="number" step="1" value={props}
                             onChange={(e) => onChange(e)} />
-                        <InputGroupAddon addonType="append">.00</InputGroupAddon>
+                        <InputGroupAddon addonType="append">VNĐ</InputGroupAddon>
                     </InputGroup>
                     :
                     <InputGroup>
-                        <Input type='text' value={props} onChange={(e) => onChange(e)} />
+                        <Input type='text' value={props} placeholder={`Enter ${label.toLowerCase()}`} onChange={(e) => onChange(e)} />
                     </InputGroup>
                 }
             </FormGroup>
@@ -133,15 +132,22 @@ export default class Occupation extends Component {
                 <UncontrolledTooltip placement="top" target="userOccupation">
                     Click to show
                 </UncontrolledTooltip >
-                <BorderColor alt='Edit userOccupation' onClick={this.toggleModal}  />                
+                <BorderColor alt='Edit userOccupation' onClick={this.toggleModal} />
                 <Collapse isOpen={collapse}>
                     {occupation ? <div>
                         {occupation.work ? this.renderInput('WORK', '', occupation.work) : this.renderInput('WORK', '')}
-                        {occupation.salary ? this.renderInput('SALARY', 'number', occupation.salary) : this.renderInput('SALARY', '')}
-                        {contact.email ? this.renderInput('EMAIL', '', contact.email) : this.renderInput('EMAIL', '')}
-                        {contact.phone ? this.renderInput('PHONE', '', contact.phone) : this.renderInput('PHONE', '')}
-                        {contact.web_page ? this.renderInput('WEB_PAGE', '', contact.web_page) : this.renderInput('WEB_PAGE', '')}
-
+                        {occupation.salary ? this.renderInput('SALARY', 'number', ocupation.salary) : this.renderInput('SALARY', '')}
+                        {contact ? <div>
+                            {contact.email ? this.renderInput('EMAIL', '', contact.email) : this.renderInput('EMAIL', '')}
+                            {contact.phone ? this.renderInput('PHONE', '', contact.phone) : this.renderInput('PHONE', '')}
+                            {contact.web_page ? this.renderInput('WEB_PAGE', '', contact.web_page) : this.renderInput('WEB_PAGE', '')}
+                        </div>
+                            :
+                            <div>
+                                {this.renderInput('EMAIL', '')}
+                                {this.renderInput('PHONE', '')}
+                                {this.renderInput('WEB_PAGE', '')}
+                            </div>}
                     </div>
                         :
                         <div>No data</div>

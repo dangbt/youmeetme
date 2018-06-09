@@ -16,6 +16,7 @@ import Hobby from './components/Hobby.js'
 import Notification from '../Notification/index.jsx';
 import { AccessAlarm, ThreeDRotation, Accessibility, Edit } from '@material-ui/icons';
 import { FlatButton } from 'material-ui';
+import { Avatar } from './styled'
 
 export default class Profile extends Component {
   constructor(props) {
@@ -93,7 +94,6 @@ export default class Profile extends Component {
     )
       .then((response) => {
         const { data, status } = response;
-        debugger
         if(status == 200) {
           this.setState({show: true, message: 'Update success !!', type: 'info'})
         }
@@ -103,8 +103,8 @@ export default class Profile extends Component {
       this.setState({show: false})
       this.getUser();
   }
-  showMessage = () =>{
-    this.setState({show: true, message: 'Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5M !!', type: 'warning'})
+  showMessage = ( msg) =>{
+    this.setState({show: true, message: msg, type: 'warning'})
   }
   getHobby = () => {
     _helper.fetchGET('/hobbies')
@@ -153,13 +153,13 @@ export default class Profile extends Component {
           <Sidebar  user={user} >
           <Slide />
           <Row>
-            <Col xs="4">
-              <img src={xhtml} alt='avatar' className='img-thumbnail  w-100' />
+            <Col xs="2">
+              <Avatar src={xhtml} alt='avatar' className='img-thumbnail ' />
             </Col>
-            <Col xs="8">
-              <Info info={info} avatar={avatar} updateUser={this.updateUser} showMessage = {this.showMessage}/>
+            <Col xs="10">
+              <Info info={info} avatar={avatar} updateUser={this.updateUser} showMessage = {(msg) => this.showMessage(msg)}/>
               <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
-              <Hobby hobbies={hobbies} updateUser={this.updateUser} />
+              <Hobby hobbies={hobbies} updateUser={this.updateUser} showMessage = {(msg) => this.showMessage(msg)} user={user} />
             </Col>
           </Row>
           </Sidebar>
