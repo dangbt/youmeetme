@@ -73,7 +73,6 @@ export default class WhoLikeMe extends Component {
     const { listUser, searchTerm, _user } = this.state;
     const  { listLikeMe } = this.props;
     const filteredUser = listLikeMe ?  listLikeMe.filter(createFilter(searchTerm, KEYS_TO_FILTERS)) : [];
-    console.log(filteredUser)
     return (
       <div>
         <SearchInput className="search-input" onChange={this.searchUpdated}/>

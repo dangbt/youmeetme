@@ -106,7 +106,6 @@ class TabHome extends React.Component {
   render() {
     const { classes, user } = this.props;
     const { listLikeMe, listUser, listFriends } = this.state;
-    console.log(listFriends + ' &&&&&&&&&&&' + listUser)
     return (
       <div className="nav-tab">
         <Nav tabs justified>

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import moment from 'moment'
 
 const ListItemWrapper = styled(ListItem)`
   cursor: pointer;
@@ -16,6 +17,7 @@ const getCardTitleStyle = () => ({
   display: 'flex',
   alignItems: 'center'
 })
+
 
 export default ({ chatroom, onEnter, user }) => (
   <Link to={`${chatroom._id}`}>
@@ -40,7 +42,11 @@ export default ({ chatroom, onEnter, user }) => (
     </Paper> */}
     <ListItemWrapper  onClick={onEnter}>
       <Avatar src={chatroom.avatar ? chatroom.avatar : "../../../assets/default-avatar.png"} />
-      <ListItemText primary={chatroom.participants[0]._id != user._id ? chatroom.participants[0].info.fullName : chatroom.participants[1].info.fullName} secondary="Jan 9, 2014" />
+      <ListItemText 
+      
+      primary={chatroom.participants[0]._id != user._id ? chatroom.participants[0].info.fullName : chatroom.participants[1].info.fullName} 
+  secondary={chatroom.lastMessage+'-' + moment(chatroom.createdAt).format(' h:mm:ss a YYYY/MM/DD ') } 
+      />
     </ListItemWrapper>
   </Link>
 )

@@ -3,6 +3,8 @@ var User = mongoose.model('User');
 var Hobby = mongoose.model('Hobby');
 var Address = mongoose.model('Address');
 var LikedUser = mongoose.model('LikedUser');
+const bcrypt = require('bcrypt');
+
 
 var users = {
 	getAll: (req, res) => {
@@ -14,12 +16,26 @@ var users = {
 	},
 
 	createUser: (req, res) => {
-		var newUser = new User(req.body);
-		newUser.save((err, user) => {
-			if (err)
-				res.send(err);
-			res.json(user);
-		})
+		//const { username, password } = req.body.data;
+		//res.json(req.body.username)
+		User.findOne({'username': req.body.username})
+		.then(user => {
+			if (user) {
+				res.json({ result: 0, msg: "User already exists!", data: {} });
+			} else {
+				var hash = generateHash(req.body.password);
+				req.body.password = hash;
+				User.create(req.body)
+					.then((data) => {
+						res.json({ result: 1, msg: 'Create successful!', data: data});
+					})
+					.catch((err) => {
+						console.log(err);
+						res.json({ result: 0, msg: `${err}`, data: {} });
+					})
+			}
+		}).catch(err => { res.json({ result: 0, msg: `${err}`, data: {} }); })
+
 	},
 
 	getOne: (req, res) => {
@@ -33,12 +49,7 @@ var users = {
 	},
 
 	updateUser: (req, res) => {
-		try {
-			var newUser = req.body;
-		}
-		catch(err){
-			res.send(err);
-		}
+		var newUser = req.body;
 		
 		User.findOneAndUpdate({
 			_id: req.params.id
@@ -188,4 +199,8 @@ var users = {
 		});
 	}
 }
+var generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+}
+
 module.exports = users;

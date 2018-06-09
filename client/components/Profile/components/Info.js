@@ -17,10 +17,11 @@ import {
     InputGroupAddon
 } from 'reactstrap';
 import styled from 'styled-components'
-import {  BorderColor} from '@material-ui/icons'
+import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
+import listCountry from '../../../container/coutry';
 
-const Editor = styled(BorderColor)`
+const Editor = styled(BorderColor) `
     cursor: pointer;
 `
 
@@ -38,7 +39,9 @@ export default class Info extends Component {
             weight: 0,
             marialStatus: '',
             knowledge: '',
+            address: '',
             country: '',
+            introduce: '',
             avatar: ''
 
         }
@@ -61,8 +64,8 @@ export default class Info extends Component {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        if(file.size < 5000000)
-        {
+        debugger
+        if (file.size < 50000) {
             reader.onloadend = () => {
                 this.setState({
                     file: file,
@@ -71,8 +74,8 @@ export default class Info extends Component {
             }
             reader.readAsDataURL(file)
         }
-        else  
-            this.props.showMessage();
+        else
+            this.props.showMessage('Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 50KB !!');
     }
     updateUser = () => {
         const user = {
@@ -84,12 +87,14 @@ export default class Info extends Component {
                 weight: this.state.weight,
                 marialStatus: this.state.marialStatus,
                 knowledge: this.state.knowledge,
+                address: this.state.address,
                 country: this.state.country,
+                introduce: this.state.introduce,
             },
             avatar: this.state.avatar
         }
         this.props.updateUser(user);
-       
+
     }
     renderInput = (label, props) => {
         if (!props) {
@@ -180,19 +185,24 @@ export default class Info extends Component {
         )
 
     }
-    renderInputChangeSelect = (label, data, props, onChange ) => {
+    renderInputChangeSelect = (label, data, props, onChange) => {
         return (
             <FormGroup>
                 <Label>{label}</Label>
                 <Input type="select" value={props} onChange={(e) => onChange(e)} >
                     {data.map((item, i) => {
-                        return <option key={i}>{item}</option>
+                        return <option key={i}>{item.name ? item.name : item}</option>
                     })}
                 </Input>
             </FormGroup>
         )
     }
-
+    handleSelect = () => {
+        const { country } = this.state;
+        return listCountry.filter((item) =>
+            item.name === country
+        )
+    }
 
     componentWillReceiveProps(nextProps) {
         const { info, avatar } = nextProps;
@@ -204,7 +214,9 @@ export default class Info extends Component {
             weight: info.weight,
             marialStatus: info.marialStatus,
             knowledge: info.knowledge,
+            address: info.address,
             country: info.country,
+            introduce: info.introduce,
             avatar: avatar
         })
     }
@@ -212,8 +224,8 @@ export default class Info extends Component {
 
     render() {
         const { info } = this.props;
-
-        const selectCountry = ['Cà Mau', 'TP.HCM', 'Hà Nội', 'Quãng Ngãi'];
+        const listCity = this.handleSelect();
+        const selectCountry = ['Cà Mau', 'TP.HCM', 'Hà Nội', 'Quãng Ngãi', 'Viet Nam'];
         const genderList = ['Male', 'Female']
         const { collapse, modal } = this.state;
         const { fullName, gender, birthday, height, weight, marialStatus, introduce, knowledge, address, country, avatar } = this.state;
@@ -224,13 +236,14 @@ export default class Info extends Component {
                 <UncontrolledTooltip placement="top" target="userInfo">
                     Click to show
                 </UncontrolledTooltip >
-                <Editor alt='Edit userInfo' onClick={this.toggleModal}  />
+                <Editor alt='Edit userInfo' onClick={this.toggleModal} />
                 <Collapse isOpen={collapse}>
                     <Row>
                         <Col xs={6} >
                             {info.fullName ? this.renderInput('FULL NAME', info.fullName) : this.renderInput('FULL NAME')}
                             {info.gender ? this.renderInput('GENDER', info.gender) : this.renderInput('GENDER')}
                             {info.birthday ? this.renderInputBOD('BOD', info.birthday) : this.renderInput('BOD')}
+                            {info.address ? this.renderInput('CITY', info.address) : this.renderInput('CITY')}
                             {info.country ? this.renderInput('COUNTRY', info.country) : this.renderInput('COUNTRY')}
                         </Col>
                         <Col xs={6}>
@@ -238,26 +251,35 @@ export default class Info extends Component {
                             {info.weight ? this.renderInputNumber('WEIGHT', info.weight) : this.renderInputNumber('WEIGHT')}
                             {info.knowledge ? this.renderInput('KNOWLEDGE', info.knowledge) : this.renderInput('KNOWLEDGE')}
                             {info.marialStatus ? this.renderInput('MARIALSTATUS', info.marialStatus) : this.renderInput('MARIALSTATUS')}
+                            {info.introduce ? this.renderInput('INTRODUCE', info.introduce) : this.renderInput('INTRODUCE')}
+
                         </Col>
                     </Row>
                 </Collapse>
-                <Modal isOpen={modal} toggle={this.toggleModal} className={this.props.className}>
-                    <ModalHeader toggle={this.toggleModal} >{fullName}</ModalHeader>
+                <Modal isOpen={modal} toggle={this.toggleModal} className={this.props.className} style={{maxWidth: 700}} >
+                    <ModalHeader toggle={this.toggleModal} >User info</ModalHeader>
                     <ModalBody>
                         <Row>
-                            <Col xs="6">
+                            <Col xs="4" >
                                 <img src={xhtml} alt='avatar' className='img-thumbnail' />
                                 <input type='file' onChange={(e) => this.handleChangeImage(e)} />
-                                {this.renderInputChange('FULLNAME', '', fullName, (e) => this.setState({ fullName: e.target.value }))}
-                                   {this.renderInputChangeSelect('GENDER',genderList, gender, (e) => this.setState({ gender: e.target.value }) )}
-                                {this.renderInputChange('BOD', 'date', birthday, (e) => this.setState({ birthday: e.target.value }))}
                             </Col>
-                            <Col xs='6'>
+                            <Col xs="4">
+
+                                {this.renderInputChange('FULLNAME', '', fullName, (e) => this.setState({ fullName: e.target.value }))}
+                                {this.renderInputChangeSelect('GENDER', genderList, gender, (e) => this.setState({ gender: e.target.value }))}
+                                {this.renderInputChange('BOD', 'date', birthday, (e) => this.setState({ birthday: e.target.value }))}
+                                {this.renderInputChangeSelect('COUNTRY', listCountry, country, (e) => this.setState({ country: e.target.value }))}
+                                {this.renderInputChangeSelect('ADDRESS', listCity[0] ? listCity[0].city : [], address, (e) => this.setState({ address: e.target.value }))}
+                            </Col>
+                            <Col xs='4'>
                                 {this.renderInputChange('HEIGHT', 'number', height, (e) => this.setState({ height: e.target.value }))}
                                 {this.renderInputChange('WEIGHT', 'number', weight, (e) => this.setState({ weight: e.target.value }))}
-                                {this.renderInputChangeSelect('COUNTRY',selectCountry, country,  (e) => this.setState({ gender: e.target.value }))}
                                 {this.renderInputChange('KNOWLEDGE', '', knowledge, (e) => this.setState({ knowledge: e.target.value }))}
                                 {this.renderInputChange('MARIALSTATUS', '', marialStatus, (e) => this.setState({ marialStatus: e.target.value }))}
+                                {this.renderInputChange('INTRODUCE', '', introduce, (e) => this.setState({ introduce: e.target.value }))}
+
+
                             </Col>
                         </Row>
                     </ModalBody>

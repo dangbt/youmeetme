@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var session = require('express-session');
+const bcrypt = require('bcrypt');
+
 
 module.exports = {
 	login: (req, res) => {
@@ -9,8 +11,10 @@ module.exports = {
 				username,
 				password
 			} = req.body;
+		
+
 			User.findOne({
-				'username': username
+				username: username
 			}, function (err, data) {
 				if (err) {
 					res.status(500).end(err);
@@ -18,7 +22,7 @@ module.exports = {
 					if (!data) {
 						res.status(404).end('User not found');
 					} else {
-						if (data.password === password) {
+						if (isValidPassword(data, password)) {
 							//set session ở đây
 							req.session.regenerate(function() {
 								// will have a new session here
@@ -45,6 +49,11 @@ module.exports = {
 		// 	//return bCrypt.compareSync(password, user.password);
 		// 	return user.password === password;
 		// }
+		var isValidPassword = function (user, password) {
+            return bcrypt.compareSync(password, user.password);
+            //return user.password === password;
+        }
+
 	},
 	logout: function (req, res) {
 		try {
