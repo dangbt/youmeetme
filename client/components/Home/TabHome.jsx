@@ -143,7 +143,7 @@ class TabHome extends React.Component {
             </NavLink>
           </NavItem>
         </Nav>
-        <TabContent activeTab={this.state.activeTab}>
+        <TabContent activeTab={this.state.activeTab} style={{minHeight: '520px'}} >
           <TabPane tabId="1">
             <Row>
               <Col >

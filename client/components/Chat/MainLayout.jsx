@@ -64,6 +64,7 @@ const Sticky = styled.div`
   /* position: fixed; */
 `
 const UserName = styled.p`
+  width: 200px;
   font-size: 24px;
   height: 27px;
   text-align: center;

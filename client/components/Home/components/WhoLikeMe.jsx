@@ -73,14 +73,19 @@ export default class WhoLikeMe extends Component {
     const { listUser, searchTerm, _user } = this.state;
     const  { listLikeMe } = this.props;
     const filteredUser = listLikeMe ?  listLikeMe.filter(createFilter(searchTerm, KEYS_TO_FILTERS)) : [];
+    
     return (
-      <div>
+      <div style={{width: '100%'}} >
         <SearchInput className="search-input" onChange={this.searchUpdated}/>
         <DidWrapper>
           <GroupWrapper>
-            {filteredUser && filteredUser.map((user, i) => {
+            { filteredUser.length ? filteredUser.map((user, i) => {
                 return <Item addFriend={() => this.props.addFriend(user.userID)} user={user.userID} key={user._id} accept={true} />
-            })}
+            })
+            :
+            <div>Don't have anyone like you =))</div>
+          }
+            
           </GroupWrapper>
         </DidWrapper>
       </div>

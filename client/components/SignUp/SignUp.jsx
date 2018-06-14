@@ -114,22 +114,8 @@ export default class SignUp extends Component {
             {this.renderInput('Phone', (e) => this.setState({ phone: e.target.value }))}
 
             {this.renderInputChangeSelect('Country', listCountry, country, (e) => this.setState({ country: e.target.value }))}
-            {this.renderInputChangeSelect('Address', listCity[0] ? listCity[0].city : [], address, (e) => this.setState({ address: e.target.value }))}
+            {this.renderInputChangeSelect('City', listCity[0] ? listCity[0].city : [], address, (e) => this.setState({ address: e.target.value }))}
 
-
-            {/* <FormGroup row>
-                  <Label for="examplePassword" sm={2}>Email</Label>
-                  <Col sm={10}>
-                    <Input type="email" name="email"  placeholder="email placeholder" />
-                  </Col>
-                </FormGroup>  
-                <FormGroup row>
-                  <Label for="examplePassword" sm={2}>Address</Label>
-                  <Col sm={10}>
-                    <Input type="text" name="address"  placeholder="address placeholder" />
-                  </Col>
-                </FormGroup> 
-                */}
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
                 <BtnSubmit>Submit</BtnSubmit>

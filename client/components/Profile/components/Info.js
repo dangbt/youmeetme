@@ -262,7 +262,7 @@ export default class Info extends Component {
                         <Row>
                             <Col xs="4" >
                                 <img src={xhtml} alt='avatar' className='img-thumbnail' />
-                                <input type='file' onChange={(e) => this.handleChangeImage(e)} />
+                                <input style={{cursor: 'pointer', outline: 'none'}} type='file' onChange={(e) => this.handleChangeImage(e)} />
                             </Col>
                             <Col xs="4">
 

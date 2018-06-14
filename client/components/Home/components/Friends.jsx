@@ -16,6 +16,7 @@ justify-content: start;
   
 `;
 const DidWrapper = styled.div`
+  display: flex;
  
  `;
 const CardWrapper = styled(Card) `
@@ -59,7 +60,7 @@ export default class Friends extends Component {
     const filteredUser = listFriends.filter(createFilter(searchTerm, KEYS_TO_FILTERS))
 
     return (
-      <div>
+      <div style={{width: '100%'}}  >
         <SearchInput className="search-input" onChange={this.searchUpdated} />
         <DidWrapper>
           <GroupWrapper>

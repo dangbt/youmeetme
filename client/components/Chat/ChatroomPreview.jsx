@@ -45,7 +45,7 @@ export default ({ chatroom, onEnter, user }) => (
       <ListItemText 
       
       primary={chatroom.participants[0]._id != user._id ? chatroom.participants[0].info.fullName : chatroom.participants[1].info.fullName} 
-  secondary={chatroom.lastMessage+'-' + moment(chatroom.createdAt).format(' h:mm:ss a YYYY/MM/DD ') } 
+      secondary={chatroom.lastMessage ? chatroom.lastMessage +'-' + moment(chatroom.createdAt).format(' h:mm:ss a YYYY/MM/DD ') : `You are now connected on YOU MEET ME` } 
       />
     </ListItemWrapper>
   </Link>

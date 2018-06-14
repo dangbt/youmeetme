@@ -22,6 +22,8 @@ import Loader from './Loader.jsx';
 import Home from './Home.jsx';
 import Chatroom from './Chatroom.jsx';
 import ChatroomPreview from './ChatroomPreview.jsx'
+import Notification from '../Notification/index.jsx';
+import  Footer  from '../Footer/footer';
 
 export default class Chat extends Component {
   constructor(props) {
@@ -34,7 +36,10 @@ export default class Chat extends Component {
       listFriends: [],
       user: {},
       chatRooms: [],
-      activeTab: '1'
+      activeTab: '1',
+      show: false,
+      message: '',
+      type: 'info'
     }
     this.toggle = this.toggle.bind(this);
   }
@@ -63,7 +68,9 @@ export default class Chat extends Component {
         }
       })
   }
-
+  setTimeOutNotification = () => {
+    setTimeout( ()=> this.setState({show: false}), 500)
+  }
   joinRoom = (friend_id) => {
     const { history } = this.props;
     _helper.fetchAPI(
@@ -74,13 +81,13 @@ export default class Chat extends Component {
     )
       .then((response) => {
         const { data, status } = response;
+        debugger
+        
         if (status == 200) {
-          this.getChatRooms();
-           this.setState({activeTab: '1'})
-         
-
-          //this.setState({ roomName: data.data._id })
+          this.setState({activeTab: '1', show: true, message: data.msg})
+          this.setTimeOutNotification();
         }
+        setTimeout( () => this.getChatRooms(), 1000);
       })
   }
 
@@ -89,14 +96,6 @@ export default class Chat extends Component {
     return this.state.client.join(roomID);
 
   }
-  // getListChat = () => {
-  //   _helper.fetchGET(
-  //     '/roomofuser', []
-  //   )
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  // }
   getFriends = () => {
     const { user } = this.state;
     _helper.fetchAPI(
@@ -150,7 +149,7 @@ export default class Chat extends Component {
     //this.getListChat();
   }
   render() {
-    const { authenticate, openFormchat, client, listFriends, user } = this.state;
+    const { authenticate, openFormchat, client, listFriends, user, show, message, type } = this.state;
     if (!authenticate) {
       return (
         <Redirect to={'/login'}></Redirect>
@@ -176,7 +175,7 @@ export default class Chat extends Component {
                 className={classnames({ active: this.state.activeTab === '2' })}
                 onClick={() => { this.toggle('2'); }}
               >
-                Friends
+                Create Room
             </NavLink>
             </NavItem>
           </Nav>
@@ -233,6 +232,8 @@ export default class Chat extends Component {
             </TabPane>
           </TabContent>
         </Sidebar>
+        <Footer/>
+        <Notification show={show} message={message} type={type}/>
       </div>
     )
   }

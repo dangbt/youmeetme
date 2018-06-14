@@ -5,6 +5,7 @@ import TabHome from './TabHome.jsx'
 import Slide from '../SlideAdvertisement/Slide.jsx'
 import './Home.scss'
 import checkAuthenticate from '../Function/checkAuthenticate';
+import  Footer  from '../Footer/footer'
 
 
 
@@ -40,10 +41,10 @@ export default class Home extends Component {
     return (
       <div className='home-page'>
         <Sidebar  user={user} >
-        <Slide />
-        <TabHome user={user} />
+          <Slide />
+          <TabHome user={user} />
         </Sidebar>
-        <footer style={{ height: '100px' }}></footer>
+        <Footer />
       </div>  
     )
   }

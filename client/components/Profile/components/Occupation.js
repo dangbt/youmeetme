@@ -18,6 +18,8 @@ import {
 } from 'reactstrap';
 import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
+import {  Editor } from './styled'
+
 export default class Occupation extends Component {
     constructor(props) {
         super(props);
@@ -132,7 +134,7 @@ export default class Occupation extends Component {
                 <UncontrolledTooltip placement="top" target="userOccupation">
                     Click to show
                 </UncontrolledTooltip >
-                <BorderColor alt='Edit userOccupation' onClick={this.toggleModal} />
+                <Editor alt='Edit userOccupation' onClick={this.toggleModal} />
                 <Collapse isOpen={collapse}>
                     {occupation ? <div>
                         {occupation.work ? this.renderInput('WORK', '', occupation.work) : this.renderInput('WORK', '')}
@@ -150,7 +152,19 @@ export default class Occupation extends Component {
                             </div>}
                     </div>
                         :
-                        <div>No data</div>
+                        <div>
+                            {contact ? <div>
+                                {contact.email ? this.renderInput('EMAIL', '', contact.email) : this.renderInput('EMAIL', '')}
+                                {contact.phone ? this.renderInput('PHONE', '', contact.phone) : this.renderInput('PHONE', '')}
+                                {contact.web_page ? this.renderInput('WEB_PAGE', '', contact.web_page) : this.renderInput('WEB_PAGE', '')}
+                            </div>
+                                :
+
+                                <div>No data</div>
+                            }
+                        </div>
+
+
                     }
 
                 </Collapse>
