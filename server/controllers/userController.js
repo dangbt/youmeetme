@@ -102,7 +102,7 @@ var users = {
 		});
 	},
 	getFriends: (req, res) => {
-		User.find({ _id: req.session.user._id }).populate({ path: 'friends', select: 'info.fullName avatar'}).exec((err, users) => {
+		User.find({ _id: req.session.user._id }).populate({ path: 'friends'}).exec((err, users) => {
 			if (err)
 				res.json({ result: 0, msg: `Server error`, data: {} });
 			else

@@ -5,10 +5,10 @@ import {
   Card, Button, CardImg, CardTitle, CardText, CardDeck,
   CardSubtitle, CardBody, CardGroup
 } from 'reactstrap';
-
+import moment from 'moment';
 import { _helper } from '../../Function/API'
 import SearchInput, { createFilter } from 'react-search-input';
-
+import ItemFriend from './Item.jsx';
 const KEYS_TO_FILTERS = ['info.fullName']
 
 const GroupWrapper = styled(CardGroup) `
@@ -27,17 +27,18 @@ const CardWrapper = styled(Card) `
 const CardImgWrapper = styled(CardImg) `
  height: 250px ;
 `;
-const ItemFriend = ({ user }) => (
-  <CardWrapper>
-    <CardImgWrapper src={user.avatar ? user.avatar : '../../../assets/default-avatar.png'} alt="Card image cap" />
-    <CardBody>
-      <CardTitle>{user.info.fullName}</CardTitle>
-      <CardSubtitle>{user.info.fullName}</CardSubtitle>
-      <CardText>Thích màu hông ghét sự dối trá</CardText>
-    </CardBody>
-  </CardWrapper>
+// const ItemFriend = ({ user }) => (
+//   <CardWrapper>
+//     <CardImgWrapper src={user.avatar ? user.avatar : '../../../assets/default-avatar.png'} alt="Card image cap" />
+//     <CardBody>
+//       <CardTitle>Name : {user.info.fullName}</CardTitle>
+//       <CardSubtitle>City : {user.info.address}</CardSubtitle>
+//       <CardText>Birthday : {user.info.birthday ? moment(user.info.birthday).format('MMM Do YY') : 'MM DD YY' }</CardText>
+//       <CardText>{user.info.introduce ? user.info.introduce : 'Friendly and like make friend' }</CardText>
+//     </CardBody>
+//   </CardWrapper>
 
-);
+// );
 export default class Friends extends Component {
   constructor(props) {
     super(props);
@@ -64,8 +65,8 @@ export default class Friends extends Component {
         <SearchInput className="search-input" onChange={this.searchUpdated} />
         <DidWrapper>
           <GroupWrapper>
-            {filteredUser && filteredUser.map((user, i) => {
-                return <ItemFriend  user={user} key={user._id} />
+            { filteredUser && filteredUser.map((user, i) => {
+                return <ItemFriend  user={user} key={user._id} friend />
             })}
           </GroupWrapper>
         </DidWrapper>

@@ -121,7 +121,7 @@ export default class Hobby extends Component {
                 <Collapse isOpen={collapse}>
                             <Label >HOBBIES  </Label>
                             {
-                                hobbies === null ? <Input type='text' value='No data' disabled /> :
+                              hobbies && hobbies.length === 0 ? <Input type='text' value='No data' disabled /> :
                                     hobbies && hobbies.map((item, i) => {
                                       return  i == 0 ? <Input  type="text" placeholder="your hobby" value={(i + 1) + '. ' + item.content}
                                         key={item} disabled /> : 

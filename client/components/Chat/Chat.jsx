@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 import Item from '../../container/item'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import styled from 'styled-components'
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import Slide from '../SlideAdvertisement/Slide.jsx';
 import checkAuthenticate from '../Function/checkAuthenticate'
 
-import ItemChat from './components/ItemChat';
+import { ItemFriend } from './components/ItemChat';
 import { ListGroup } from 'react-bootstrap';
 import FormChat from './components/FormChat'
 import socketIOClient from 'socket.io-client';
@@ -24,6 +24,28 @@ import Chatroom from './Chatroom.jsx';
 import ChatroomPreview from './ChatroomPreview.jsx'
 import Notification from '../Notification/index.jsx';
 import  Footer  from '../Footer/footer';
+
+const ContentWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+ 
+ `;
+ const H3 = styled.h3`
+  width: 300px;
+ `;
+ const Img = styled.img`
+  &::before {
+    transform: rotate(10deg);
+    border: 1px solid gray;
+  }
+  &::after {
+    transform: rotate(10deg);
+    border: 1px solid gray;
+  }
+ `;
 
 export default class Chat extends Component {
   constructor(props) {
@@ -118,7 +140,7 @@ export default class Chat extends Component {
     return (
       <Chatroom
         chatroom={chatroom}
-        // chatroom={chatroom}
+        chatRooms={this.getChatRooms}
         // chatHistory={chatHistory}
         user={this.state.user}
         // onLeave={
@@ -194,6 +216,7 @@ export default class Chat extends Component {
                             render={
                               (props) =>
                                 <Home
+                                  onClick={() => { this.toggle('2'); }}
                                   user={user}
                                   chatRooms={this.state.chatRooms}
                                   joinRoom={(friend_id) => this.joinRoom(friend_id)}
@@ -224,11 +247,18 @@ export default class Chat extends Component {
             </TabPane>
             <TabPane tabId="2" className='list-friend' >
               
-                  { listFriends &&
+                  { listFriends.length > 0 ?
                      listFriends.map((friend, i) => (
-                       <Item key={i} friend={friend} joinRoom={(friend_id) => this.joinRoom(friend_id)} />
+                       <ItemFriend key={i} friend={friend} joinRoom={(friend_id) => this.joinRoom(friend_id)} />
+                    ))
+                    : 
+                    (
+                      <ContentWrapper >
+                        <Img src='../../../assets/default-avatar.png' />
+                        <H3>Những người bạn của bạn sẽ được hiển thị ở đây. Hãy kết bạn và 2 bạn có thể trò chuyện!</H3>
+                      </ContentWrapper>
                     )
-                     )}
+                    }
             </TabPane>
           </TabContent>
         </Sidebar>

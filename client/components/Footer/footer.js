@@ -24,9 +24,9 @@ const Footer = (props) => {
                         <Link to='/support' style={{fontSize: '1.25rem',  textDecoration: 'none'}} >Support</Link>
                     </CardTitleWrapper>
                     <IconWrapper>
-                        <FontAwesomeIcon icon={faFacebook} size="6x" spin />
-                        <FontAwesomeIconWrapper icon={faGooglePlus} size="6x" spin />
-                        <FontAwesomeIcon icon={faTwitter} size="6x" spin />
+                        <FontAwesomeIcon icon={faFacebook} size="6x"  />
+                        <FontAwesomeIconWrapper icon={faGooglePlus} size="6x"  />
+                        <FontAwesomeIcon icon={faTwitter} size="6x"  />
                     </IconWrapper>
                 </CardBody>
             </Card>

@@ -71,6 +71,7 @@ class TabHome extends React.Component {
     )
       .then((response) => {
         const { data, status } = response;
+        console.log(data);        
         if (status == 200) {
           this.setState({ listFriends: data.data[0].friends })
 

@@ -114,6 +114,24 @@ export default class Info extends Component {
             </FormGroup>
         )
     }
+    renderInputArea = (label, props) => {
+        if (!props) {
+            return (<FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value='No data' disabled />
+                </InputGroup>
+            </FormGroup>)
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='textarea' value={props} disabled />
+                </InputGroup>
+            </FormGroup>
+        )
+    }
     renderInputNumber = (label, props) => {
         if (!props) {
             return (<FormGroup>
@@ -171,6 +189,48 @@ export default class Info extends Component {
                         <Input placeholder="number" type="number" step="1" value={props} onChange={(e) => onChange(e)}
                         />
                         <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
+                    </InputGroup>
+                </FormGroup>
+            )
+        }
+        return (
+            <FormGroup>
+                <Label >{label}</Label>
+                <InputGroup>
+                    <Input type='text' value={props} onChange={(e) => onChange(e)} />
+                </InputGroup>
+            </FormGroup>
+        )
+
+    }
+    renderInputChange = (label, type, props, onChange) => {
+        if (type == 'date') {
+            return (
+                <FormGroup>
+                    <Label >{label}</Label>
+                    <InputGroup>
+                        <Input type='date' value={moment(props).format('YYYY-MM-DD')} onChange={(e) => onChange(e)} />
+                    </InputGroup>
+                </FormGroup>)
+        }
+        if (type == 'number') {
+            return (
+                <FormGroup>
+                    <Label >{label}</Label>
+                    <InputGroup>
+                        <Input placeholder="number" type="number" step="1" value={props} onChange={(e) => onChange(e)}
+                        />
+                        <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
+                    </InputGroup>
+                </FormGroup>
+            )
+        }
+        if (type == 'area') {
+            return (
+                <FormGroup>
+                    <Label >{label}</Label>
+                    <InputGroup>
+                        <Input type='textarea' value={props} onChange={(e) => onChange(e)} />
                     </InputGroup>
                 </FormGroup>
             )
@@ -251,7 +311,7 @@ export default class Info extends Component {
                             {info.weight ? this.renderInputNumber('WEIGHT', info.weight) : this.renderInputNumber('WEIGHT')}
                             {info.knowledge ? this.renderInput('KNOWLEDGE', info.knowledge) : this.renderInput('KNOWLEDGE')}
                             {info.marialStatus ? this.renderInput('MARIALSTATUS', info.marialStatus) : this.renderInput('MARIALSTATUS')}
-                            {info.introduce ? this.renderInput('INTRODUCE', info.introduce) : this.renderInput('INTRODUCE')}
+                            {info.introduce ? this.renderInputArea('INTRODUCE', info.introduce) : this.renderInput('INTRODUCE')}
 
                         </Col>
                     </Row>
@@ -277,7 +337,7 @@ export default class Info extends Component {
                                 {this.renderInputChange('WEIGHT', 'number', weight, (e) => this.setState({ weight: e.target.value }))}
                                 {this.renderInputChange('KNOWLEDGE', '', knowledge, (e) => this.setState({ knowledge: e.target.value }))}
                                 {this.renderInputChange('MARIALSTATUS', '', marialStatus, (e) => this.setState({ marialStatus: e.target.value }))}
-                                {this.renderInputChange('INTRODUCE', '', introduce, (e) => this.setState({ introduce: e.target.value }))}
+                                {this.renderInputChange('INTRODUCE', 'area', introduce, (e) => this.setState({ introduce: e.target.value }))}
 
 
                             </Col>
