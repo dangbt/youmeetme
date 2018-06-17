@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
-import { BtnPlus, InputHobby, FormPlus, BtnAdd, FormHobbies } from './styled'
+import { BtnPlus, InputHobby, FormPlus, BtnAdd, FormHobbies, Editor } from './styled'
 import './style.scss'
 
 
@@ -63,7 +63,8 @@ export default class Hobby extends Component {
     }
     updateUser = () => {
         const { valueSelect, listHobbiesAdd } = this.state;
-        const newList = valueSelect.concat(listHobbiesAdd)
+        const listHobbies = listHobbiesAdd.map(item => item._id)
+        const newList = valueSelect.concat(listHobbies)
         debugger
         const user = {
             hobbies: newList
@@ -74,22 +75,26 @@ export default class Hobby extends Component {
     hanlderClickAdd = () => {
         const { tempHobby } = this.state;
         const { user } = this.props;
+        let whoLikeThis= [user._id];
+        debugger
         
-        _helper.fetchAPI('/hobbies',{ content : tempHobby, whoLikeThis : `${user._id}` },[], 'POST')
+        _helper.fetchAPI('/hobbies',{ content : tempHobby, whoLikeThis : whoLikeThis },[], 'POST')
         .then(response => {
             const { data, status } = response;
             debugger
             if( status == 200 ) {
                 const { listHobbiesAdd } = this.state;
                 let newList = listHobbiesAdd;
-                newList.push(data.content);
+                newList.push(data);
                 this.setState({ listHobbiesAdd: newList, tempHobby: '', togglePlus: false })
             }
 
         })
-        
-       
-        
+    }
+    handleKeyPress = (e) => {
+      if (e.key == 'Enter') {
+          this.hanlderClickAdd();
+      } 
     }
     handleClickBtnPlus = () => {
         const { listHobbiesAdd } = this.state;
@@ -112,27 +117,25 @@ export default class Hobby extends Component {
                 <UncontrolledTooltip placement="top" target="userHobby">
                     Click to show
                 </UncontrolledTooltip >
-                <BorderColor alt='Edit userHobby' onClick={this.toggleModal} />
+                <Editor alt='Edit userHobby' onClick={this.toggleModal} />
                 <Collapse isOpen={collapse}>
-                    <Row>
-                        <Col sx={6}>
-                            <Label >Your hobbies: </Label>
+                            <Label >HOBBIES  </Label>
                             {
-                                hobbies === null ? <Input type='text' value='No data' disabled /> :
+                              hobbies && hobbies.length === 0 ? <Input type='text' value='No data' disabled /> :
                                     hobbies && hobbies.map((item, i) => {
-                                        return <Input type="text" placeholder="your hobby" value={(i + 1) + '. ' + item.content}
+                                      return  i == 0 ? <Input  type="text" placeholder="your hobby" value={(i + 1) + '. ' + item.content}
+                                        key={item} disabled /> : 
+                                         <Input className='mt-3' type="text" placeholder="your hobby" value={(i + 1) + '. ' + item.content}
                                             key={item} disabled />
 
                                     })
                             }
-                        </Col>
-                    </Row>
                 </Collapse>
                 <Modal isOpen={modal} toggle={this.toggleModal} className={this.props.className}>
                     <ModalHeader toggle={this.toggleModal} >Edit your hobbies</ModalHeader>
                     <ModalBody>
                         <FormGroup>
-                            <Label > your hobby</Label>
+                            <Label >Choose hobbies</Label>
                             <Input type="select" multiple onChange={(e) => {
                                 var options = e.target.options;
                                 var value = [];
@@ -154,11 +157,11 @@ export default class Hobby extends Component {
                         <FormGroup>
                             <FormHobbies>
                                 {listHobbiesAdd && listHobbiesAdd.map((item, i) => (
-                                    <div>{i + 1}.{item}</div>
+                                    <div>{i + 1}.{item.content}</div>
                                 ))}
                             </FormHobbies>
                             <FormPlus className={togglePlus ? 'display' : 'none'} >
-                                <InputHobby value={tempHobby} onChange={(e) => this.setState({ tempHobby: e.target.value })} />
+                                <InputHobby value={tempHobby} onChange={(e) => this.setState({ tempHobby: e.target.value })} onKeyPress={this.handleKeyPress} />
                                 <BtnAdd onClick={this.hanlderClickAdd} >ADD</BtnAdd>
                             </FormPlus>
 

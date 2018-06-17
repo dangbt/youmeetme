@@ -128,7 +128,9 @@ export default class Chatroom extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.unregisterHandler()
+    this.props.unregisterHandler();
+    this.props.chatRooms();
+
   }
 
   onInput(e) {
@@ -180,7 +182,6 @@ export default class Chatroom extends React.Component {
 
   render() {
     const { listMessage, client } = this.state;
-    
     return (
       <div style={{ height: 500 , background: 'black', opacity: 0.7, width: '100%' }}>
         <ChatWindow>

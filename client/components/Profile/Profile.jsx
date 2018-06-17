@@ -17,6 +17,7 @@ import Notification from '../Notification/index.jsx';
 import { AccessAlarm, ThreeDRotation, Accessibility, Edit } from '@material-ui/icons';
 import { FlatButton } from 'material-ui';
 import { Avatar } from './styled'
+import Footer from '../Footer/footer';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export default class Profile extends Component {
 
   }
   setTimeOutNotification = () => {
-    setTimeout( ()=> this.setState({show: false}), 1000)
+    setTimeout(() => this.setState({ show: false }), 500)
   }
   toggle() {
     this.setState({
@@ -87,24 +88,22 @@ export default class Profile extends Component {
   }
   updateUser = (userUpdate) => {
     const { user } = this.state;
-    
+
     _helper.fetchAPI(
-      '/users/' +  user._id ,
-      userUpdate , [], 'PUT'
+      '/users/' + user._id,
+      userUpdate, [], 'PUT'
     )
       .then((response) => {
         const { data, status } = response;
-        if(status == 200) {
-          this.setState({show: true, message: 'Update success !!', type: 'info'})
+        if (status == 200) {
+          this.setState({ show: true, message: 'Update success !!', type: 'info' })
         }
-        // this.setTimeOutNotification();        
+        this.setTimeOutNotification();
       })
-    
-      this.setState({show: false})
-      this.getUser();
+    setTimeout(() => this.getUser(), 1000);
   }
-  showMessage = ( msg) =>{
-    this.setState({show: true, message: msg, type: 'warning'})
+  showMessage = (msg) => {
+    this.setState({ show: true, message: msg, type: 'warning' })
   }
   getHobby = () => {
     _helper.fetchGET('/hobbies')
@@ -116,7 +115,7 @@ export default class Profile extends Component {
   }
   getUser = () => {
     const { user } = this.state;
-    _helper.fetchGET('/users/'+ user._id )
+    _helper.fetchGET('/users/' + user._id)
       .then((response) => {
         const { info, occupation, contact, hobbies, avatar } = response.data;
         if (response.status == 200) {
@@ -127,22 +126,22 @@ export default class Profile extends Component {
             hobbies,
             avatar
           })
-          
+
         }
       })
 
   }
-  
+
   componentDidMount() {
     //this.getHobby();
-    this.getUser();
     this.checkAuth();
+    this.getUser();
   }
 
   render() {
-    const { authenticate, blocking, user,  show, message, type } = this.state;
+    const { authenticate, blocking, user, show, message, type } = this.state;
     const { info, occupation, hobbies, contact, avatar } = this.state;
-   
+
     let xhtml = avatar ? avatar : '../../../assets/default-avatar.png';
     if (!authenticate) {
       return <Redirect to='/login'></Redirect>
@@ -150,22 +149,28 @@ export default class Profile extends Component {
     return (
       <div>
         <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>
-          <Sidebar  user={user} >
-          <Slide />
-          <Row>
-            <Col xs="2">
-              <Avatar src={xhtml} alt='avatar' className='img-thumbnail ' />
-            </Col>
-            <Col xs="10">
-              <Info info={info} avatar={avatar} updateUser={this.updateUser} showMessage = {(msg) => this.showMessage(msg)}/>
-              <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
-              <Hobby hobbies={hobbies} updateUser={this.updateUser} showMessage = {(msg) => this.showMessage(msg)} user={user} />
-            </Col>
-          </Row>
+          <Sidebar user={user} >
+            <Slide />
+            <Row>
+              <Col xs="2">
+                <Avatar src={xhtml} alt='avatar' className='img-thumbnail ' />
+              </Col>
+              <Col xs="10">
+                <Info info={info} avatar={avatar} updateUser={this.updateUser} showMessage={(msg) => this.showMessage(msg)} />
+                <Row>
+                  <Col xs="6">
+                    <Occupation occupation={occupation} contact={contact} updateUser={this.updateUser} />
+                  </Col>
+                  <Col xs="6">
+                    <Hobby hobbies={hobbies} updateUser={this.updateUser} showMessage={(msg) => this.showMessage(msg)} user={user} />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
           </Sidebar>
         </BlockUi>
         <Notification show={show} message={message} type={type} time={2000} />
-        <footer style={{ height: '100px' }}></footer>
+        <Footer />
       </div>
 
     )

@@ -4,9 +4,7 @@ var Schema = mongoose.Schema;
 var hobbySchema = Schema({
     content: String,
     whoLikeThis: [
-        {
-            userID: { type: Schema.Types.ObjectId, ref: 'User' }
-        }
+        { type: Schema.Types.ObjectId, ref: 'User' }
     ]
 })
 

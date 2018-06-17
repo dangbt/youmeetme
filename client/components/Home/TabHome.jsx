@@ -71,6 +71,7 @@ class TabHome extends React.Component {
     )
       .then((response) => {
         const { data, status } = response;
+        console.log(data);        
         if (status == 200) {
           this.setState({ listFriends: data.data[0].friends })
 
@@ -143,7 +144,7 @@ class TabHome extends React.Component {
             </NavLink>
           </NavItem>
         </Nav>
-        <TabContent activeTab={this.state.activeTab}>
+        <TabContent activeTab={this.state.activeTab} style={{minHeight: '520px'}} >
           <TabPane tabId="1">
             <Row>
               <Col >

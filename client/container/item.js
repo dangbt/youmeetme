@@ -8,6 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Message } from '@material-ui/icons'
+import Notification from '../components/Notification/index.jsx';
 
 const styles = {
   card: {
@@ -23,7 +24,7 @@ const styles = {
 };
 
 function SimpleMediaCard(props) {
-  const { classes, friend, joinRoom } = props;
+  const { classes, friend, joinRoom, show, message, type } = props;
   return (
     <div className={classes.display} >
       <Card className={classes.card}>
@@ -47,6 +48,7 @@ function SimpleMediaCard(props) {
           </Button>
         </CardActions>
       </Card>
+      <Notification show={show} message={message} type={type}/>
     </div>
   );
 }

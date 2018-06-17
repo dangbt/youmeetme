@@ -22,7 +22,7 @@ var likedUsers = {
 	getUserLikeMe: (req, res) => {
         LikedUser.find({ 'likedBy': req. session.user._id})
         .sort({'createdAt': -1})
-        .populate({path: 'userID', select: 'info.fullName avatar'})
+        .populate({path: 'userID'})
         .exec((err, likedUser) => {
             if (err)
                 res.json({ result: 0, msg: "Server Error", data: { err } });

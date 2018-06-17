@@ -26,7 +26,16 @@ var userSchema = Schema({
 			lowercase: true,
 			match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
 		},
-		phone: { type: String, trim: true },
+		phone: {
+			type: Number,
+			trim: true,
+			min: [10, 'Phone must have at least 10 numbers'],
+			validate : {
+				validator : Number.isInteger,
+				message   : '{VALUE} is not an integer value'
+			  },
+			required: [true, 'User phone number required']
+		  },
 		web_page: { type: String }
 	},
 	username: {    

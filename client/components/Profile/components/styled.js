@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BorderColor } from '@material-ui/icons'
 
 export const BtnPlus = styled.div`
     width: 100%;
@@ -17,13 +18,16 @@ export const FormPlus = styled.div`
 export const BtnAdd = styled.div`
     border: 2px solid #ffb827;
     border-radius: 0 5px 5px 0px;
-       position: absolute;
+    position: absolute;
     right: 16px;
+    font-size: 24px;
+    background-color: #7028ff;
     cursor: pointer;
 
 `
 
 export const InputHobby = styled.input`
+    height: 40px;
     width: 100%;
     border: 2px solid #ffb827;
     border-radius: 5px;
@@ -31,4 +35,7 @@ export const InputHobby = styled.input`
 `
 export const FormHobbies = styled.div`
     
+`
+export const Editor = styled(BorderColor) `
+    cursor: pointer;
 `
