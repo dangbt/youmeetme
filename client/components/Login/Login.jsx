@@ -42,15 +42,14 @@ export default class Login extends Component {
           }
           else {
             if (status == 401) {
-              this.setState({ show: true, message: data, type: 'warning' })
+              this.setState({ show: true, message: data, type: 'warning' },() =>this.setTimeOutNotification())
 
             }
             else {
-              this.setState({ show: true, message: data, type: 'error' })
+              this.setState({ show: true, message: data, type: 'error' },() =>this.setTimeOutNotification())
               
             }
           }
-          this.setTimeOutNotification();
         }
       })
       .catch((error) => {

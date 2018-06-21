@@ -53,9 +53,17 @@ export default ({ chatroom, onEnter, user }) => (
       </Wrapper>
     </Paper> */}
     <ListItemWrapper  onClick={onEnter}>
-      <AvatarWrapper src={chatroom.avatar ? chatroom.avatar : "../../../assets/default-avatar.png"} />
+      <AvatarWrapper src={
+        chatroom.participants.length > 1 ? (
+        chatroom.participants[0].avatar != user.avatar ? chatroom.participants[0].avatar :  chatroom.participants[1].avatar )
+        : (chatroom.participants[0].avatar )
+        } />
       <ListItemTextWrapper 
-      primary={chatroom.participants[0]._id != user._id ? chatroom.participants[0].info.fullName :   chatroom.participants[1].info.fullName} 
+      primary={
+        chatroom.participants.length > 1 ? (
+        chatroom.participants[0]._id != user._id ? chatroom.participants[0].info.fullName :   chatroom.participants[1].info.fullName)
+        : ( chatroom.participants[0].info.fullName)
+      } 
       secondary={chatroom.lastMessage ? chatroom.lastMessage +'-' + moment(chatroom.createdAt).format(' h:mm:ss a YYYY/MM/DD ') : `You are now connected on YOU MEET ME` } 
       />
     </ListItemWrapper>

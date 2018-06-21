@@ -25,7 +25,7 @@ export default class SignUp extends Component {
     }
   }
   setTimeOutNotification = () => {
-    setTimeout( ()=> this.setState({show: false}), 1000)
+    setTimeout( ()=> this.setState({show: false}), 1)
   }
   signup = (e) => {
     e.preventDefault();
@@ -50,13 +50,13 @@ export default class SignUp extends Component {
       .then((response) => {
         const { data, status } = response;
         if (data.result == 0) {
-          this.setState({show: true, message: data.msg, type: 'warning'})
+          this.setState({show: true, message: data.msg, type: 'warning'}, () => this.setTimeOutNotification() )
         }
         if (data.result == 1) {
-          this.setState({show: true, message: data.msg, type: 'info'})
           setTimeout(()=> this.setState({authenticate: true}), 2000)
+          this.setState({show: true, message: data.msg, type: 'info'}, () => this.setTimeOutNotification())
         }
-        this.setTimeOutNotification();
+        
       })
       .catch((error) => {
         console.log(error);
@@ -126,7 +126,7 @@ export default class SignUp extends Component {
             <Link to='/login'>Log In</Link>
           </ColWrapper>
         </Content>
-        <Notification show={show} message={message} type={type} time={5000} />
+        <Notification show={show} message={message} type={type} time={1900} />
       </SignupWrapper>
       
     )

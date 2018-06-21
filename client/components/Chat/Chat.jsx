@@ -171,7 +171,7 @@ export default class Chat extends Component {
     //this.getListChat();
   }
   render() {
-    const { authenticate, openFormchat, client, listFriends, user, show, message, type } = this.state;
+    const { authenticate, openFormchat, client, listFriends, user, show, message, type, chatRooms } = this.state;
     if (!authenticate) {
       return (
         <Redirect to={'/login'}></Redirect>

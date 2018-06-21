@@ -3,11 +3,14 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, Ca
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import ListItem from './components/ListItem.jsx';
+import NewImage from './components/NewImage.jsx';
 import Friends from './components/Friends.jsx'
 import WhoLikeMe from './components/WhoLikeMe.jsx'
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import { _helper } from '../Function/API';
+import Notification from '../Notification/index.jsx';
+import moment from 'moment';
 
 const styles = theme => ({
   margin: {
@@ -39,6 +42,10 @@ class TabHome extends React.Component {
       listLikeMe: [],
       listUser: [],
       listFriends: [],
+      show: false,
+      message: '',
+      type: 'info',
+      listImage: []
     };
   }
   getListLikeMe = () => {
@@ -49,6 +56,20 @@ class TabHome extends React.Component {
         const { status, data } = response;
         if (status == 200) {
           this.setState({ listLikeMe: data.data })
+        }
+      })
+  }
+  likeUser = (userID) => {
+    _helper.fetchAPI(
+      '/likedUsers', { userID: userID }, [], 'POST'
+    )
+      .then((response) => {
+        const { status, data } = response;
+        if (status == 200) {
+          this.handleShowNotification(data.msg,'info');
+        }
+        if( status != 200) {
+          this.handleShowNotification(data.msg,'warning')
         }
       })
   }
@@ -71,7 +92,6 @@ class TabHome extends React.Component {
     )
       .then((response) => {
         const { data, status } = response;
-        console.log(data);        
         if (status == 200) {
           this.setState({ listFriends: data.data[0].friends })
 
@@ -91,6 +111,25 @@ class TabHome extends React.Component {
         }
       })
   }
+  getAllImage = () => {
+    _helper.fetchGET(
+      '/images', []
+    )
+      .then((response) => {
+        const { data, status } = response;
+        if ( status == 200 ) {
+          this.setState({listImage: data})
+        }
+      })
+  } 
+  badgeImage = () => {
+    const { listImage } = this.state;
+    const badge = listImage.filter(item => 
+      moment(item.updatedAt).format('DD-MM-YYYY') === moment().format('DD-MM-YYYY')
+     
+    )
+    return badge.length;
+  }
 
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -99,14 +138,23 @@ class TabHome extends React.Component {
       });
     }
   }
+  setTimeOutNotification = () => {
+    setTimeout( ()=> this.setState({show: false}), 1)
+  }
+  handleShowNotification = (msg, type) => {
+      this.setState({show: true, message: msg, type: type}, () => { this.setTimeOutNotification()})
+  }
   componentDidMount = () => {
     this.getListLikeMe();
     this.getUser();
     this.getFriends();
+    this.getAllImage();
+   
   }
   render() {
     const { classes, user } = this.props;
-    const { listLikeMe, listUser, listFriends } = this.state;
+    const { listLikeMe, listUser, listFriends, show, message, type, listImage } = this.state;
+    
     return (
       <div className="nav-tab">
         <Nav tabs justified>
@@ -121,10 +169,12 @@ class TabHome extends React.Component {
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => { this.toggle('2'); }}
+              onClick={() => { this.toggle('2');
+              if (this.state.activeTab != '2')
+               this.handleShowNotification('Upload nhiều hình ảnh để được nhiều người thích và kết bạn hơn','info')  }}
             >
              
-              <Badge className={classes.margin} badgeContent={4} color="primary"> New Image</Badge>  
+              <Badge className={classes.margin} badgeContent={this.badgeImage()} color="primary"> New Image</Badge>  
             </NavLink>
           </NavItem>
           <NavItem>
@@ -148,65 +198,33 @@ class TabHome extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col >
-                <ListItem  listUser={listUser} />
+                <ListItem  listUser={listUser} handleShowNotification={this.handleShowNotification} user={user} />
               </Col>
             </Row>
           </TabPane>
-          <TabPane tabId="2">
-            <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
-              </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>With supporting text below as a natural lead-in to additional content.</CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
+          <TabPane tabId="2" >
+          <Row>
+              <Col >
+                <NewImage handleShowNotification={this.handleShowNotification} listImage={listImage} user={user} likeUser={this.likeUser} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
+              <Col >
               <WhoLikeMe listLikeMe= {listLikeMe} addFriend={(userID) => this.addFriend(userID)} />
+              </Col>
             </Row>
           </TabPane>
           <TabPane tabId="4">
-            <Friends user={user} listFriends={listFriends} />
+            <Row>
+              <Col >
+                <Friends user={user} listFriends={listFriends} />
+              </Col>
+            </Row>
           </TabPane>
         </TabContent>
+        <Notification show={show} message={message} type={type} />
       </div>
     );
   }

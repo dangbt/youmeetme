@@ -8,7 +8,6 @@ import {
 } from 'reactstrap';
 import { _helper } from '../../Function/API';
 import SearchInput, { createFilter } from 'react-search-input';
-import checkAuthenticate from '../../Function/checkAuthenticate';
 
 const GroupWrapper = styled(CardGroup) `
   justify-content: start;
@@ -16,6 +15,7 @@ const GroupWrapper = styled(CardGroup) `
 `;
 const DidWrapper = styled.div`
  `;
+ 
  const ContentWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -45,52 +45,16 @@ export default class WhoLikeMe extends Component {
     this.state = {
       listUser: [],
       searchTerm: '',
-      _user: {}
      
     }
   }
-
  
-  getListLikeMe = () => {
-    _helper.fetchGET(
-      '/usersLikeMe', []
-    )
-      .then((response) => {
-        const { status, data } = response;
-        if (status == 200) {
-          this.setState({ listUser: data.data })
-        }
-      })
-  }
- addFriend = (userID) => {
-    _helper.fetchAPI(
-      '/users/addFriend', { userID: userID }, [], 'POST'
-    )
-      .then((response) => {
-        const { status, data } = response;
-        if (status == 200) {
-         this.getListLikeMe();
-        }
-      })
-  }
-  checkAuth = () => {
-    checkAuthenticate().then((response) => {
-      this.setState({
-            _user: response.data
-      })
-      
-
-    })
-  }
   searchUpdated = (term) =>  {
     this.setState({ searchTerm: term })
 }
-  componentDidMount() {
-    this.getListLikeMe();
-    this.checkAuth()
-  }
+
   render() {
-    const { listUser, searchTerm, _user } = this.state;
+    const {  searchTerm } = this.state;
     const  { listLikeMe } = this.props;
     const filteredUser = listLikeMe ?  listLikeMe.filter(createFilter(searchTerm, KEYS_TO_FILTERS)) : [];
     
@@ -108,7 +72,6 @@ export default class WhoLikeMe extends Component {
               <H3>Những người đã thích bạn sẽ được hiển thị ở đây. Hãy thích lại họ và 2 bạn có thể trò chuyện!</H3>
             </ContentWrapper>
           }
-            
           </GroupWrapper>
         </DidWrapper>
       </div>
