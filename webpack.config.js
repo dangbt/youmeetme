@@ -79,8 +79,10 @@ module.exports = {
   plugins: [
     HtmlWebpackPluginConfig,
     extractSass,
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.DEBUG': JSON.stringify(process.env.DEBUG),
+      'process.env.PORT': JSON.stringify(process.env.PORT),
     })
   ],
    watch: true

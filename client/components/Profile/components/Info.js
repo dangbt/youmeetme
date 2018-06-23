@@ -34,7 +34,7 @@ export default class Info extends Component {
             modal: false,
             info: this.props.info,
             fullName: '',
-            gender: '',
+            gender: 'Male',
             height: '',
             weight: 0,
             marialStatus: '',
@@ -109,7 +109,7 @@ export default class Info extends Component {
             <FormGroup>
                 <Label >{label}</Label>
                 <InputGroup>
-                    <Input type='text' value={props} disabled />
+                    <Input type='text' placeholder={label.toLowerCase()} value={props} disabled />
                 </InputGroup>
             </FormGroup>
         )
@@ -127,7 +127,7 @@ export default class Info extends Component {
             <FormGroup>
                 <Label >{label}</Label>
                 <InputGroup>
-                    <Input type='textarea' value={props} disabled />
+                    <Input type='textarea'placeholder={label.toLowerCase()} value={props} disabled />
                 </InputGroup>
             </FormGroup>
         )
@@ -145,7 +145,7 @@ export default class Info extends Component {
             <FormGroup>
                 <Label >{label}</Label>
                 <InputGroup>
-                    <Input placeholder="Amount" type="number" step="1" value={props}
+                    <Input placeholder={label.toLowerCase()} type="number" step="1" value={props}
                         disabled />
                     <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
                 </InputGroup>
@@ -165,7 +165,7 @@ export default class Info extends Component {
             <FormGroup>
                 <Label >{label}</Label>
                 <InputGroup>
-                    <Input type='date' value={moment(props).format('YYYY-MM-DD')} disabled />
+                    <Input type='date' placeholder={label.toLowerCase()} value={moment(props).format('YYYY-MM-DD')} disabled />
                 </InputGroup>
             </FormGroup>
         )
@@ -177,7 +177,7 @@ export default class Info extends Component {
                 <FormGroup>
                     <Label >{label}</Label>
                     <InputGroup>
-                        <Input type='date' value={moment(props).format('YYYY-MM-DD')} onChange={(e) => onChange(e)} />
+                        <Input type='date' placeholder={label.toLowerCase()} value={moment(props).format('YYYY-MM-DD')} onChange={(e) => onChange(e)} />
                     </InputGroup>
                 </FormGroup>)
         }
@@ -186,7 +186,7 @@ export default class Info extends Component {
                 <FormGroup>
                     <Label >{label}</Label>
                     <InputGroup>
-                        <Input placeholder="number" type="number" step="1" value={props} onChange={(e) => onChange(e)}
+                        <Input placeholder={label.toLowerCase()} type="number" step="1" value={props} onChange={(e) => onChange(e)}
                         />
                         <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
                     </InputGroup>
@@ -197,7 +197,7 @@ export default class Info extends Component {
             <FormGroup>
                 <Label >{label}</Label>
                 <InputGroup>
-                    <Input type='text' value={props} onChange={(e) => onChange(e)} />
+                    <Input type='text' placeholder={label.toLowerCase()} value={props} onChange={(e) => onChange(e)} />
                 </InputGroup>
             </FormGroup>
         )
@@ -209,7 +209,7 @@ export default class Info extends Component {
                 <FormGroup>
                     <Label >{label}</Label>
                     <InputGroup>
-                        <Input type='date' value={moment(props).format('YYYY-MM-DD')} onChange={(e) => onChange(e)} />
+                        <Input type='date' placeholder={label.toLowerCase()} value={moment(props).format('YYYY-MM-DD')} onChange={(e) => onChange(e)} />
                     </InputGroup>
                 </FormGroup>)
         }
@@ -218,7 +218,7 @@ export default class Info extends Component {
                 <FormGroup>
                     <Label >{label}</Label>
                     <InputGroup>
-                        <Input placeholder="number" type="number" step="1" value={props} onChange={(e) => onChange(e)}
+                        <Input placeholder={label.toLowerCase()} type="number" step="1" value={props} onChange={(e) => onChange(e)}
                         />
                         <InputGroupAddon addonType="append">{label == 'HEIGHT' ? 'Centimet' : 'Kg'}</InputGroupAddon>
                     </InputGroup>
@@ -230,7 +230,7 @@ export default class Info extends Component {
                 <FormGroup>
                     <Label >{label}</Label>
                     <InputGroup>
-                        <Input type='textarea' value={props} onChange={(e) => onChange(e)} />
+                        <Input placeholder={label.toLowerCase()} type='textarea' value={props} onChange={(e) => onChange(e)} />
                     </InputGroup>
                 </FormGroup>
             )
@@ -239,7 +239,7 @@ export default class Info extends Component {
             <FormGroup>
                 <Label >{label}</Label>
                 <InputGroup>
-                    <Input type='text' value={props} onChange={(e) => onChange(e)} />
+                    <Input type='text' placeholder={label.toLowerCase()} value={props} onChange={(e) => onChange(e)} />
                 </InputGroup>
             </FormGroup>
         )
@@ -249,7 +249,7 @@ export default class Info extends Component {
         return (
             <FormGroup>
                 <Label>{label}</Label>
-                <Input type="select" value={props} onChange={(e) => onChange(e)} >
+                <Input type="select" value={props} placeholder={label.toLowerCase()} onChange={(e) => onChange(e)} >
                     {data.map((item, i) => {
                         return <option key={i}>{item.name ? item.name : item}</option>
                     })}

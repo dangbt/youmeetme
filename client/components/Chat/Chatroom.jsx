@@ -89,21 +89,11 @@ const Scrollable = styled.div`
 export default class Chatroom extends React.Component {
   constructor(props, context) {
     super(props, context)
-
-    //const { chatHistory } = props
-
     this.state = {
-      chatHistory: '',
       input: '',
       client: socket(),
       listMessage: []
     }
-
-    this.onInput = this.onInput.bind(this)
-    this.onSendMessage = this.onSendMessage.bind(this)
-    this.onMessageReceived = this.onMessageReceived.bind(this)
-    this.updateChatHistory = this.updateChatHistory.bind(this)
-    this.scrollChatToBottom = this.scrollChatToBottom.bind(this)
   }
 
   componentDidMount() {
@@ -130,16 +120,15 @@ export default class Chatroom extends React.Component {
   componentWillUnmount() {
     this.props.unregisterHandler();
     this.props.chatRooms();
-
   }
 
-  onInput(e) {
+  onInput = (e) => {
     this.setState({
       input: e.target.value
     })
   }
 
-  onSendMessage() {
+  onSendMessage = () => {
     if (!this.state.input)
       return
 
@@ -156,7 +145,7 @@ export default class Chatroom extends React.Component {
     return this.state.client.leave(this.props.chatroom._id)
   }
 
-  onMessageReceived(entry) {
+  onMessageReceived = (entry) => {
     const newMesssage = [{
       content: entry,
       senderID: {
@@ -172,11 +161,7 @@ export default class Chatroom extends React.Component {
     this.setState({ listMessage: newListMessage })
   }
 
-  updateChatHistory(entry) {
-    this.setState({ chatHistory: this.state.chatHistory.concat(entry) })
-  }
-
-  scrollChatToBottom() {
+  scrollChatToBottom = () => {
     this.panel.scrollTo(0, this.panel.scrollHeight)
   }
 

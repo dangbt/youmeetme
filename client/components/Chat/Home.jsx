@@ -11,6 +11,10 @@ const ListWrapper = styled(List)`
 const H3 = styled.h3`
   text-align: center;
 `;
+const Div = styled.div`
+  text-align: center;
+  font-size: 25px;
+`;
 
 export default ({
   chatRooms,
@@ -32,7 +36,9 @@ export default ({
       )) 
       : 
       ( 
-        <H3>Tạo phòng để cùng có thể trò chuyện với bạn !<H3 onClick={onClick} style={{color: 'blue', cursor: 'pointer'}} >Click</H3> </H3>
+        <Div>Tạo phòng để cùng trò chuyện với bạn !
+          <H3 onClick={onClick} style={{color: 'blue', cursor: 'pointer'}} >Click</H3> 
+        </Div>
       )
     }
      </ListWrapper>

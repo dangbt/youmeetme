@@ -4,17 +4,17 @@ var User = mongoose.model('User');
 
 var images= {
 	getAll: (req, res) => {
-		Image.find({}).populate('User').exec((err, images) => {
+		Image.find({}).populate({ path: 'userID' }).exec((err, images) => {
 			if(err)
 				res.send(err);
-				res.json(images);
+			res.json(images);
 		})
 	},
 	
 	getOne: (req, res) => {
 		Image.findOne({id: req.params.id},(err, image) => {
 			if(err)
-			res.send(err);
+				res.send(err);
 			res.json(image);
 		})
 	},
@@ -23,7 +23,7 @@ var images= {
 		var newImage = req.body;
 		Image.findOneAndUpdate({id: req.params.id},newImage,(err, image) => {
 			if(err)
-			res.send(err);
+				res.send(err);
 			res.json(image);
 		})
 	},
@@ -35,14 +35,14 @@ var images= {
 		var newImage = new Image(req.body);
 		newImage.save((err, data) => {
 			if(err)
-				res.json({ result: 0, msg: `Error while creating image!`, data: {} });
-			else{
-				// create complete, add image ID to user
+				res.json({ result: 0, msg: `Error while creating image!`, data: err });
+			else {
+				// // create complete, add image ID to user
 				User.findOneAndUpdate({_id: req.body.userID}, {$push: {"images": data._id}}, (err1, data1)=>{
-					if (err1 || !data1)
+					if (err1)
 						res.json({ result: 0, msg: `Error while adding image!`, data: {} });
 					else
-						res.json({ result: 1, msg: "Add image successful!", data: data || {} });
+						res.json({ result: 1, msg: "Add image successful!", data: data1  });
 				});
 			}
 		})

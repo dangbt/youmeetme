@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import TabHome from './TabHome.jsx'
 import Slide from '../SlideAdvertisement/Slide.jsx'
