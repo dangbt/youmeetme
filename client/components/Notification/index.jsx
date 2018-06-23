@@ -18,26 +18,6 @@ export default class Notification extends Component {
             return NotificationManager.error(message,'', time ? time : 3000);
         }
     }
-    // createNotification = (message, type) => {
-    //     return () => {
-    //       switch (type) {
-    //         case 'info':
-    //         // message , title , time, cb
-    //           NotificationManager.info(message, '',5000);
-    //           break;
-    //         case 'success':
-    //           NotificationManager.success(message, '',5000 );
-    //           break;
-    //         case 'warning':
-    //           NotificationManager.warning(message, '',  5000);
-    //           break;
-    //         case 'error':
-    //           NotificationManager.error(message, '',  5000);
-    //           break;
-    //       }
-    //     };
-    //   };
-
     render() {
         const { show, message, type, time } = this.props;
         return (

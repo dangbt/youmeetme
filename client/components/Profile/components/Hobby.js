@@ -14,7 +14,6 @@ import {
     Row,
     UncontrolledTooltip
 } from 'reactstrap';
-import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
 import { BtnPlus, InputHobby, FormPlus, BtnAdd, FormHobbies, Editor } from './styled'
 import './style.scss'
@@ -26,13 +25,10 @@ export default class Hobby extends Component {
         this.state = {
             collapse: false,
             modal: false,
-            hobbies: [],
             listHobbies: [],
             listHobbiesAdd: [],
             tempHobby: '',
-            content: '',
             valueSelect: [],
-            whoLikeThis: {},
             togglePlus: false
 
         }
@@ -104,7 +100,6 @@ export default class Hobby extends Component {
         }
     }
     componentDidMount() {
-        //this.getUser();
         this.getHobby();
     }
     render() {

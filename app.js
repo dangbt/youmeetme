@@ -22,7 +22,11 @@ const bodyParser = require('body-parser');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/youmeetme');
+const DBstring = process.env.NODE_ENV === 'production' ? 
+    'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme'
+    : 'mongodb://localhost/youmeetme';
+
+mongoose.connect(DBstring);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -38,9 +42,13 @@ app.use(session({
     httpOnly: true,
     cookie: {
         maxAge: 15 * 60 * 1000,
-        url: 'mongodb://localhost/youmeetme',
+    },
+    store: new MongoStore({
+        url:    DBstring,
         ttl: 15 * 60,
-    }
+    })
+      
+    
 }));
 
 // route

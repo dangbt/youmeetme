@@ -28,6 +28,7 @@ export default class Login extends Component {
   login = (e) => {
     e.preventDefault();
     const { username, password } = this.state;
+    
     _helper.fetchAPI(
       '/login',
       {
@@ -47,7 +48,6 @@ export default class Login extends Component {
             }
             else {
               this.setState({ show: true, message: data, type: 'error' },() =>this.setTimeOutNotification())
-              
             }
           }
         }
@@ -80,7 +80,7 @@ export default class Login extends Component {
           {/* <h1>Login </h1> */}
           <Col sm={{ size: 10, offset: 2 }}>
           </Col>
-          <Form onSubmit={(e) => this.login(e)}>
+          <Form onSubmit={this.login}>
             <FormGroup row>
               <Label for="exampleEmail" sm={2}>UserName</Label>
               <Col sm={10}>
