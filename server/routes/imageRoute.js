@@ -1,9 +1,9 @@
 var express = require('express');
 var imageController = require('../controllers/imageController');
-var router = express.Router();
 var func_API = require('../controllers/func_api');
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * IMAGE ROUTE
     */

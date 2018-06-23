@@ -1,8 +1,8 @@
 var express = require('express');
 var messageController = require('../controllers/messageController');
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * MESSAGE ROUTE
     */

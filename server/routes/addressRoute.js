@@ -1,8 +1,8 @@
 var express = require('express');
 var addressController = require('../controllers/addressController');
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * ADDRESS ROUTE
     */

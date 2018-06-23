@@ -1,9 +1,9 @@
 var express = require('express');
 var func_api = require('../controllers/func_api');
 var userController = require('../controllers/userController');
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
 
     router.post('/login', func_api.login);
     router.post('/logout', func_api.logout);

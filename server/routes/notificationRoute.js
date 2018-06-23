@@ -1,8 +1,8 @@
 var express = require('express');
 var notificationController = require('../controllers/notificationController');
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * NOTIFICATION ROUTE
     */

@@ -1,8 +1,8 @@
 var express = require('express');
 var advertiseController = require('../controllers/advertiseController');
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * ADVERTISE ROUTE
     */

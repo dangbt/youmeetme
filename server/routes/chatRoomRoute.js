@@ -1,9 +1,9 @@
 var express = require('express');
 var chatRoomController = require('../controllers/chatRoomController');
 var func_API = require('../controllers/func_api')
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * LIST CHAT ROUTE
     */

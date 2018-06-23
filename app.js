@@ -4,7 +4,7 @@ const path = require('path');
 const staticPath = 'public';
 const publicPath = 'assets';
 const cors = require('cors');
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const User = require('./server/models/user');
 const Role = require('./server/models/role');
@@ -64,13 +64,12 @@ require('./server/routes/roleRoute')(app);
 require('./server/routes/userRoute')(app);
 require('./server/routes/indexRoute')(app);
 
+
 // require('http').globalAgent.maxSockets = Infinity
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 // const redisAdapter = require('socket.io-redis');
 // app.io.adapter(redisAdapter({ host: 'localhost', port: 8080 }));
-var messages = ['a', 'b', 'c'];
-var roomChat = '';
 io.on('connection', (socket) => {
 
     socket.on('create-room', (room) => {
@@ -98,5 +97,5 @@ app.get(/^((?!\/apii)(\/[a-z\-]*)*)*$/, (req, res) => {
 // host assets save image....
 app.use('/assets', express.static(path.join(__dirname, publicPath)));
 
-http.listen(port, () => console.log("Magic happens on port: " + port))
+http.listen(PORT, () => console.log("Magic happens on port: " + PORT))
 

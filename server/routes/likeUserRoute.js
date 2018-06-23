@@ -2,9 +2,9 @@
 var express = require('express');
 var likedUserController = require('../controllers/likedUserController');
 var func_API = require('../controllers/func_api')
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * LIKE_USER ROUTE
     */

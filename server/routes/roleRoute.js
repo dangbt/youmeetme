@@ -1,8 +1,8 @@
 var express = require('express');
 var roleController = require('../controllers/roleController');
-var router = express.Router();
 
 module.exports = (app) => {
+    var router = express.Router();
     /*
     * ROLES ROUTE
     */
