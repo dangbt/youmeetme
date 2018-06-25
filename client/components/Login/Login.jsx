@@ -5,7 +5,7 @@ import { _helper } from '../Function/API.js';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import checkAuthenticate from '../Function/checkAuthenticate.js';
 import Notification from '../Notification/index.jsx';
-import { LoginWrapper, Header, Content, BtnSubmit, ColWrapper } from './styled';
+import { LoginWrapper, Header, Content, BtnSubmit, ColWrapper, LinkWrapper } from './styled';
 import './Login.scss'
 
 export default class Login extends Component {
@@ -75,7 +75,7 @@ export default class Login extends Component {
     }
     return (
       <LoginWrapper >
-        <Header>WELCOME TO YOU MEET ME</Header>
+        <LinkWrapper to='/'><Header>WELCOME TO YOU MEET ME</Header></LinkWrapper>
         <Content>
           {/* <h1>Login </h1> */}
           <Col sm={{ size: 10, offset: 2 }}>
