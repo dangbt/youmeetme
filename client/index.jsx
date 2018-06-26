@@ -7,7 +7,6 @@ import './index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-notifications/lib/notifications.css';
 
-
 import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory({basename: '/', forceRefresh: false});
