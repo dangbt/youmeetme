@@ -69,10 +69,10 @@ module.exports = [
     },
     {
         name: 'Korea',
-        city: ['Seoul', 'Seoul1', 'Seoul2']
+        city: ['Busan', 'Daegu', 'Daejeon', 'Gwangju', 'Jeju Island']
     },
     {
         name: 'Japan',
-        city: ['Tokyo', 'Wasaka']
+        city: ['Tokyo', 'Osaka', 'Fukuoka', 'Nagoya', 'Okayama', 'Yokohama', 'Hamamatsu', 'Okinawa Okinawa', 'Kobe', 'Sendai', 'Hiroshima', 'Naha Okinawa', 'Sapporo', 'Kyoto', 'Kitakyushu', 'Dorobo']
     }
 ]

@@ -77,7 +77,7 @@ export default class Support extends Component {
                                 <CardBody>
                                     <Header color='blue' h4 textAlign='none' >1. Làm thế nào để tôi có thể đăng ký tài khoản trên Ymeet.me?</Header>
                                     <p> Để đăng ký tài khoản, bạn làm theo các bước sau:</p>
-                                    <p>1. Đi đến <Link to='ymeetme.herokuapp.com' >ymeetme.herokuapp.com</Link></p> 
+                                    <p>1. Đi đến <Link to='/' >ymeetme.herokuapp.com</Link></p> 
                                     <p>2. Ấn chọn "Sign Up"</p>
                                     <p>3. Nhập các thông tin tài khoản của bạn.</p>
                                     <p>4. Chờ hệ thống xác nhận tài khoản và hoàn thành các thông tin hướng dẫn.</p>
