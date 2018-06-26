@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import { Link, Redirect } from 'react-router-dom';
 import {
   Card, Button, CardImg, CardTitle, CardText, CardDeck,
   CardSubtitle, CardBody, CardGroup, Col, Input, Label, Row, CardImgOverlay
 } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert  } from 'reactstrap';
 import { _helper } from '../../Function/API';
 import moment from 'moment';
-import { ThumbUp } from '@material-ui/icons';
-
+import { ThumbUp, TrendingFlat } from '@material-ui/icons';
 const GroupWrapper = styled(CardGroup) `
   justify-content: start;
 `;
@@ -17,9 +17,10 @@ const CardWrapper = styled(Card) `
   width:250px;
   height: 285px;
   max-width:250px !important;
+  min-width:250px !important;
   margin: 0 10px;
   img {
-    height: 250px !important;
+    height: 235px !important;
   }
 `;
 const DidWrapper = styled.div`
@@ -30,6 +31,17 @@ const BtnAddPic = styled(Button) `
     display: flex !important;
     justify-content: center;
     font-size: 26px;
+`;
+const AlertWrapper = styled(Alert)`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  position: relative;
+  bottom: -25px;
+`;
+const Image = styled.img`
+    min-width: 180px;
+    min-height: 180px;
 `;
 
 export default class NewImage extends Component {
@@ -81,7 +93,8 @@ export default class NewImage extends Component {
         .then((response) => {
           const { data, status } = response;
           if (data.result == 1) {
-            this.setState({modal:false},this.props.getAllImage());
+            this.setState({modal:false},() => this.props.getAllImage());
+            this.props.handleShowNotification('Upload thành công !!!', 'info');
           }
         })
     } else {
@@ -119,14 +132,16 @@ export default class NewImage extends Component {
             <ModalHeader toggle={this.toggle}>Upload image</ModalHeader>
             <ModalBody style={{minHeight: 200}} >
               <Row>
-                <Col xs="4" >
-                  <img src={xhtml} alt='avatar' className='img-thumbnail' />
-                  <Input style={{ cursor: 'pointer', outline: 'none' }} type='file' onChange={(e) => this.handleChangeImage(e)} />
-                </Col>
-                <Col>
-                  <Label>Message</Label>
-                  <Input type='textarea' onChange={(e) => this.setState({messsageImage: e.target.value})} />
-                </Col></Row>
+                  <Col xs="5" >
+                    <Image src={xhtml} alt='avatar' className='img-thumbnail' />
+                    <Input style={{ cursor: 'pointer', outline: 'none' }} type='file' onChange={(e) => this.handleChangeImage(e)} />
+                  </Col>
+                  <Col xs="7">
+                    <Label>Message</Label>
+                    <Input type='textarea' onChange={(e) => this.setState({messsageImage: e.target.value})} />
+                  </Col>
+                </Row>
+                <AlertWrapper color="danger">Gợi ý từ YmeetE: tham khảo bí kíp chọn ảnh hợp lệ <TrendingFlat/> <Link to='/support'>Support</Link> <TrendingFlat/> Hẹn hò trực tuyến và hiệu quả</AlertWrapper>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.handleSaveImage}>Save</Button>{' '}

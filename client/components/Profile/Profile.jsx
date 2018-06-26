@@ -9,6 +9,7 @@ import checkAuthenticate from '../Function/checkAuthenticate';
 import { Redirect } from 'react-router';
 import moment from 'moment';
 import BlockUi from 'react-block-ui'
+import 'react-block-ui/style.css';
 import { Loader, Types } from 'react-loaders';
 import Info from './components/Info.js'
 import Occupation from './components/Occupation.js';
@@ -27,7 +28,7 @@ export default class Profile extends Component {
       modal: false,
       nestedModal: false,
       closeAll: false,
-      blocking: false,
+      blocking: true,
       user: {},
       info: {},
       occupation: {},
@@ -105,14 +106,7 @@ export default class Profile extends Component {
   showMessage = (msg) => {
     this.setState({ show: true, message: msg, type: 'warning' })
   }
-  getHobby = () => {
-    _helper.fetchGET('/hobbies')
-      .then((response) => {
-        const { data, status } = response;
-        this.setState({ listhHobbies: data })
-      })
 
-  }
   getUser = () => {
     const { user } = this.state;
     _helper.fetchGET('/users/' + user._id)
@@ -126,16 +120,14 @@ export default class Profile extends Component {
             hobbies,
             avatar
           })
-
         }
       })
-
   }
 
   componentDidMount() {
-    //this.getHobby();
     this.checkAuth();
     this.getUser();
+    setTimeout(() => this.setState({blocking: false}), 3000)
   }
 
   render() {
@@ -148,7 +140,7 @@ export default class Profile extends Component {
     }
     return (
       <div>
-        <BlockUi tag="div" blocking={blocking} loader={<Loader active type='line-scale' color="#02a17c" />} message="Please wait" keepInView>
+        <BlockUi tag="div" blocking={blocking} message="Please wait" keepInView>
           <Sidebar user={user} >
             <Slide />
             <Row>

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar.jsx';
-import TabHome from './TabHome.jsx'
-import Slide from '../SlideAdvertisement/Slide.jsx'
-import './Home.scss'
+import TabHome from './TabHome.jsx';
+import Slide from '../SlideAdvertisement/Slide.jsx';
+import './Home.scss';
 import checkAuthenticate from '../Function/checkAuthenticate';
-import  Footer  from '../Footer/footer'
-
+import  Footer  from '../Footer/footer';
+import BlockUi from 'react-block-ui';
+import 'react-block-ui/style.css';
 
 
 export default class Home extends Component {
@@ -15,6 +16,7 @@ export default class Home extends Component {
     this.state = {
       authenticate: true,
       user: {},
+      blocking: true,
     }
   }
 
@@ -30,9 +32,10 @@ export default class Home extends Component {
   }
   componentDidMount() {
     this.checkAuth();
+    setTimeout(() => this.setState({blocking: false}), 3000)
   }
   render(){
-    const { authenticate , user} = this.state;
+    const { authenticate, user, blocking} = this.state;
     if (!authenticate) {
       return (
         <Redirect to={'/login'}></Redirect>
@@ -42,7 +45,9 @@ export default class Home extends Component {
       <div className='home-page'>
         <Sidebar  user={user} >
           <Slide />
-          <TabHome user={user} />
+            <BlockUi tag="div" blocking={blocking} message="Please wait" keepInView>
+              <TabHome user={user} />
+            </BlockUi>
         </Sidebar>
         <Footer />
       </div>  

@@ -205,7 +205,7 @@ class TabHome extends React.Component {
           <TabPane tabId="2" >
           <Row>
               <Col >
-                <NewImage handleShowNotification={this.handleShowNotification} listImage={listImage} user={user} likeUser={this.likeUser} />
+                <NewImage handleShowNotification={this.handleShowNotification} getAllImage={this.getAllImage} listImage={listImage} user={user} likeUser={this.likeUser} />
               </Col>
             </Row>
           </TabPane>

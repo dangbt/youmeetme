@@ -59,9 +59,9 @@ export default class Support extends Component {
     render() {
         const { authenticate, user } = this.state;
 
-        // if (!authenticate) {
-        //     return <Redirect to='/login'></Redirect>
-        // }
+        if (!authenticate) {
+            return <Redirect to='/login'></Redirect>
+        }
         return (
             <div>
                 <Sidebar user={user} >
