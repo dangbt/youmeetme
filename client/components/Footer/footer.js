@@ -19,7 +19,7 @@ const Footer = (props) => {
                     <CardTitleWrapper>
                         <Link to='/home' style={{fontSize: '1.25rem', textDecoration: 'none'}} >Home</Link>
                         <LinkWrapper to='/chat' >Chat</LinkWrapper>
-                        <CardTitle>YOU MEET ME</CardTitle>
+                        <Link to='/home' style={{fontSize: '1.25rem', textDecoration: 'none'}} ><CardTitle>YOU MEET ME</CardTitle></Link>
                         <LinkWrapper to='/profile' >Profile</LinkWrapper>
                         <Link to='/support' style={{fontSize: '1.25rem',  textDecoration: 'none'}} >Support</Link>
                     </CardTitleWrapper>

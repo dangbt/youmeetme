@@ -30,6 +30,9 @@ export const LinkWrapper = styled(Link)`
     border-right: 1px solid gray;
     padding: 0 20px;
     font-size: 1.25rem;
+    &:hover {
+        text-decoration: 'none';
+    }
 `;
 export const FontAwesomeIconWrapper = styled(FontAwesomeIcon)`
     margin: 0 20px;

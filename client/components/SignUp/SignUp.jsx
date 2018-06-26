@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { _helper } from '../Function/API.js';
 import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
-import { SignupWrapper, Header, Content, BtnSubmit, ColWrapper } from './styled';
+import { SignupWrapper, Header, Content, BtnSubmit, ColWrapper, LinkWrapper } from './styled';
 import listCountry from '../../container/coutry';
 import Notification from '../Notification/index.jsx';
 
@@ -103,9 +103,8 @@ export default class SignUp extends Component {
     }
     return (
       <SignupWrapper>
-        <Header>WELCOME TO YOU MEET ME</Header>
+        <LinkWrapper to='/' ><Header>WELCOME TO YOU MEET ME</Header></LinkWrapper>
         <Content>
-          <h1  > Sign Up </h1>
           <Form onSubmit={this.signup}>
             {this.renderInput('UserName', (e) => this.setState({ username: e.target.value }))}
             {this.renderInput('Password', (e) => this.setState({ password: e.target.value }))}

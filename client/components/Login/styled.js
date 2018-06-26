@@ -16,30 +16,37 @@ export const LoginWrapper = styled.div`
     position: relative;
     top: 200px;
     left: 50px;
-`
-export const Header = styled.h1`
+`;
 
-`
+export const Header = styled.h1`
+    color: white;
+
+`;
 export const Content = styled.div`
 
-`
+`;
+
 export const BtnSubmit = styled(Button)`
     width: 150px !important;
     background-color: #00b7ff !important;
     font-size: 20px !important;
     border: none !important;
 
-`
+`;
+
 export const ColWrapper = styled(Col)`
     margin-top: 20px;
     font-size: 20px;
     a {
-
         color: white;
         &:hover {
             text-decoration: none;
-    
         }
     }
+`;
 
-`
+export const LinkWrapper = styled(Link)`
+    &:hover {
+        text-decoration: none;
+    }
+`;
