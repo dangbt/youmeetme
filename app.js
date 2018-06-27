@@ -23,11 +23,11 @@ const bodyParser = require('body-parser');
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 
-const DBstring = process.env.NODE_ENV === 'production' ? 
-    'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme'
-    : 'mongodb://localhost/youmeetme';
+// const DBstring = process.env.NODE_ENV === 'production' ? 
+//     'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme'
+//     : 'mongodb://localhost/youmeetme';
 
-// const DBstring = 'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme';
+const DBstring = 'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme';
 
 mongoose.connect(DBstring);
 

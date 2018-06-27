@@ -33,7 +33,7 @@ export default class ListItem extends Component {
       .then((response) => {
         const { status, data } = response;
         if (status == 200) {
-          this.props.handleShowNotification(data.msg,'')
+          this.props.handleShowNotification(data.msg,'info')
         }
         if( status != 200) {
           this.props.handleShowNotification(data.msg,'warning')
