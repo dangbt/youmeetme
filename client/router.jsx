@@ -12,13 +12,15 @@ import Support from './components/Support/Support.jsx';
 const routes = (
   <Switch>
     <Route exact path='/' component={App}/>
-    <Route exact  path='/home' component={Home}/>
-    <Route exact  path='/login' component={Login}/>
-    <Route exact  path='/logout' component={Login}/>
-    <Route exact  path='/profile' component={Profile}/>
-    <Route exact  path='/chat' component={Chat}/>
-    <Route exact  path='/create-account' component={SignUp}/>
-    <Route exact  path='/support' component={Support}/>
+    <Route   path='/home' component={Home}/>
+    <Route   path='/login' component={Login}/>
+    <Route   path='/logout' component={Login}/>
+    <Route   path='/profile' component={Profile}/>
+    <Route   path='/chat' component={Chat}/>
+    <Route   path='/create-account' component={SignUp}/>
+    <Route   path='/support' component={Support}/>
+    <Route   path='/:chatroom_id' component={Chat} />
+
   </Switch>
 )
 export default routes

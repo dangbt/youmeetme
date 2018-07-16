@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { _helper } from '../Function/API.js';
-import { Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input, FormText, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import checkAuthenticate from '../Function/checkAuthenticate.js';
 import Notification from '../Notification/index.jsx';
 import { LoginWrapper, Header, Content, BtnSubmit, ColWrapper, LinkWrapper } from './styled';
@@ -17,9 +17,13 @@ export default class Login extends Component {
       authenticate: false,
       message: '',
       show: false,
-      type: 'info'
+      type: 'info',
+      modal: false,
 
     }
+  }
+  toggle = () => {
+    this.setState({modal: !this.state.modal})
   }
   setTimeOutNotification = () => {
     setTimeout(() => this.setState({ show: false }), 500)
@@ -104,15 +108,27 @@ export default class Login extends Component {
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
                 <BtnSubmit>Submit</BtnSubmit>
+                <p onClick={this.toggle} style={{cursor: 'pointer'}} >Forget password?</p>
               </Col>
             </FormGroup>
           </Form>
+          
           <ColWrapper sm={{ size: 10, offset: 2 }}>
             <Link to='/create-account'>Sign Up</Link>
           </ColWrapper>
           <Notification show={show} message={message} type={type} time={2000} />
         </Content>
+        <Modal isOpen={this.state.modal} >
+          <ModalBody>
+            Bạn có chắc muốn xoá?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" onClick={this.deleteUser}>Yes</Button>{' '}
+            <Button color="secondary" onClick={() => this.toggle()}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
       </LoginWrapper>
+      
     )
   }
 }

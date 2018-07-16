@@ -13,16 +13,20 @@ export const BtnPlus = styled.div`
 `
 export const FormPlus = styled.div`
     margin: 10px 0;
+  
     
-`
+`;
 export const BtnAdd = styled.div`
     border: 2px solid #ffb827;
     border-radius: 0 5px 5px 0px;
     position: absolute;
     right: 16px;
     font-size: 24px;
-    background-color: #7028ff;
     cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    padding: 4px;
 
 `
 

@@ -131,6 +131,7 @@ export default class Chat extends Component {
         (message, cb) => this.state.client.message(
           chatroom._id,
           message,
+          this.state.user,
           cb
         )
       }

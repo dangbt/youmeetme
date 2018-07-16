@@ -13,6 +13,7 @@
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.8",
     "@fortawesome/fontawesome-free-brands": "^5.0.13",
+    "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "@fortawesome/react-fontawesome": "0.0.20",
     "@material-ui/core": "^1.0.0",
     "@material-ui/icons": "^1.0.0",
@@ -47,6 +48,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
+    "react-infinite-scroll-component": "^4.1.0",
     "react-loaders": "^3.0.1",
     "react-notifications": "^1.4.3",
     "react-router": "^4.2.0",

@@ -30,9 +30,9 @@ export default function () {
             console.log(msg)
         })
     } 
-    function message(roomID, msg, cb) {
-        _helper.fetchAPI( '/messages', { roomID: roomID, content: msg}, [], 'POST')
-        socket.emit('message', { roomID: roomID, message: msg }, cb)
+    function message(roomID, msg, user, cb) {
+        _helper.fetchAPI( '/messages', { roomID: roomID, content: msg }, [], 'POST')
+        socket.emit('message', { roomID: roomID, message: msg, user: user }, cb)
       }
 
     function leave(roomID) {

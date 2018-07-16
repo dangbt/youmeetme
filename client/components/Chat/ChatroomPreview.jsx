@@ -27,6 +27,7 @@ const ListItemTextWrapper = styled(ListItemText)`
 
 export default ({ chatroom, onEnter, user }) => (
   <Link to={`${chatroom._id}`}>
+  {console.log(chatroom)}
     <ListItemWrapper  onClick={onEnter}>
       <AvatarWrapper src={
         chatroom.participants.length > 1 ? (

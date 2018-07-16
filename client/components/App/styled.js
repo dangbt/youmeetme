@@ -64,7 +64,7 @@ export const BtnLogin = styled(Button)`
     display: flex;
     align-items: center;
     justify-content: center;
-    ${props => props.marginLeft && 'margin-left: 30px'}
+    ${props => props.marginleft && 'margin-left: 30px'}
 `;
 
 

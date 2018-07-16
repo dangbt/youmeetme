@@ -23,9 +23,7 @@ const bodyParser = require('body-parser');
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
 
-// const DBstring = process.env.NODE_ENV === 'production' ? 
-//     'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme'
-//     : 'mongodb://localhost/youmeetme';
+// const DBstring = 'mongodb://localhost/youmeetme';
 
 const DBstring = 'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme';
 
@@ -78,8 +76,8 @@ io.on('connection', (socket) => {
     socket.on('create-room', (room) => {
         socket.join(room);
     })
-    socket.on('message', ({ roomID, message } = {}, callback) => {
-         io.in(roomID).emit('message', message)
+    socket.on('message', ({ roomID, message, user } = {}, callback) => {
+         io.in(roomID).emit('message', {message, user})
          callback();
     })
     socket.on('leave-room', (roomID) => {

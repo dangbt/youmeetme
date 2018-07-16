@@ -147,11 +147,11 @@ export default class Chatroom extends React.Component {
 
   onMessageReceived = (entry) => {
     const newMesssage = [{
-      content: entry,
+      content: entry.message,
       senderID: {
-        avatar: this.props.user.avatar,
+        avatar: entry.user.avatar,
         info: {
-          fullName: this.props.user.fullName
+          fullName: entry.user.fullName
         }
       }
     }
