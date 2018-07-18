@@ -171,7 +171,7 @@ class TabHome extends React.Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => { this.toggle('2');
               if (this.state.activeTab != '2')
-               this.handleShowNotification('Upload nhiều hình ảnh để được nhiều người thích và kết bạn hơn','info')  }}
+               this.handleShowNotification('Upload more image to make friend with more user','info')  }}
             >
              
               <Badge className={classes.margin} badgeContent={this.badgeImage()} color="primary"> New Image</Badge>  

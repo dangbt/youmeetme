@@ -50,7 +50,8 @@ var users = {
 
 	updateUser: (req, res) => {
 		var newUser = req.body;
-		
+		var hash = generateHash(newUser.password);
+			newUser.password = hash;
 		User.findOneAndUpdate({
 			_id: req.params.id
 		}, newUser, (err, user) => {

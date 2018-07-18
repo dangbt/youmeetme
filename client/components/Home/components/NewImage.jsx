@@ -63,7 +63,7 @@ export default class NewImage extends Component {
     e.preventDefault();
     let reader = new FileReader();
     let file = e.target.files[0];
-    if (file.size < 50000) {
+    if (file.size < 5242880) {
       reader.onloadend = () => {
         this.setState({
           file: file,
@@ -73,7 +73,7 @@ export default class NewImage extends Component {
       reader.readAsDataURL(file)
     }
     else
-      this.props.handleShowNotification('Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 50KB !!', 'warning');
+      this.props.handleShowNotification('Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5MB !!', 'warning');
   }
 
 

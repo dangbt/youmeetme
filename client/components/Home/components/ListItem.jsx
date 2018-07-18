@@ -17,7 +17,7 @@ import Item from './Item.jsx';
 import { _helper } from '../../Function/API';
 import Notification from '../../Notification/index.jsx';
 
-const KEYS_TO_FILTERS = ['info.fullName']
+const KEYS_TO_FILTERS = ['info.fullName', 'username']
 
 const GroupWrapper = styled(CardGroup) `
   justify-content: start;

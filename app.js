@@ -29,8 +29,8 @@ const DBstring = 'mongodb://admin:admin1@ds163700.mlab.com:63700/youmeetme';
 
 mongoose.connect(DBstring);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 10000000 }));
 app.use(cors({
     origin: true,
     credentials: true
@@ -42,7 +42,7 @@ app.use(session({
     saveUninitialized: false,
     httpOnly: true,
     cookie: {
-        maxAge: 3 * 60 * 1000,
+        maxAge: 30 * 60 * 1000,
     },
     store: new MongoStore({
         url:    DBstring,

@@ -108,7 +108,7 @@ export default class Login extends Component {
             <FormGroup check row>
               <Col sm={{ size: 10, offset: 2 }}>
                 <BtnSubmit>Submit</BtnSubmit>
-                <p onClick={this.toggle} style={{cursor: 'pointer'}} >Forget password?</p>
+                <p  style={{cursor: 'pointer'}} >Forget password?</p>
               </Col>
             </FormGroup>
           </Form>
