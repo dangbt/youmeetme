@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
+import { BorderColor } from '@material-ui/icons';
 import {
     Button,
     Modal,
@@ -16,8 +18,6 @@ import {
     InputGroup,
     InputGroupAddon
 } from 'reactstrap';
-import styled from 'styled-components'
-import { BorderColor } from '@material-ui/icons'
 import { _helper } from '../../Function/API';
 import listCountry from '../../../container/coutry';
 
@@ -64,18 +64,17 @@ export default class Info extends Component {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
-        debugger
-        if (file.size < 50000) {
+        if (file.size < 5242880) {
             reader.onloadend = () => {
-                this.setState({
-                    file: file,
-                    avatar: reader.result
-                });
+              this.setState({
+                file: file,
+                avatar: reader.result
+              });
             }
             reader.readAsDataURL(file)
-        }
-        else
-            this.props.showMessage('Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 50KB !!');
+          }
+          else
+            this.props.showMessage('Image size is too large. Only upload images smaller than 5MB!!');
     }
     updateUser = () => {
         const user = {
@@ -94,6 +93,7 @@ export default class Info extends Component {
             avatar: this.state.avatar
         }
         this.props.updateUser(user);
+        this.toggleModal();
 
     }
     renderInput = (label, props) => {

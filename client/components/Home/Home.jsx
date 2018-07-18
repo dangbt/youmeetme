@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom';
+import BlockUi from 'react-block-ui';
+import 'react-block-ui/style.css';
 import Sidebar from '../Sidebar/Sidebar.jsx';
 import TabHome from './TabHome.jsx';
 import Slide from '../SlideAdvertisement/Slide.jsx';
 import './Home.scss';
 import checkAuthenticate from '../Function/checkAuthenticate';
 import  Footer  from '../Footer/footer';
-import BlockUi from 'react-block-ui';
-import 'react-block-ui/style.css';
 
 
 export default class Home extends Component {

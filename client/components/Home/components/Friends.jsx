@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
-import {
-  Card, Button, CardImg, CardTitle, CardText, CardDeck,
-  CardSubtitle, CardBody, CardGroup
-} from 'reactstrap';
 import SearchInput, { createFilter } from 'react-search-input';
+import {
+  Card,
+  Button,
+  CardImg,
+  CardTitle,
+  CardText,
+  CardDeck,
+  CardSubtitle,
+  CardBody,
+  CardGroup
+} from 'reactstrap';
 import ItemFriend from './Item.jsx';
+
 const KEYS_TO_FILTERS = ['info.fullName']
 
 const GroupWrapper = styled(CardGroup) `

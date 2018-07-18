@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
-
+import { Row, Col } from 'reactstrap';
 import FullScreen from './FullScreen.jsx';
 import Overlay from './Overlay.jsx';
-import { Row, Col } from 'reactstrap';
 
 const ContentWrapper = styled.div`
   position: relative;

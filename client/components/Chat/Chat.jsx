@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styled from 'styled-components'
-import Sidebar from '../Sidebar/Sidebar.jsx';
-import Slide from '../SlideAdvertisement/Slide.jsx';
-import checkAuthenticate from '../Function/checkAuthenticate'
-
-import { ItemFriend } from './components/ItemChat';
-import socket from './socket';
-import { _helper } from '../Function/API'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
-import './index.scss';
+import { ItemFriend } from './components/ItemChat';
+import socket from './socket';
 import MainLayout from './MainLayout.jsx';
 import Home from './Home.jsx';
 import Chatroom from './Chatroom.jsx';
+import Sidebar from '../Sidebar/Sidebar.jsx';
+import Slide from '../SlideAdvertisement/Slide.jsx';
+import checkAuthenticate from '../Function/checkAuthenticate'
+import { _helper } from '../Function/API'
 import Notification from '../Notification/index.jsx';
 import Footer from '../Footer/footer';
+import './index.scss';
+
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -93,7 +93,6 @@ export default class Chat extends Component {
     )
       .then((response) => {
         const { data, status } = response;
-        debugger
 
         if (status == 200) {
           this.setState({ activeTab: '1', show: true, message: data.msg })

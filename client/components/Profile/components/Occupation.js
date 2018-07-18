@@ -138,7 +138,7 @@ export default class Occupation extends Component {
                 <Collapse isOpen={collapse}>
                     {occupation ? <div>
                         {occupation.work ? this.renderInput('WORK', '', occupation.work) : this.renderInput('WORK', '')}
-                        {occupation.salary ? this.renderInput('SALARY', 'number', ocupation.salary) : this.renderInput('SALARY', '')}
+                        {occupation.salary ? this.renderInput('SALARY', 'number', occupation.salary) : this.renderInput('SALARY', '')}
                         {contact ? <div>
                             {contact.email ? this.renderInput('EMAIL', '', contact.email) : this.renderInput('EMAIL', '')}
                             {contact.phone ? this.renderInput('PHONE', '', contact.phone) : this.renderInput('PHONE', '')}

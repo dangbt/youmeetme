@@ -1,14 +1,33 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
-import {
-  Card, Button, CardImg, CardTitle, CardText, CardDeck,
-  CardSubtitle, CardBody, CardGroup, Col, Input, Label, Row, CardImgOverlay
-} from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Alert  } from 'reactstrap';
-import { _helper } from '../../Function/API';
 import moment from 'moment';
 import { ThumbUp, TrendingFlat } from '@material-ui/icons';
+import {
+  Card,
+  Button,
+  CardImg,
+  CardTitle,
+  CardText,
+  CardDeck,
+  CardSubtitle,
+  CardBody,
+  CardGroup,
+  Col,
+  Input,
+  Label,
+  Row,
+  CardImgOverlay
+} from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Alert
+} from 'reactstrap';
+import { _helper } from '../../Function/API';
+
 const GroupWrapper = styled(CardGroup) `
   justify-content: start;
 `;
@@ -73,7 +92,7 @@ export default class NewImage extends Component {
       reader.readAsDataURL(file)
     }
     else
-      this.props.handleShowNotification('Kích thước hình ảnh quá lớn. Chỉ được upload hình nhỏ hơn 5MB !!', 'warning');
+      this.props.handleShowNotification('Image size is too large. Only upload images smaller than 5MB!!', 'warning');
   }
 
 
@@ -94,7 +113,7 @@ export default class NewImage extends Component {
           const { data, status } = response;
           if (data.result == 1) {
             this.setState({modal:false},() => this.props.getAllImage());
-            this.props.handleShowNotification('Upload thành công !!!', 'info');
+            this.props.handleShowNotification('Upload successful!', 'info');
           }
         })
     } else {

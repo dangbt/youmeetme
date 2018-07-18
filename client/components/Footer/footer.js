@@ -1,15 +1,20 @@
 import React from 'react';
 import {
-    Card, Button, CardHeader, CardFooter, CardBody,
-    CardTitle, CardText
+    Card,
+    Button,
+    CardHeader,
+    CardFooter,
+    CardBody,
+    CardTitle,
+    CardText
 } from 'reactstrap';
-import { CardTitleWrapper, IconWrapper, LinkWrapper, FontAwesomeIconWrapper, FooterWrapper } from './styled'
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faGooglePlus from '@fortawesome/fontawesome-free-brands/faGooglePlus';
 import faFacebook from '@fortawesome/fontawesome-free-brands/faFacebook';
 import faTwitter from '@fortawesome/fontawesome-free-brands/faTwitter';
 import faFax from '@fortawesome/fontawesome-free-solid/faFax';
 import { Link } from 'react-router-dom';
+import { CardTitleWrapper, IconWrapper, LinkWrapper, FontAwesomeIconWrapper, FooterWrapper } from './styled'
 
 const Footer = (props) => {
     return (

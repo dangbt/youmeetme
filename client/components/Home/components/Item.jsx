@@ -140,7 +140,7 @@ export default class Item extends Component {
                   {user.contact && user.contact.phone ? this.renderInput('PHONE', user.contact.phone) : this.renderInput('PHONE')}
                   {user.contact && user.contact.web_page ? this.renderInput('WEB_PAGE', user.contact.web_page) : this.renderInput('WEB_PAGE')}
                   {user.occupation && user.occupation.work ? this.renderInput('WORK', user.occupation.work) : this.renderInput('WORK')}
-                  {user.occupation && user.occupation.salary ? this.renderInput('SALARY', user.ocupation.salary) : this.renderInput('SALARY')}
+                  {user.occupation && user.occupation.salary ? this.renderInput('SALARY', user.occupation.salary) : this.renderInput('SALARY')}
                 </Col>
               </Row>
               <Label >HOBBIES  </Label>

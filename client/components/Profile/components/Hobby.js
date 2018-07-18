@@ -61,7 +61,6 @@ export default class Hobby extends Component {
         const { valueSelect, listHobbiesAdd } = this.state;
         const listHobbies = listHobbiesAdd.map(item => item._id)
         const newList = valueSelect.concat(listHobbies)
-        debugger
         const user = {
             hobbies: newList
         }
@@ -72,12 +71,10 @@ export default class Hobby extends Component {
         const { tempHobby } = this.state;
         const { user } = this.props;
         let whoLikeThis= [user._id];
-        debugger
         
         _helper.fetchAPI('/hobbies',{ content : tempHobby, whoLikeThis : whoLikeThis },[], 'POST')
         .then(response => {
             const { data, status } = response;
-            debugger
             if( status == 200 ) {
                 const { listHobbiesAdd } = this.state;
                 let newList = listHobbiesAdd;

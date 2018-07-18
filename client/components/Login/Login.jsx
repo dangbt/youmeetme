@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import {
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Modal,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap';
 import { _helper } from '../Function/API.js';
-import { Col, Button, Form, FormGroup, Label, Input, FormText, Modal, ModalBody, ModalFooter } from 'reactstrap';
 import checkAuthenticate from '../Function/checkAuthenticate.js';
 import Notification from '../Notification/index.jsx';
 import { LoginWrapper, Header, Content, BtnSubmit, ColWrapper, LinkWrapper } from './styled';

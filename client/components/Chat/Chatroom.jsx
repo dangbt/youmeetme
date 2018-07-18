@@ -6,12 +6,12 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import FontIcon from 'material-ui/FontIcon';
 import Avatar from 'material-ui/Avatar';
 import Divider from 'material-ui/Divider';
+import { Close } from '@material-ui/icons'
 import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
 import Overlay from './Overlay.jsx';
 import socket from './socket'
 import { _helper } from '../Function/API';
-import { Close } from '@material-ui/icons'
 
 const ChatWindow = styled.div`
   position: relative;

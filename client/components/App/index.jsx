@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-
-import { Header, BtnLogin, Container, BtnWrapper, HeaderWrapper, LinkWrapper } from './styled';
 import { Computer, FavoriteBorder, Create, TrendingFlat } from '@material-ui/icons'
+import { Header, BtnLogin, Container, BtnWrapper, HeaderWrapper, LinkWrapper } from './styled';
 
 export default class App extends Component {
   constructor(props) {

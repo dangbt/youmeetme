@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
-import ChatroomPreview from './ChatroomPreview.jsx'
 import List from '@material-ui/core/List';
+import ChatroomPreview from './ChatroomPreview.jsx'
 
 const ListWrapper = styled(List)`
   border: 1px solid black;

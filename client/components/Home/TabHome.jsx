@@ -1,16 +1,28 @@
 import React from 'react';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Card,
+  Button,
+  CardTitle,
+  CardText,
+  Row,
+  Col
+} from 'reactstrap';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Badge from '@material-ui/core/Badge';
+import moment from 'moment';
 import ListItem from './components/ListItem.jsx';
 import NewImage from './components/NewImage.jsx';
 import Friends from './components/Friends.jsx'
 import WhoLikeMe from './components/WhoLikeMe.jsx'
-import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import { _helper } from '../Function/API';
 import Notification from '../Notification/index.jsx';
-import moment from 'moment';
 
 const styles = theme => ({
   margin: {
